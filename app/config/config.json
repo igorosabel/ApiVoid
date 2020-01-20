@@ -1,0 +1,15 @@
+{
+  "db": {
+    "host": "localhost",
+    "user": "voiduniverse",
+    "pass": "3h1o!0eP",
+    "name": "voiduniverse",
+    "charset": "utf8mb4",
+    "collate": "utf8mb4_unicode_ci"
+  },
+  "base_url": "https://apivoid.osumi.es",
+  "admin_email": "inigo.gorosabel@gmail.com",
+  "default_title": "Void",
+  "lang": "es",
+  "debug": false
+}
