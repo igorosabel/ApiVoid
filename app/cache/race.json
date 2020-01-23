@@ -1,0 +1,84 @@
+{
+  "race_list": [
+    {
+      "id": 1,
+      "name": "Humano",
+      "description": "Raza humana, provienen del planeta Tierra. Son la raza más común en la galaxia y son la raza más barata para reclutar.",
+      "gun_index": 1,
+      "modules_index": 2,
+      "crew_index": 2,
+      "resources_index": 1,
+      "proportion": 40
+    },
+    {
+      "id": 2,
+      "name": "Askaniano",
+      "description": "Raza humanoide que proviene del planeta Askan. Viajeros amistosos, buenos comerciantes.",
+      "gun_index": 1,
+      "modules_index": 1,
+      "crew_index": 2,
+      "resources_index": 2,
+      "proportion": 15
+    },
+    {
+      "id": 3,
+      "name": "Bendis",
+      "description": "Raza insectoide, del planeta Bend. Guerreros con estructura social de colmena.",
+      "gun_index": 2,
+      "modules_index": 1,
+      "crew_index": 1,
+      "resources_index": 1,
+      "proportion": 15
+    },
+    {
+      "id": 4,
+      "name": "Wenwas",
+      "description": "Raza humanoide de aspecto animal, del planeta Wen. Tímidos comerciantes.",
+      "gun_index": 1,
+      "modules_index": 2,
+      "crew_index": 1,
+      "resources_index": 2,
+      "proportion": 10
+    },
+    {
+      "id": 5,
+      "name": "Syjh",
+      "description": "Raza humanoide del planeta del mismo nombre, Syjh. Antaño conquistadores, todavía conservan una fuerte identidad de guerreros.",
+      "gun_index": 2,
+      "modules_index": 2,
+      "crew_index": 1,
+      "resources_index": 1,
+      "proportion": 8
+    },
+    {
+      "id": 6,
+      "name": "Cromitas",
+      "description": "Raza salvaje de vagabundos espaciales. Fieros y poco dados a negociar.",
+      "gun_index": 0.5,
+      "modules_index": 0.5,
+      "crew_index": 0.5,
+      "resources_index": 0.5,
+      "proportion": 6
+    },
+    {
+      "id": 7,
+      "name": "Brizz",
+      "description": "Androides. Originalmente sirvieron a una raza alienigena, pero acabaron liberandose y ahora vagan por la galaxia.",
+      "gun_index": 1,
+      "modules_index": 3,
+      "crew_index": 1,
+      "resources_index": 3,
+      "proportion": 4
+    },
+    {
+      "id": 8,
+      "name": "Senaq",
+      "description": "Antiquisima raza de exploradores espaciales. Quedan muy pocos, son muy amistosos y colaboradores.",
+      "gun_index": 5,
+      "modules_index": 5,
+      "crew_index": 5,
+      "resources_index": 5,
+      "proportion": 2
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "info": "https://es.wikipedia.org/wiki/Clasificaci%C3%B3n_estelar",
+  "mkk_types": [
+    {
+      "id": 1,
+      "type": "0",
+      "name": "Hipergigantes",
+      "min_planets": 0,
+      "max_planets": 1,
+      "min_radius": 100000,
+      "max_radius": 150000,
+      "spectral_types": [1,2,3,4,5,6,7],
+      "planet_types": [1,2,8,9,10,11,12,13,14,16]
+    },
+    {
+      "id": 2,
+      "type": "Ia",
+      "name": "Supergigantes muy luminosas",
+      "min_planets": 0,
+      "max_planets": 1,
+      "min_radius": 80000,
+      "max_radius": 130000,
+      "spectral_types": [1,2,3,4,5,6,7],
+      "planet_types": [1,2,8,9,10,11,12,13,14,16]
+    },
+    {
+      "id": 3,
+      "type": "Ib",
+      "name": "Supergigantes de menor brillo",
+      "min_planets": 0,
+      "max_planets": 1,
+      "min_radius": 70000,
+      "max_radius": 120000,
+      "spectral_types": [1,2,3,4,5,6,7],
+      "planet_types": [1,2,5,8,9,10,11,12,13,14,16]
+    },
+    {
+      "id": 4,
+      "type": "II",
+      "name": "Gigantes luminosas",
+      "min_planets": 0,
+      "max_planets": 2,
+      "min_radius": 50000,
+      "max_radius": 70000,
+      "spectral_types": [2,3,4,5,6,7],
+      "planet_types": [1,2,5,8,9,10,11,12,13,14,16]
+    },
+    {
+      "id": 5,
+      "type": "III",
+      "name": "Gigantes",
+      "min_planets": 1,
+      "max_planets": 3,
+      "min_radius": 40000,
+      "max_radius": 60000,
+      "spectral_types": [2,3,4,5,6,7],
+      "planet_types": [1,2,5,8,9,10,11,12,13,14,16]
+    },
+    {
+      "id": 6,
+      "type": "IV",
+      "name": "Subgigantes",
+      "min_planets": 1,
+      "max_planets": 5,
+      "min_radius": 30000,
+      "max_radius": 50000,
+      "spectral_types": [3,4,5,6],
+      "planet_types": [1,2,3,4,5,6,7,8,11,12,13,17]
+    },
+    {
+      "id": 7,
+      "type": "V",
+      "name": "Estrellas enanas de la secuencia principal",
+      "min_planets": 1,
+      "max_planets": 8,
+      "min_radius": 20000,
+      "max_radius": 40000,
+      "spectral_types": [2,3,4,5,6,7],
+      "planet_types": [1,2,3,4,5,6,7,8,11,16,17]
+    },
+    {
+      "id": 8,
+      "type": "VI",
+      "name": "Subenanas",
+      "min_planets": 1,
+      "max_planets": 5,
+      "min_radius": 10000,
+      "max_radius": 30000,
+      "spectral_types": [5,6,7],
+      "planet_types": [1,2,3,4,7,11]
+    },
+    {
+      "id": 9,
+      "type": "VII",
+      "name": "Enanas blancas",
+      "min_planets": 1,
+      "max_planets": 3,
+      "min_radius": 5000,
+      "max_radius": 10000,
+      "spectral_types": [2,3,4,5,6],
+      "planet_types": [1,2,3,4,7,11]
+    }
+  ],
+  "spectral_types": {
+    "type_1":{
+      "id": 1,
+      "type": "O",
+      "color": "#2c4ee5"
+    },
+    "type_2":{
+      "id": 2,
+      "type": "B",
+      "color": "#707ebb"
+      },
+    "type_3":{
+      "id": 3,
+      "type": "A",
+      "color": "#cef4db"
+    },
+    "type_4":{
+      "id": 4,
+      "type": "F",
+      "color": "#fafccd"
+    },
+    "type_5":{
+      "id": 5,
+      "type": "G",
+      "color": "#f7f936"
+  },
+    "type_6":{
+      "id": 6,
+      "type": "K",
+      "color": "#f38a2f"
+    },
+    "type_7":{
+      "id": 7,
+      "type": "M",
+      "color": "#f50603"
+    }
+  }
+}

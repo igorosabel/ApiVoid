@@ -1,0 +1,20 @@
+{
+  "shield_types": {
+    "shield_1": {
+      "id": 1,
+      "name": "Simple",
+      "strength": 2000,
+      "energy": -100,
+      "slots": 3,
+      "credits": 1000
+    },
+    "shield_2": {
+      "id": 2,
+      "name": "Superior",
+      "strength": 5000,
+      "energy": -500,
+      "slots": 6,
+      "credits": 2000
+    }
+  }
+}

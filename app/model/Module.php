@@ -1,5 +1,12 @@
 <?php
 class Module extends OBase{
+  const ENGINE = 1;
+  const SHIELD = 2;
+  const CARGO = 3;
+  const GUN = 4;
+  const CABIN = 5;
+  const ENERGY = 6;
+
   function __construct(){
     $table_name  = 'module';
     $model = [
@@ -76,6 +83,12 @@ class Module extends OBase{
         'nullable' => false,
         'default' => null,
         'comment' => 'Puntos de energía que consume el módulo o produce en caso de ser un módulo de energía'
+      ],
+      'slots' => [
+        'type'    => Base::NUM,
+        'nullable' => false,
+        'default' => null,
+        'comment' => 'Número de huecos que ocupa el módulo en la nave'
       ],
       'credits' => [
         'type'    => Base::NUM,

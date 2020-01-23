@@ -1,0 +1,14 @@
+{
+  "system_name_chars": 3,
+  "system_name_nums": 3,
+  "default_ship_hull": 1,
+  "npc_prob": 3,
+  "max_npc": 2,
+  "max_sell_hulls": 2,
+  "max_sell_modules": 3,
+  "max_sell_resources": 4,
+  "credits": 5000,
+  "min_time_explore": 30,
+  "max_time_explore": 300,
+  "system_max_connections": 3
+}

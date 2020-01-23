@@ -1,0 +1,70 @@
+{
+  "module_types": {
+    "module_1": {
+      "id": 1,
+      "name": "Crew quarters (small)",
+      "size": 0,
+      "enables": null,
+      "crew": 1,
+      "mass": 200,
+      "storage": 0,
+      "energy": 50,
+      "credits": 100
+    },
+    "module_2": {
+      "id": 2,
+      "name": "Storage (small)",
+      "size": 0,
+      "enables": "storage",
+      "crew": 0,
+      "mass": 200,
+      "storage": 2000,
+      "energy": 100,
+      "credits": 100
+    },
+    "module_3": {
+      "id": 3,
+      "name": "Crew quarters (big)",
+      "size": 1,
+      "enables": null,
+      "crew": 6,
+      "mass": 2000,
+      "storage": 0,
+      "energy": 250,
+      "credits": 1000
+    },
+    "module_4": {
+      "id": 4,
+      "name": "Storage (big)",
+      "size": 1,
+      "enables": "storage",
+      "crew": 0,
+      "mass": 2000,
+      "storage": 20000,
+      "energy": 500,
+      "credits": 2000
+    },
+    "module_5": {
+      "id": 5,
+      "name": "Factory (small)",
+      "size": 0,
+      "enables": "mining",
+      "crew": 2,
+      "mass": 200,
+      "storage": 0,
+      "energy": 500,
+      "credits": 1500
+    },
+    "module_6": {
+      "id": 6,
+      "name": "Laboratory (small)",
+      "size": 0,
+      "enables": "develop",
+      "crew": 2,
+      "mass": 200,
+      "storage": 0,
+      "energy": 1500,
+      "credits": 2500
+    }
+  }
+}

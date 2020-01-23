@@ -1,0 +1,16 @@
+{
+  "engine_types": {
+    "engine_1": {
+      "id": 1,
+      "name": "Propulsión",
+      "speed": 100,
+      "credits": 0
+    },
+    "engine_2": {
+      "id": 2,
+      "name": "Impulso",
+      "speed": 1000,
+      "credits": 2000
+    }
+  }
+}

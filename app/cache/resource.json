@@ -1,0 +1,176 @@
+{
+  "resources": [
+    {
+      "id": 1,
+      "name": "Deuterio",
+      "type": 1,
+      "min_price": 100,
+      "max_price": 150,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": true,
+      "needs": []
+    },
+    {
+      "id": 2,
+      "name": "Tritio",
+      "type": 1,
+      "min_price": 200,
+      "max_price": 250,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": true,
+      "needs": []
+    },
+    {
+      "id": 3,
+      "name": "Hidrogeno",
+      "type": 1,
+      "min_price": 10,
+      "max_price": 15,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": true,
+      "needs": []
+    },
+    {
+      "id": 4,
+      "name": "Uranio",
+      "type": 1,
+      "min_price": 60,
+      "max_price": 75,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": true,
+      "needs": []
+    },
+    {
+      "id": 5,
+      "name": "Hierro",
+      "type": 2,
+      "min_price": 60,
+      "max_price": 75,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": true,
+      "needs": []
+    },
+    {
+      "id": 6,
+      "name": "Aluminio",
+      "type": 2,
+      "min_price": 60,
+      "max_price": 75,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": true,
+      "needs": []
+    },
+    {
+      "id": 7,
+      "name": "Carbono",
+      "type": 2,
+      "min_price": 60,
+      "max_price": 75,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": true,
+      "needs": []
+    },
+    {
+      "id": 8,
+      "name": "Silicio",
+      "type": 2,
+      "min_price": 60,
+      "max_price": 75,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": true,
+      "needs": []
+    },
+    {
+      "id": 9,
+      "name": "Acero",
+      "type": 3,
+      "min_price": 60,
+      "max_price": 75,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": false,
+      "needs": [5,7]
+    },
+    {
+      "id": 10,
+      "name": "Cemento",
+      "type": 3,
+      "min_price": 60,
+      "max_price": 75,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": false,
+      "needs": []
+    },
+    {
+      "id": 11,
+      "name": "Cristal",
+      "type": 3,
+      "min_price": 60,
+      "max_price": 75,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": false,
+      "needs": []
+    },
+    {
+      "id": 12,
+      "name": "Oro",
+      "type": 4,
+      "min_price": 60,
+      "max_price": 75,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": true,
+      "needs": []
+    },
+    {
+      "id": 13,
+      "name": "Diamantes",
+      "type": 4,
+      "min_price": 60,
+      "max_price": 75,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": true,
+      "needs": []
+    },
+    {
+      "id": 14,
+      "name": "Paladio",
+      "type": 4,
+      "min_price": 60,
+      "max_price": 75,
+      "min": 100,
+      "max": 1000,
+      "can_be_mined": true,
+      "needs": []
+    }
+  ],
+  "resource_types": [
+    {
+      "id": 1,
+      "type": "Combustible"
+    },
+    {
+      "id": 2,
+      "type": "Mineral"
+    },
+    {
+      "id": 3,
+      "type": "Construcción"
+    },
+    {
+      "id": 4,
+      "type": "Lujo"
+    }
+  ]
+}

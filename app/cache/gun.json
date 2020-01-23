@@ -1,0 +1,28 @@
+{
+  "gun_types": {
+    "gun_1": {
+      "id": 1,
+      "name": "Cañon Laser",
+      "strength": 100,
+      "energy": 200,
+      "slots": 3,
+      "credits": 1000
+    },
+    "gun_2": {
+      "id": 2,
+      "name": "Lanzador de misiles",
+      "strength": 300,
+      "energy": 150,
+      "slots": 5,
+      "credits": 1500
+    },
+    "gun_3": {
+      "id": 3,
+      "name": "Haz de protones",
+      "strength": 500,
+      "energy": 250,
+      "slots": 6,
+      "credits": 2500
+    }
+  }
+}

@@ -14,6 +14,13 @@ class Player extends OBase{
         'size' => 50,
         'comment' => 'Nombre de usuario del jugador'
       ],
+      'email' => [
+        'type'    => Base::TEXT,
+        'nullable' => false,
+        'default' => null,
+        'size' => 100,
+        'comment' => 'Email del jugador'
+      ],
       'pass' => [
         'type'    => Base::TEXT,
         'nullable' => false,

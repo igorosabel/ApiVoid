@@ -1,0 +1,36 @@
+{
+  "hull_types": {
+    "hull_1": {
+      "id": 1,
+      "name": "Scout",
+      "strength": 1000,
+      "endurance": 100,
+      "id_shield": 1,
+      "id_engine": 1,
+      "cargo": 100,
+      "damage": 100,
+      "id_generator": 1,
+      "energy": 100,
+      "slots": 10,
+      "crew": 0,
+      "id_gun": 1,
+      "credits": 10000
+    },
+    "hull_2": {
+      "id": 2,
+      "name": "Fragata",
+      "strength": 10000,
+      "endurance": 500,
+      "id_shield": 2,
+      "id_engine": 2,
+      "cargo": 500,
+      "damage": 1000,
+      "id_generator": 2,
+      "energy": 1000,
+      "slots": 50,
+      "crew": 2,
+      "id_gun": 2,
+      "credits": 50000
+    }
+  }
+}
