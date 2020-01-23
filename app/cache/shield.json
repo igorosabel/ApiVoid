@@ -6,7 +6,8 @@
       "strength": 2000,
       "energy": -100,
       "slots": 3,
-      "credits": 1000
+      "credits": 1000,
+      "slots": 2
     },
     "shield_2": {
       "id": 2,
@@ -14,7 +15,8 @@
       "strength": 5000,
       "energy": -500,
       "slots": 6,
-      "credits": 2000
+      "credits": 2000,
+      "slots": 5
     }
   }
 }

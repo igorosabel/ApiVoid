@@ -1,0 +1,20 @@
+{
+  "cargo_types": {
+    "cargo_1": {
+      "id": 1,
+      "name": "Bodega pequeña",
+      "energy": -100,
+      "space": 10,
+      "credits": 1000,
+      "slots": 2
+    },
+    "cargo_2": {
+      "id": 2,
+      "name": "Bodega grande",
+      "energy": -200,
+      "space": 20,
+      "credits": 2000,
+      "slots": 5
+    }
+  }
+}

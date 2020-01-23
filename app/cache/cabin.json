@@ -1,0 +1,20 @@
+{
+  "cabin_types": {
+    "cabin_1": {
+      "id": 1,
+      "name": "Cabina pequeña",
+      "energy": -100,
+      "space": 2,
+      "credits": 1000,
+      "slots": 3
+    },
+    "cabin_2": {
+      "id": 2,
+      "name": "Cabina grande",
+      "energy": -200,
+      "space": 5,
+      "credits": 2000,
+      "slots": 8
+    }
+  }
+}

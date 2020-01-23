@@ -199,7 +199,7 @@ class systemService extends OService{
 
         if (count($moon_resource_list)>0){
           foreach ($moon_resource_list as $resource_id=>$value){
-            $planet_resource = new Resources();
+            $planet_resource = new Resource();
             $planet_resource->set('id_planet', null);
             $planet_resource->set('id_moon',   $m->get('id'));
             $planet_resource->set('type',      $resource_id);
