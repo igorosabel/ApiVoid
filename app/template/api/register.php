@@ -1,6 +1,6 @@
 {
   "status": "{{status}}",
   "id": {{id}},
-  "username": "{{username}}",
+  "name": "{{name}}",
   "token": "{{token}}"
 }

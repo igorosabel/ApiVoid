@@ -6,7 +6,8 @@
       "speed": 100,
       "multiplier": 1,
       "credits": 0,
-      "slots": 0
+      "slots": 0,
+      "energy": 0
     },
     "engine_2": {
       "id": 2,
@@ -14,7 +15,8 @@
       "speed": 1000,
       "multiplier": 2,
       "credits": 2000,
-      "slots": 2
+      "slots": 2,
+      "energy": -100
     }
   }
 }

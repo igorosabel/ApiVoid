@@ -16,22 +16,22 @@ class api extends OController{
    * Función para registrar un nuevo jugador
    */
   function register($req){
-    $status   = 'ok';
-    $username = Base::getParam('username', $req['url_params'], false);
-    $email    = Base::getParam('email',    $req['url_params'], false);
-    $pass     = Base::getParam('pass',     $req['url_params'], false);
+    $status = 'ok';
+    $name   = Base::getParam('name',  $req['url_params'], false);
+    $email  = Base::getParam('email', $req['url_params'], false);
+    $pass   = Base::getParam('pass',  $req['url_params'], false);
 
     $id    = 'null';
     $token = '';
 
-    if ($username===false || $email===false || $pass===false){
+    if ($name===false || $email===false || $pass===false){
       $status = 'error';
     }
 
     if ($status=='ok'){
       $p = new Player();
-      if ($p->find(['name'=>$username])){
-        $status = 'username';
+      if ($p->find(['name'=>$name])){
+        $status = 'name';
       }
       else if ($p->find(['email'=>$email])){
         $status = 'email';
@@ -40,7 +40,7 @@ class api extends OController{
         $common  = Base::getCache('common');
         $credits = $common['credits'];
 
-        $p->set('name',    $username);
+        $p->set('name',    $name);
         $p->set('pass',    password_hash($pass, PASSWORD_BCRYPT));
         $p->set('email',   $email);
         $p->set('credits', $credits);
@@ -59,18 +59,56 @@ class api extends OController{
 
         $tk = new OToken($this->getConfig()->getExtra('secret'));
         $tk->addParam('id',   $id);
-        $tk->addParam('username', $username);
+        $tk->addParam('name', $name);
+        $tk->addParam('exp', mktime() + (24 * 60 * 60));
         $token = $tk->getToken();
       }
 
-      $this->getTemplate()->add('status',   $status);
-      $this->getTemplate()->add('id',       $id);
-      $this->getTemplate()->add('username', $username);
-      $this->getTemplate()->add('token',    $token);
+      $this->getTemplate()->add('status', $status);
+      $this->getTemplate()->add('id',     $id);
+      $this->getTemplate()->add('name',   $name);
+      $this->getTemplate()->add('token',  $token);
     }
   }
   /*
    * Función para iniciar sesión
    */
-  function login($req){}
+  function login($req){
+    $status = 'ok';
+    $name   = Base::getParam('name', $req['url_params'], false);
+    $pass   = Base::getParam('pass', $req['url_params'], false);
+
+    $id    = 'null';
+    $token = '';
+
+    if ($name===false || $pass===false){
+      $status = 'error';
+    }
+
+    if ($status=='ok'){
+      $p = new Player();
+      if ($p->find(['name'=>$name])){
+        if (password_verify($pass, $p->get('pass'))){
+          $id = $p->get('id');
+
+          $tk = new OToken($this->getConfig()->getExtra('secret'));
+          $tk->addParam('id',   $id);
+          $tk->addParam('name', $name);
+          $tk->addParam('exp', mktime() + (24 * 60 * 60));
+          $token = $tk->getToken();
+        }
+        else{
+          $status = 'error';
+        }
+      }
+      else{
+        $status = 'error';
+      }
+    }
+
+    $this->getTemplate()->add('status', $status);
+    $this->getTemplate()->add('id',     $id);
+    $this->getTemplate()->add('name',   $name);
+    $this->getTemplate()->add('token',  $token);
+  }
 }
