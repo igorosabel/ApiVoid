@@ -1,15 +1,17 @@
 <?php
 class api extends OController{
-  public $ship_service   = null;
-  public $system_service = null;
-  public $module_service = null;
-  public $npc_service    = null;
+  public $ship_service    = null;
+  public $system_service  = null;
+  public $module_service  = null;
+  public $npc_service     = null;
+  public $message_service = null;
 
   function __construct(){
-    $this->ship_service   = new shipService($this);
-    $this->system_service = new systemService($this);
-    $this->module_service = new moduleService($this);
-    $this->npc_service    = new npcService($this);
+    $this->ship_service    = new shipService($this);
+    $this->system_service  = new systemService($this);
+    $this->module_service  = new moduleService($this);
+    $this->npc_service     = new npcService($this);
+    $this->message_service = new messageService($this);
   }
 
   /*
@@ -110,5 +112,56 @@ class api extends OController{
     $this->getTemplate()->add('id',     $id);
     $this->getTemplate()->add('name',   $name);
     $this->getTemplate()->add('token',  $token);
+  }
+
+  /*
+   * Función para obtener los datos del sistema actual
+   */
+  function currentSystem($req){
+    $status = 'ok';
+    if ($req['filter']['status']!='ok'){
+      $status = 'error';
+    }
+    $system       = '';
+    $star         = '';
+    $num_planets  = 0;
+    $credits      = 0;
+    $max_strength = 0;
+    $strength     = 0;
+    $messages     = [];
+    $characters   = [];
+
+    if ($status=='ok'){
+      $p = new Player();
+      $p->find(['id'=>$req['filter']['id']]);
+      $s = new System();
+      if ($s->find(['id'=>$p->get('id_system')])){
+        $system      = $s->get('name');
+        $star        = $s->get('type');
+        $num_planets = $s->get('num_planets');
+        $credits     = $p->get('credits');
+
+        $ship = new Ship();
+        $ship->find(['id'=>$p->get('id_ship')]);
+        $max_strength = $ship->get('max_strength');
+        $strength     = $ship->get('strength');
+
+        $messages   = $this->message_service->getUnreadMessages($p->get('id'));
+        $characters = $this->system_service->getCharactersInSystem($p->get('id'), $s->get('id'));
+      }
+      else{
+        $status = 'navigate';
+      }
+    }
+
+    $this->getTemplate()->add('status',       $status);
+    $this->getTemplate()->add('system',       $system);
+    $this->getTemplate()->add('star',         $star);
+    $this->getTemplate()->add('num_planets',  $num_planets);
+    $this->getTemplate()->add('credits',      $credits);
+    $this->getTemplate()->add('max_strength', $max_strength);
+    $this->getTemplate()->add('strength',     $strength);
+    $this->getTemplate()->addPartial('messages',   'api/short_messages', ['messages'   => $messages,   'extra'=>'nourlencode']);
+    $this->getTemplate()->addPartial('characters', 'api/characters',     ['characters' => $characters, 'extra'=>'nourlencode']);
   }
 }

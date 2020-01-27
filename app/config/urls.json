@@ -45,6 +45,13 @@
             "url": "/login",
             "action": "login",
             "comment": "Función para iniciar sesión"
+          },
+          {
+            "id": "currentSystem",
+            "url": "/current-system",
+            "action": "currentSystem",
+            "filter": "loginFilter",
+            "comment": "Función para obtener los datos del sistema actual"
           }
         ]
       }

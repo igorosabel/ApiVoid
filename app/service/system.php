@@ -96,7 +96,7 @@ class systemService extends OService{
       if ($npcs<$common['max_npc']){
         $npc_prob = rand(1, $common['npc_prob']);
         if ($npc_prob==1){
-          $npc = $this->getController()->npc_service->generateNPC();
+          $npc = $this->getController()->npc_service->generateNPC($s);
           $p->set('id_npc', $npc->get('id'));
           $npcs++;
           $planet_has_npc = true;
@@ -171,7 +171,7 @@ class systemService extends OService{
         if ($npcs<$common['max_npc']){
           $npc_prob = rand(1,$c->getExtra('npc_prob'));
           if ($npc_prob==1){
-            $npc = $this->getController()->npc_service->generateNPC();
+            $npc = $this->getController()->npc_service->generateNPC($s);
             $m->set('id_npc', $npc->get('id'));
             $npcs++;
             $moon_has_npc = true;
@@ -228,5 +228,40 @@ class systemService extends OService{
     }
 
     return $s;
+  }
+
+  public function getCharactersInSystem($id_player, $id_system){
+    $characters = [];
+    $db = $this->getController()->getDB();
+
+    // Jugadores
+    $sql = "SELECT * FROM `player` WHERE `id_system` = ? AND `id` != ?";
+    $db->query($sql, [$id_system, $id_player]);
+    while ($res = $db->next()){
+      $player = new Player();
+      $player->update($res);
+      $char = [
+        'id' => $player->get('id'),
+	      'type' => 1,
+	      'name' => $player->get('name')
+      ];
+      array_push($characters, $char);
+    }
+
+    // NPC
+    $sql = "SELECT * FROM `npc` WHERE `id_system` = ?";
+    $db->query($sql, [$id_system]);
+    while ($res = $db->next()){
+      $npc = new NPC();
+      $npc->update($res);
+      $char = [
+        'id' => $npc->get('id'),
+	      'type' => 2,
+	      'name' => $npc->get('name')
+      ];
+      array_push($characters, $char);
+    }
+
+    return $characters;
   }
 }

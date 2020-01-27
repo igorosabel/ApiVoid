@@ -20,6 +20,12 @@ class NPC extends OBase{
         'default' => null,
         'comment' => 'Id de la raza del NPC'
       ],
+      'id_system' => [
+        'type'    => Base::NUM,
+        'nullable' => false,
+        'default' => null,
+        'comment' => 'Id del sistema en el que está el NPC'
+      ],
       'last_reset' => [
         'type'    => Base::DATE,
         'nullable' => true,

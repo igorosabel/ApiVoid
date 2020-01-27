@@ -28,6 +28,12 @@ class Message extends OBase{
         'size' => 250,
         'comment' => 'Contenido del mensaje'
       ],
+      'type' => [
+        'type'    => Base::NUM,
+        'nullable' => false,
+        'default' => 0,
+        'comment' => 'Tipo de mensaje: normal 0 solicitud 1'
+      ],
       'req_id_resource' => [
         'type'    => Base::NUM,
         'nullable' => true,
@@ -70,6 +76,12 @@ class Message extends OBase{
         'default' => null,
         'comment' => 'Estado de la solicitud 0 sin aceptar, 1 aceptada, null no hay solicitud'
       ],
+      'is_read' => [
+        'type'    => Base::BOOL,
+        'nullable' => false,
+        'default' => false,
+        'comment' => 'Mensaje no leído 0 o leído 1'
+      ],
       'created_at' => [
         'type'    => Base::CREATED,
         'comment' => 'Fecha de creación del registro'
@@ -83,5 +95,43 @@ class Message extends OBase{
     ];
 
     parent::load($table_name, $model);
+  }
+
+  private $to = null;
+
+  public function getTo(){
+    if (is_null($this->to)){
+      $this->loadTo();
+    }
+    return $this->to;
+  }
+
+  public function setTo($to){
+    $this->to = $to;
+  }
+
+  public function loadTo(){
+    $to = new Player();
+    $to->find(['id'=>$this->get('id_player_to')]);
+    $this->setTo($to);
+  }
+
+  private $from = null;
+
+  public function getFrom(){
+    if (is_null($this->from)){
+      $this->loadFrom();
+    }
+    return $this->from;
+  }
+
+  public function setFrom($from){
+    $this->from = $from;
+  }
+
+  public function loadFrom(){
+    $from = new Player();
+    $from->find(['id'=>$this->get('id_player_from')]);
+    $this->setFrom($from);
   }
 }

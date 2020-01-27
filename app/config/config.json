@@ -11,5 +11,8 @@
   "admin_email": "inigo.gorosabel@gmail.com",
   "default_title": "Void",
   "lang": "es",
-  "debug": false
+  "debug": false,
+  "extra": {
+    "secret": "228729f1961691fc5f25fdc8dd733ff3b75d8577"
+  }
 }

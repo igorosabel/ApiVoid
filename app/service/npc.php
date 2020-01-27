@@ -18,20 +18,21 @@ class npcService extends OService{
     return $id_race;
   }
 
-  public function generateNPC($save=true){
+  public function generateNPC($system){
     $c = $this->getController()->getConfig();
 
-	$common         = Base::getCache('common');
+    $common         = Base::getCache('common');
     $npc_list       = Base::getCache('npc');
     $hull_types     = Base::getCache('hull');
     $resource_types = Base::getCache('resource');
 
-	$npc = new NPC();    
+    $npc = new NPC();
     $npc_name = $npc_list['character_list'][array_rand($npc_list['character_list'])];
     $npc->set('name',$npc_name);
 
     $npc_race = $this->generateRace();
-    $npc->set('id_race',$npc_race);
+    $npc->set('id_race',    $npc_race);
+    $npc->set('id_system',  $system->get('id'));
     $npc->set('last_reset', null);
     $npc->save();
 
@@ -61,7 +62,7 @@ class npcService extends OService{
     if ($num_modules>0){
 		for ($i=1; $i<=$num_modules; $i++){
 			$module = $this->getController()->module_service->generateModule(null, $npc);
-			
+
 			$npc_module = new NPCModule();
 			$npc_module->set('id_npc', $npc->get('id'));
 			$npc_module->set('id_module', $module->get('id'));
