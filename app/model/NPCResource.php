@@ -40,4 +40,25 @@ class NPCResource extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  private $resource = null;
+
+  public function getResource(){
+    if (is_null($this->resource)){
+      $this->loadResource();
+    }
+    return $this->resource;
+  }
+
+  public function setResource($resource){
+    $this->resource = $resource;
+  }
+
+  public function loadResource(){
+    $resources = Base::getCache('resource');
+    $key = array_search($this->get('type'), array_column($resources['resources'], 'id'));
+    $resource = $resources['resources'][$key];
+
+    $this->setResource($resource);
+  }
 }

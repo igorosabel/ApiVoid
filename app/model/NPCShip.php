@@ -41,4 +41,28 @@ class NPCShip extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  private $ship = null;
+
+  public function getShip(){
+    if (is_null($this->ship)){
+      $this->loadShip();
+    }
+    return $this->ship;
+  }
+
+  public function setShip($ship){
+    $this->ship = $ship;
+  }
+
+  public function loadShip(){
+    $sql = "SELECT * FROM `ship` WHERE `id` = ?";
+    $this->db->query($sql, [$this->get('id_ship')]);
+    $res = $this->db->next();
+
+    $ship = new Ship();
+    $ship->update($res);
+
+    $this->setShip($ship);
+  }
 }

@@ -52,6 +52,13 @@
             "action": "currentSystem",
             "filter": "loginFilter",
             "comment": "Función para obtener los datos del sistema actual"
+          },
+          {
+            "id": "NPCShop",
+            "url": "/npc-shop",
+            "action": "NPCShop",
+            "filter": "loginFilter",
+            "comment": "Función para obtener los datos de la tienda de un NPC"
           }
         ]
       }

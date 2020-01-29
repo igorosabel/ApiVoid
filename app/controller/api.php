@@ -164,4 +164,27 @@ class api extends OController{
     $this->getTemplate()->addPartial('messages',   'api/short_messages', ['messages'   => $messages,   'extra'=>'nourlencode']);
     $this->getTemplate()->addPartial('characters', 'api/characters',     ['characters' => $characters, 'extra'=>'nourlencode']);
   }
+
+  /*
+   * Función para obtener los datos de la tienda de un NPC
+   */
+  function NPCShop($req){
+    $status = 'ok';
+    $id     = Base::getParam('id', $req['url_params'], false);
+    $npc    = null;
+
+    if ($id===false || $req['filter']['status']!='ok'){
+      $status = 'error';
+    }
+
+    if ($status=='ok'){
+      $npc = new NPC();
+      if (!$npc->find(['id'=>$id])){
+        $status = 'error';
+      }
+    }
+
+    $this->getTemplate()->add('status', $status);
+    $this->getTemplate()->addPartial('npc', 'api/npc', ['npc' => $npc, 'extra'=>'nourlencode']);
+  }
 }

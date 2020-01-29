@@ -41,4 +41,28 @@ class NPCModule extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  private $module = null;
+
+  public function getModule(){
+    if (is_null($this->module)){
+      $this->loadModule();
+    }
+    return $this->module;
+  }
+
+  public function setModule($module){
+    $this->module = $module;
+  }
+
+  public function loadModule(){
+    $sql = "SELECT * FROM `module` WHERE `id` = ?";
+    $this->db->query($sql, [$this->get('id_module')]);
+    $res = $this->db->next();
+
+    $module = new Module();
+    $module->update($res);
+
+    $this->setModule($module);
+  }
 }
