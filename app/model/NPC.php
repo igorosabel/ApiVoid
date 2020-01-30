@@ -26,6 +26,12 @@ class NPC extends OBase{
         'default' => null,
         'comment' => 'Id del sistema en el que está el NPC'
       ],
+      'margin' => [
+        'type'    => Base::NUM,
+        'nullable' => false,
+        'default' => 0,
+        'comment' => 'Margen del NPC respecto a precios originales (-20/20 %)'
+      ],
       'last_reset' => [
         'type'    => Base::DATE,
         'nullable' => true,
@@ -121,7 +127,7 @@ class NPC extends OBase{
     while ($res = $this->db->next()){
       $npc_resource = new NPCResource();
       $npc_resource->update($res);
-      $npc_resource->loadResource();
+      $npc_resource->loadResource($this->get('margin'));
 
       array_push($resources, $npc_resource);
     }

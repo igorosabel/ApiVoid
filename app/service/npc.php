@@ -33,6 +33,7 @@ class npcService extends OService{
     $npc_race = $this->generateRace();
     $npc->set('id_race',    $npc_race);
     $npc->set('id_system',  $system->get('id'));
+    $npc->set('margin',     rand($common['min_npc_margin'], $common['max_npc_margin']));
     $npc->set('last_reset', null);
     $npc->save();
 

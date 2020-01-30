@@ -54,10 +54,11 @@ class NPCResource extends OBase{
     $this->resource = $resource;
   }
 
-  public function loadResource(){
+  public function loadResource($margin = 0){
     $resources = Base::getCache('resource');
     $key = array_search($this->get('type'), array_column($resources['resources'], 'id'));
     $resource = $resources['resources'][$key];
+    $resource['credits'] = $resource['price'] * (1 + ($margin/100));
 
     $this->setResource($resource);
   }

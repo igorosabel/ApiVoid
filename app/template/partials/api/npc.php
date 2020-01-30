@@ -59,8 +59,7 @@
         "resource": {
           "id": <?php echo $resource->getResource()['id'] ?>,
           "name": "<?php echo urlencode($resource->getResource()['name']) ?>",
-          "minPrice": <?php echo $resource->getResource()['min_price'] ?>,
-          "maxPrice": <?php echo $resource->getResource()['max_price'] ?>
+          "credits": <?php echo $resource->getResource()['credits'] ?>
         },
         "value": <?php echo $resource->get('value') ?>
       }<?php if ($j<count($npc->getResources())-1): ?>,<?php endif ?>

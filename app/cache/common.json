@@ -4,6 +4,8 @@
   "default_ship_hull": 1,
   "npc_prob": 3,
   "max_npc": 2,
+  "min_npc_margin": -20,
+  "max_npc_margin": 20,
   "max_sell_hulls": 2,
   "max_sell_modules": 3,
   "max_sell_resources": 4,
