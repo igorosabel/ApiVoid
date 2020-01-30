@@ -55,13 +55,15 @@ class NPCModule extends OBase{
     $this->module = $module;
   }
 
-  public function loadModule(){
+  public function loadModule($margin = 0){
     $sql = "SELECT * FROM `module` WHERE `id` = ?";
     $this->db->query($sql, [$this->get('id_module')]);
     $res = $this->db->next();
 
     $module = new Module();
     $module->update($res);
+    $credits = $module->get('credits') * (1 + ($margin/100));
+    $module->set('credits', $credits);
 
     $this->setModule($module);
   }

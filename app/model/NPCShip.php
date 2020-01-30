@@ -62,6 +62,8 @@ class NPCShip extends OBase{
 
     $ship = new Ship();
     $ship->update($res);
+    $credits = $ship->get('credits') * (1 + ($margin/100));
+    $ship->set('credits', $credits);
 
     $this->setShip($ship);
   }

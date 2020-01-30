@@ -73,7 +73,7 @@ class NPC extends OBase{
     while ($res = $this->db->next()){
       $npc_ship = new NPCShip();
       $npc_ship->update($res);
-      $npc_ship->loadShip();
+      $npc_ship->loadShip($this->get('margin'));
 
       array_push($ships, $npc_ship);
     }
@@ -100,7 +100,7 @@ class NPC extends OBase{
     while ($res = $this->db->next()){
       $npc_module = new NPCModule();
       $npc_module->update($res);
-      $npc_module->loadModule();
+      $npc_module->loadModule($this->get('margin'));
 
       array_push($modules, $npc_module);
     }
