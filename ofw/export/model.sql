@@ -1,5 +1,15 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 
+CREATE TABLE `ship_resource` (
+  `id_ship` INT(11) NOT NULL COMMENT 'Id de la nave que almacena los recursos',
+  `type` INT(11) NOT NULL COMMENT 'Tipo de recurso',
+  `value` INT(11) NOT NULL COMMENT 'Cantidad del recurso almacenado',
+  `created_at` DATETIME NOT NULL COMMENT 'Fecha de creación del registro',
+  `updated_at` DATETIME NULL COMMENT 'Fecha de última modificación del registro',
+  PRIMARY KEY (`id_ship`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 CREATE TABLE `connection` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id única de cada conexión',
   `id_system_start` INT(11) NOT NULL COMMENT 'Id del sistema del que se parte',
@@ -47,18 +57,12 @@ CREATE TABLE `system` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE `message` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id único de cada mensaje',
-  `id_player_from` INT(11) NOT NULL COMMENT 'Id del jugador que envía un mensaje',
-  `id_player_to` INT(11) NOT NULL COMMENT 'Id del jugador al que se le envía un mensaje',
-  `message` VARCHAR(250) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Contenido del mensaje',
-  `req_id_resource` INT(11) NULL COMMENT 'Tipo de recurso que se solicita',
-  `req_value` INT(11) NULL COMMENT 'Cantidad del recurso que se solicita',
-  `req_credits` INT(11) NULL COMMENT 'Cantidad de créditos que se solicitan',
-  `offer_id_resource` INT(11) NULL COMMENT 'Tipo de recurso que se ofrece',
-  `offer_value` INT(11) NULL COMMENT 'Cantidad del recurso que se ofrece',
-  `offer_credits` INT(11) NULL COMMENT 'Cantidad de créditos que se ofrecen',
-  `req_status` INT(11) NULL COMMENT 'Estado de la solicitud 0 sin aceptar, 1 aceptada, null no hay solicitud',
+CREATE TABLE `construction` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id único para cada construcción',
+  `id_player` INT(11) NOT NULL COMMENT 'Id del jugador que hace la construcción',
+  `commerce` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Indica si tiene puesto de comercio 1 o no 0',
+  `repair` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Indica si tiene taller de reparaciones 1 o no 0',
+  `workshop` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Indica si tiene taller de construcciones 1 o no 0',
   `created_at` DATETIME NOT NULL COMMENT 'Fecha de creación del registro',
   `updated_at` DATETIME NULL COMMENT 'Fecha de última modificación del registro',
   PRIMARY KEY (`id`)
@@ -96,12 +100,21 @@ CREATE TABLE `npc_module` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE `construction` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id único para cada construcción',
-  `id_player` INT(11) NOT NULL COMMENT 'Id del jugador que hace la construcción',
-  `commerce` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Indica si tiene puesto de comercio 1 o no 0',
-  `repair` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Indica si tiene taller de reparaciones 1 o no 0',
-  `workshop` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Indica si tiene taller de construcciones 1 o no 0',
+CREATE TABLE `module` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id único de cada módulo',
+  `id_player` INT(11) NOT NULL COMMENT 'Id del jugador dueño del módulo o null si lo vende un NPC',
+  `id_npc` INT(11) NOT NULL COMMENT 'Id del NPC que vende el módulo o null si es de un jugador',
+  `id_ship` INT(11) NOT NULL COMMENT 'Id de la nave en la que está equipado o null si no está equipado',
+  `name` VARCHAR(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Nombre descriptivo del módulo',
+  `id_type` INT(11) NOT NULL COMMENT 'Tipo de módulo',
+  `engine` FLOAT NULL COMMENT 'Multiplicador de velocidad en caso de ser un módulo de motor',
+  `shield` INT(11) NULL COMMENT 'Puntos de escudo que aumenta el módulo en caso de ser un módulo de escudo',
+  `cargo` INT(11) NULL COMMENT 'Capacidad de carga en caso de ser un módulo de carga',
+  `damage` INT(11) NULL COMMENT 'Puntos de daño en caso de ser un módulo de arma',
+  `crew` INT(11) NULL COMMENT 'Cantidad de tripulantes en caso de ser un módulo de cabinas',
+  `energy` INT(11) NOT NULL COMMENT 'Puntos de energía que consume el módulo o produce en caso de ser un módulo de energía',
+  `slots` INT(11) NOT NULL COMMENT 'Número de huecos que ocupa el módulo en la nave',
+  `credits` INT(11) NULL COMMENT 'Cantidad de créditos que cuesta el módulo',
   `created_at` DATETIME NOT NULL COMMENT 'Fecha de creación del registro',
   `updated_at` DATETIME NULL COMMENT 'Fecha de última modificación del registro',
   PRIMARY KEY (`id`)
@@ -112,6 +125,8 @@ CREATE TABLE `npc` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id único de cada NPC',
   `name` VARCHAR(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Nombre del NPC',
   `id_race` INT(11) NOT NULL COMMENT 'Id de la raza del NPC',
+  `id_system` INT(11) NOT NULL COMMENT 'Id del sistema en el que está el NPC',
+  `margin` INT(11) NOT NULL DEFAULT '0' COMMENT 'Margen del NPC respecto a precios originales (-20/20 %)',
   `last_reset` DATETIME NULL COMMENT 'Fecha del último reseteo del NPC',
   `created_at` DATETIME NOT NULL COMMENT 'Fecha de creación del registro',
   `updated_at` DATETIME NULL COMMENT 'Fecha de última modificación del registro',
@@ -204,21 +219,20 @@ CREATE TABLE `ship` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE `module` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id único de cada módulo',
-  `id_player` INT(11) NOT NULL COMMENT 'Id del jugador dueño del módulo o null si lo vende un NPC',
-  `id_npc` INT(11) NOT NULL COMMENT 'Id del NPC que vende el módulo o null si es de un jugador',
-  `id_ship` INT(11) NOT NULL COMMENT 'Id de la nave en la que está equipado o null si no está equipado',
-  `name` VARCHAR(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Nombre descriptivo del módulo',
-  `id_type` INT(11) NOT NULL COMMENT 'Tipo de módulo',
-  `engine` FLOAT NULL COMMENT 'Multiplicador de velocidad en caso de ser un módulo de motor',
-  `shield` INT(11) NULL COMMENT 'Puntos de escudo que aumenta el módulo en caso de ser un módulo de escudo',
-  `cargo` INT(11) NULL COMMENT 'Capacidad de carga en caso de ser un módulo de carga',
-  `damage` INT(11) NULL COMMENT 'Puntos de daño en caso de ser un módulo de arma',
-  `crew` INT(11) NULL COMMENT 'Cantidad de tripulantes en caso de ser un módulo de cabinas',
-  `energy` INT(11) NOT NULL COMMENT 'Puntos de energía que consume el módulo o produce en caso de ser un módulo de energía',
-  `slots` INT(11) NOT NULL COMMENT 'Número de huecos que ocupa el módulo en la nave',
-  `credits` INT(11) NULL COMMENT 'Cantidad de créditos que cuesta el módulo',
+CREATE TABLE `message` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id único de cada mensaje',
+  `id_player_from` INT(11) NOT NULL COMMENT 'Id del jugador que envía un mensaje',
+  `id_player_to` INT(11) NOT NULL COMMENT 'Id del jugador al que se le envía un mensaje',
+  `message` VARCHAR(250) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Contenido del mensaje',
+  `type` INT(11) NOT NULL DEFAULT '0' COMMENT 'Tipo de mensaje: normal 0 solicitud 1',
+  `req_id_resource` INT(11) NULL COMMENT 'Tipo de recurso que se solicita',
+  `req_value` INT(11) NULL COMMENT 'Cantidad del recurso que se solicita',
+  `req_credits` INT(11) NULL COMMENT 'Cantidad de créditos que se solicitan',
+  `offer_id_resource` INT(11) NULL COMMENT 'Tipo de recurso que se ofrece',
+  `offer_value` INT(11) NULL COMMENT 'Cantidad del recurso que se ofrece',
+  `offer_credits` INT(11) NULL COMMENT 'Cantidad de créditos que se ofrecen',
+  `req_status` INT(11) NULL COMMENT 'Estado de la solicitud 0 sin aceptar, 1 aceptada, null no hay solicitud',
+  `is_read` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Mensaje no leído 0 o leído 1',
   `created_at` DATETIME NOT NULL COMMENT 'Fecha de creación del registro',
   `updated_at` DATETIME NULL COMMENT 'Fecha de última modificación del registro',
   PRIMARY KEY (`id`)
@@ -247,6 +261,11 @@ CREATE TABLE `npc_resource` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+ALTER TABLE `ship_resource`
+  ADD KEY `fk_ship_resource_ship_idx` (`id_ship`),
+  ADD CONSTRAINT `fk_ship_resource_ship` FOREIGN KEY (`id_ship`) REFERENCES `ship` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
 ALTER TABLE `connection`
   ADD KEY `fk_connection_system_idx` (`id_system_start`),
   ADD KEY `fk_connection_system_idx` (`id_system_end`),
@@ -273,11 +292,9 @@ ALTER TABLE `system`
   ADD CONSTRAINT `fk_system_player` FOREIGN KEY (`id_player`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
-ALTER TABLE `message`
-  ADD KEY `fk_message_player_idx` (`id_player_from`),
-  ADD KEY `fk_message_player_idx` (`id_player_to`),
-  ADD CONSTRAINT `fk_message_player` FOREIGN KEY (`id_player_from`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_message_player` FOREIGN KEY (`id_player_to`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `construction`
+  ADD KEY `fk_construction_player_idx` (`id_player`),
+  ADD CONSTRAINT `fk_construction_player` FOREIGN KEY (`id_player`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
 ALTER TABLE `planet`
@@ -296,9 +313,13 @@ ALTER TABLE `npc_module`
   ADD CONSTRAINT `fk_npc_module_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
-ALTER TABLE `construction`
-  ADD KEY `fk_construction_player_idx` (`id_player`),
-  ADD CONSTRAINT `fk_construction_player` FOREIGN KEY (`id_player`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `module`
+  ADD KEY `fk_module_player_idx` (`id_player`),
+  ADD KEY `fk_module_npc_idx` (`id_npc`),
+  ADD KEY `fk_module_ship_idx` (`id_ship`),
+  ADD CONSTRAINT `fk_module_player` FOREIGN KEY (`id_player`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_module_npc` FOREIGN KEY (`id_npc`) REFERENCES `npc` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_module_ship` FOREIGN KEY (`id_ship`) REFERENCES `ship` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
 ALTER TABLE `player`
@@ -336,13 +357,11 @@ ALTER TABLE `ship`
   ADD CONSTRAINT `fk_ship_npc` FOREIGN KEY (`id_npc`) REFERENCES `npc` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
-ALTER TABLE `module`
-  ADD KEY `fk_module_player_idx` (`id_player`),
-  ADD KEY `fk_module_npc_idx` (`id_npc`),
-  ADD KEY `fk_module_ship_idx` (`id_ship`),
-  ADD CONSTRAINT `fk_module_player` FOREIGN KEY (`id_player`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_module_npc` FOREIGN KEY (`id_npc`) REFERENCES `npc` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_module_ship` FOREIGN KEY (`id_ship`) REFERENCES `ship` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `message`
+  ADD KEY `fk_message_player_idx` (`id_player_from`),
+  ADD KEY `fk_message_player_idx` (`id_player_to`),
+  ADD CONSTRAINT `fk_message_player` FOREIGN KEY (`id_player_from`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_message_player` FOREIGN KEY (`id_player_to`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
 ALTER TABLE `resource`
