@@ -3,6 +3,7 @@
   "system_name_nums": 3,
   "default_ship_hull": 1,
   "npc_prob": 3,
+  "npc_reset": 7,
   "max_npc": 2,
   "min_npc_margin": -20,
   "max_npc_margin": 20,

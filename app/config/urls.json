@@ -59,6 +59,13 @@
             "action": "NPCShop",
             "filter": "loginFilter",
             "comment": "Función para obtener los datos de la tienda de un NPC"
+          },
+          {
+            "id": "buy",
+            "url": "/buy",
+            "action": "buy",
+            "filter": "loginFilter",
+            "comment": "Función para comprar un item de la tienda de un NPC"
           }
         ]
       }

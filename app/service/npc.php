@@ -34,7 +34,7 @@ class npcService extends OService{
     $npc->set('id_race',    $npc_race);
     $npc->set('id_system',  $system->get('id'));
     $npc->set('margin',     rand($common['min_npc_margin'], $common['max_npc_margin']));
-    $npc->set('last_reset', null);
+    $npc->set('last_reset', date('Y-m-d H:i:s', time()));
     $npc->save();
 
     // Hulls
