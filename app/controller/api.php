@@ -202,9 +202,9 @@ class api extends OController{
 
   	if ($req['filter']['status']!='ok' || $id_npc===false || $id===false || $type===false || $num===false){
   		$status = 'error';
-	}
+	  }
 
-	if ($status=='ok'){
+	  if ($status=='ok'){
 	    $credits = 0;
 	    $player = new Player();
 	    $player->find(['id'=>$req['filter']['id']]);
@@ -251,7 +251,7 @@ class api extends OController{
 
 		        // Coste de la nave (por número de unidades que ha comprado)
 		        $credits = $ship_credits * $num;
-			}
+			  }
 		    break;
 		    case 2: {
 		        $obj = new NPCModule();
@@ -370,5 +370,96 @@ class api extends OController{
     $this->getTemplate()->addPartial('ships',     'api/ships',     ['ships'=>$ships,         'extra'=>'nourlencode']);
     $this->getTemplate()->addPartial('modules',   'api/modules',   ['modules'=>$modules,     'extra'=>'nourlencode']);
     $this->getTemplate()->addPartial('resources', 'api/resources', ['resources'=>$resources, 'extra'=>'nourlencode']);
+  }
+
+  /*
+   * Función para vender un item del jugador a un NPC
+   */
+  function sell($req){
+    $status = 'ok';
+  	$id_npc = Base::getParam('idNPC', $req['url_params'], false);
+  	$id     = Base::getParam('id',    $req['url_params'], false);
+  	$type   = Base::getParam('type',  $req['url_params'], false);
+  	$num    = Base::getParam('num',   $req['url_params'], false);
+
+  	if ($req['filter']['status']!='ok' || $id_npc===false || $id===false || $type===false || $num===false){
+  		$status = 'error';
+	  }
+
+	  if ($status=='ok'){
+      $credits = 0;
+	    $player = new Player();
+	    $player->find(['id'=>$req['filter']['id']]);
+	    $npc = new NPC();
+	    $npc->find(['id'=>$id_npc]);
+
+      switch ($type){
+        case 1: {
+          // Cojo la nave del jugador
+          $ship = new Ship();
+          $ship->find(['id'=>$id]);
+
+          // Precio de la nave
+          $ship_credits = $ship->get('credits') * (1 + ($npc->get('margin')/100));
+
+          // Sumo al jugador el valor de la nave
+          $player->set('credits', $player->get('credits') + $ship_credits);
+          $player->save();
+
+          // Borro la nave
+          $ship->delete();
+        }
+        break;
+        case 2: {
+		        // Cojo el módulo del jugador
+		        $module = new Module();
+		        $module->find(['id'=>$id]);
+
+		        // Precio del módulo
+		        $module_credits = $module->get('credits') * (1 + ($npc->get('margin')/100));
+
+            // Sumo al jugador el valor del módulo
+            $player->set('credits', $player->get('credits') + $module_credits);
+            $player->save();
+
+            // Borro la nave
+            $module->delete();
+        }
+        break;
+        case 3: {
+		        $resources = Base::getCache('resource');
+		        $key = array_search($id, array_column($resources['resources'], 'id'));
+		        $resource = $resources['resources'][$key];
+
+		        $ship = new Ship();
+		        $ship->find(['id'=>$player->get('id_ship')]);
+
+            // Coste del recurso (por número de unidades que ha vendido)
+            $credits = ($resource['credits'] * (1 + ($npc->get('margin')/100))) * $num;
+
+            // Sumo al jugador el valor del recurso
+            $player->set('credits', $player->get('credits') + $credits);
+            $player->save();
+
+            // Cojo los recursos de ese tipo que tiene en la nave el jugador
+            $ship_resource = new ShipResource();
+            $ship_resource->find(['id_ship'=>$ship->get('id'), 'type'=>$resource['id']]);
+
+            // Resto la cantidad que ha vendido
+            $ship_resource->set('value', $ship_resource->get('value') - $num);
+
+            // Si la cantidad final es 0, borro el recurso de la nave
+            if ($ship_resource->get('value')==0){
+              $ship_resource->delete();
+            }
+            else{
+              $ship_resource->save();
+            }
+        }
+        break;
+      }
+    }
+
+    $this->getTemplate()->add('status', $status);
   }
 }

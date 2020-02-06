@@ -73,6 +73,13 @@
             "action": "buy",
             "filter": "loginFilter",
             "comment": "Función para comprar un item de la tienda de un NPC"
+          },
+          {
+            "id": "sell",
+            "url": "/sell",
+            "action": "sell",
+            "filter": "loginFilter",
+            "comment": "Función para vender un item del jugador a un NPC"
           }
         ]
       }
