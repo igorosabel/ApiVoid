@@ -199,6 +199,7 @@ class api extends OController{
   	$id     = Base::getParam('id',    $req['url_params'], false);
   	$type   = Base::getParam('type',  $req['url_params'], false);
   	$num    = Base::getParam('num',   $req['url_params'], false);
+  	$info   = '';
 
   	if ($req['filter']['status']!='ok' || $id_npc===false || $id===false || $type===false || $num===false){
   		$status = 'error';
@@ -300,6 +301,7 @@ class api extends OController{
 		        // Compruebo si tiene espacio para almacenar el recurso en la nave
 		        if ($ship->get('cargo')<$num){
 		          $status = 'no-room';
+		          $info = $ship->get('cargo');
 		        }
 		        else{
 		          // Actualizo espacio restante en la nave
@@ -337,6 +339,7 @@ class api extends OController{
 	}
 
 	$this->getTemplate()->add('status', $status);
+	$this->getTemplate()->add('info',   $info);
   }
 
   /*
@@ -427,12 +430,16 @@ class api extends OController{
         }
         break;
         case 3: {
-		        $resources = Base::getCache('resource');
-		        $key = array_search($id, array_column($resources['resources'], 'id'));
-		        $resource = $resources['resources'][$key];
+	        $resources = Base::getCache('resource');
+	        $key = array_search($id, array_column($resources['resources'], 'id'));
+	        $resource = $resources['resources'][$key];
 
-		        $ship = new Ship();
-		        $ship->find(['id'=>$player->get('id_ship')]);
+	        $ship = new Ship();
+	        $ship->find(['id'=>$player->get('id_ship')]);
+	        
+	        // Libero espacio en la nave
+	        $ship->set('cargo', $ship->get('cargo') + $num);
+	        $ship->save();
 
             // Coste del recurso (por número de unidades que ha vendido)
             $credits = ($resource['credits'] * (1 + ($npc->get('margin')/100))) * $num;
