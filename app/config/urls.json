@@ -61,6 +61,13 @@
             "comment": "Función para obtener los datos de la tienda de un NPC"
           },
           {
+            "id": "getSellItems",
+            "url": "/get-sell-items",
+            "action": "getSellItems",
+            "filter": "loginFilter",
+            "comment": "Función para obtener los objetos que un jugador puede vender"
+          },
+          {
             "id": "buy",
             "url": "/buy",
             "action": "buy",

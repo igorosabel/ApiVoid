@@ -10,7 +10,7 @@ class shipService extends OService{
     $shield_types    = Base::getCache('shield');
     $engine_types    = Base::getCache('engine');
     $generator_types = Base::getCache('generator');
-    
+
     if (is_null($id_hull)){
 	    $id_hull = $common['default_ship_hull'];
     }
@@ -57,5 +57,24 @@ class shipService extends OService{
     }
 
     return $ship;
+  }
+
+  public function getSellShips($player, $ship, $npc){
+    $db = $this->getController()->getDb();
+    $sql = "SELECT * FROM `ship` WHERE `id_player` = ? AND `id` != ?";
+	  $db->query($sql, [$player->get('id'), $ship->get('id')]);
+	  $ret = [];
+
+    while ($res = $db->next()){
+      $ship = new Ship();
+      $ship->update($res);
+
+      $credits = $ship->get('credits') * (1 + ($npc->get('margin')/100));
+      $ship->set('credits', $credits);
+
+      array_push($ret, $ship);
+    }
+
+	  return $ret;
   }
 }

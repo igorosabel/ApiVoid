@@ -69,4 +69,23 @@ class moduleService extends OService{
 
 	    return $module;
 	}
+
+	public function getSellModules($player, $npc){
+		$db = $this->getController()->getDb();
+    $sql = "SELECT * FROM `module` WHERE `id_player` = ? AND `id_ship` IS NULL";
+	  $db->query($sql, [$player->get('id')]);
+	  $ret = [];
+
+    while ($res = $db->next()){
+      $module = new Module();
+      $module->update($res);
+
+			$credits = $module->get('credits') * (1 + ($npc->get('margin')/100));
+	    $module->set('credits', $credits);
+
+      array_push($ret, $module);
+    }
+
+	  return $ret;
+	}
 }

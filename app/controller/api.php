@@ -1,17 +1,19 @@
 <?php
 class api extends OController{
-  public $ship_service    = null;
-  public $system_service  = null;
-  public $module_service  = null;
-  public $npc_service     = null;
-  public $message_service = null;
+  public $ship_service     = null;
+  public $system_service   = null;
+  public $module_service   = null;
+  public $npc_service      = null;
+  public $message_service  = null;
+  public $resource_service = null;
 
   function __construct(){
-    $this->ship_service    = new shipService($this);
-    $this->system_service  = new systemService($this);
-    $this->module_service  = new moduleService($this);
-    $this->npc_service     = new npcService($this);
-    $this->message_service = new messageService($this);
+    $this->ship_service     = new shipService($this);
+    $this->system_service   = new systemService($this);
+    $this->module_service   = new moduleService($this);
+    $this->npc_service      = new npcService($this);
+    $this->message_service  = new messageService($this);
+    $this->resource_service = new resourceService($this);
   }
 
   /*
@@ -217,10 +219,10 @@ class api extends OController{
 		        // Cojo la nave del NPC
 		        $ship = new Ship();
 		        $ship->find(['id'=>$id]);
-		
+
 		        // Precio de la nave
 		        $ship_credits = $ship->get('credits') * (1 + ($npc->get('margin')/100));
-		
+
 		        // Creo una copia para el jugador (por número de unidades que ha comprado)
 		        for ($i=1; $i<=$num; $i++){
 		          $new_ship = new Ship();
@@ -246,7 +248,7 @@ class api extends OController{
 		          $new_ship->set('credits',       $ship_credits);
 		          $new_ship->save();
 		        }
-		
+
 		        // Coste de la nave (por número de unidades que ha comprado)
 		        $credits = $ship_credits * $num;
 			}
@@ -254,14 +256,14 @@ class api extends OController{
 		    case 2: {
 		        $obj = new NPCModule();
 		        $obj->find(['id_npc'=>$id_npc, 'id_module'=>$id]);
-		
+
 		        // Cojo el módulo del NPC
 		        $module = new Module();
 		        $module->find(['id'=>$id]);
-		
+
 		        // Precio del módulo
 		        $module_credits = $module->get('credits') * (1 + ($npc->get('margin')/100));
-		
+
 		        // Creo una copia para el jugador (por número de unidades que ha comprado)
 		        for ($i=1; $i<=$num; $i++){
 		          $new_module = new Module();
@@ -280,7 +282,7 @@ class api extends OController{
 		          $new_module->set('credits',   $module_credits);
 		          $new_module->save();
 		        }
-		
+
 		        // Coste del módulo (por número de unidades que ha comprado)
 		        $credits = $module_credits * $num;
 		    }
@@ -288,11 +290,11 @@ class api extends OController{
 		    case 3: {
 		        $obj = new NPCResource();
 		        $obj->find(['id_npc'=>$id_npc, 'type'=>$id]);
-		
+
 		        $resources = Base::getCache('resource');
 		        $key = array_search($id, array_column($resources['resources'], 'id'));
 		        $resource = $resources['resources'][$key];
-		
+
 		        $ship = new Ship();
 		        $ship->find(['id'=>$player->get('id_ship')]);
 		        // Compruebo si tiene espacio para almacenar el recurso en la nave
@@ -303,7 +305,7 @@ class api extends OController{
 		          // Actualizo espacio restante en la nave
 		          $ship->set('cargo', $ship->get('cargo') -$num);
 		          $ship->save();
-		
+
 		          $ship_resource = new ShipResource();
 		          // Compruebo si ya tiene ese recurso en la nave
 		          if ($ship_resource->find(['id_ship'=>$ship->get('id'), 'type'=>$resource['id']])){
@@ -317,7 +319,7 @@ class api extends OController{
 		            $ship_resource->set('value', $num);
 		          }
 		          $ship_resource->save();
-		
+
 		          // Coste del recurso (por número de unidades que ha comprado)
 		          $credits = ($resource['credits'] * (1 + ($npc->get('margin')/100))) * $num;
 		        }
@@ -328,12 +330,45 @@ class api extends OController{
 	    if ($status=='ok'){
 	      $obj->set('value', $obj->get('value') -$num);
 	      $obj->save();
-	
+
 	      $player->set('credits', $player->get('credits') -$credits);
 	      $player->save();
 	    }
 	}
 
 	$this->getTemplate()->add('status', $status);
+  }
+
+  /*
+   * Función para obtener los objetos que un jugador puede vender
+   */
+  function getSellItems($req){
+  	$status    = 'ok';
+    $id_npc    = Base::getParam('id', $req['url_params'], false);
+  	$ships     = [];
+  	$modules   = [];
+  	$resources = [];
+
+  	if ($id_npc===false || $req['filter']['status']!='ok'){
+  	  $status = 'error';
+  	}
+
+  	if ($status=='ok'){
+      $npc = new NPC();
+      $npc->find(['id'=>$id_npc]);
+  		$player = new Player();
+  	  $player->find(['id'=>$req['filter']['id']]);
+  	  $ship = new Ship();
+  		$ship->find(['id'=>$player->get('id_ship')]);
+
+  		$ships     = $this->ship_service->getSellShips($player, $ship, $npc);
+  		$modules   = $this->module_service->getSellModules($player, $npc);
+  		$resources = $this->resource_service->getSellResources($ship, $npc);
+  	}
+
+  	$this->getTemplate()->add('status', $status);
+    $this->getTemplate()->addPartial('ships',     'api/ships',     ['ships'=>$ships,         'extra'=>'nourlencode']);
+    $this->getTemplate()->addPartial('modules',   'api/modules',   ['modules'=>$modules,     'extra'=>'nourlencode']);
+    $this->getTemplate()->addPartial('resources', 'api/resources', ['resources'=>$resources, 'extra'=>'nourlencode']);
   }
 }
