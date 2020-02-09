@@ -80,6 +80,13 @@
             "action": "sell",
             "filter": "loginFilter",
             "comment": "Función para vender un item del jugador a un NPC"
+          },
+          {
+            "id": "getSystemInfo",
+            "url": "/get-system-info",
+            "action": "getSystemInfo",
+            "filter": "loginFilter",
+            "comment": "Función para obtener la información de un sistema"
           }
         ]
       }

@@ -469,4 +469,11 @@ class api extends OController{
 
     $this->getTemplate()->add('status', $status);
   }
+ 
+  /*
+   * Función para obtener la información de un sistema
+   */
+  function getSystemInfo($req){
+	  
+  }
 }
