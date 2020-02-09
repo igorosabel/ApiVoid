@@ -84,4 +84,29 @@ class Moon extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  private $resources = null;
+
+  public function getResources(){
+    if (is_null($this->resources)){
+      $this->loadResources();
+    }
+    return $this->resources;
+  }
+
+  public function setResources($resources){
+    $this->resources = $resources;
+  }
+
+  public function loadResources(){
+    $sql = "SELECT * FROM `resource` WHERE `id_moon` = ?";
+    $this->db->query($sql, [$this->get('id')]);
+    $resources = [];
+    while($res = $this->db->next()){
+      $resource = new Resource();
+      $resource->update($res);
+      array_push($resources, $resource);
+    }
+    $this->setResources($resources);
+  }
 }

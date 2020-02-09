@@ -1,4 +1,10 @@
 {
+	"status": "{{status}}",
+	"system": {{system}},
+	"connections": [
+{{connections}}
+	]
+
 	"system": {
 		"id": 1,
 		"name": "VNU-438",

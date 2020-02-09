@@ -436,7 +436,7 @@ class api extends OController{
 
 	        $ship = new Ship();
 	        $ship->find(['id'=>$player->get('id_ship')]);
-	        
+
 	        // Libero espacio en la nave
 	        $ship->set('cargo', $ship->get('cargo') + $num);
 	        $ship->save();
@@ -469,11 +469,29 @@ class api extends OController{
 
     $this->getTemplate()->add('status', $status);
   }
- 
+
   /*
    * Función para obtener la información de un sistema
    */
   function getSystemInfo($req){
-	  
+	  $status = 'ok';
+	  $system = null;
+    $connections = [];
+
+	  if ($req['filter']['status']!='ok'){
+  		$status = 'error';
+	  }
+
+	  if ($status=='ok'){
+	  	$player = new Player();
+	  	$player->find(['id'=>$req['filter']['id']]);
+	  	$system = new System();
+	  	$system->find(['id'=>$player->get('id_system')]);
+      $connections = $system->getConnections();
+	  }
+
+	  $this->getTemplate()->add('status', $status);
+	  $this->getTemplate()->addPartial('system',      'api/system',      ['system' => $system]);
+    $this->getTemplate()->addPartial('connections', 'api/connections', ['connections' => $connections]);
   }
 }

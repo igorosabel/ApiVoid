@@ -47,4 +47,52 @@ class Connection extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  private $system_start = null;
+
+  public function getSystemStart(){
+    if (is_null($this->system_start)){
+      $this->loadSystemStart();
+    }
+    return $this->system_start;
+  }
+
+  public function setSystemStart($system_start){
+    $this->system_start = $system_start;
+  }
+
+  public function loadSystemStart(){
+    $sql = "SELECT * FROM `system` WHERE `id` = ?";
+    $this->db->query($sql, [$this->get('id_system_start')]);
+    $res = $this->db->next()
+
+    $system_start = new System();
+    $system_start->update($res);
+
+    $this->setSystemStart($system_start);
+  }
+
+  private $system_end = null;
+
+  public function getSystemEnd(){
+    if (is_null($this->system_end)){
+      $this->loadSystemEnd();
+    }
+    return $this->system_end;
+  }
+
+  public function setSystemEnd($system_end){
+    $this->system_end = $system_end;
+  }
+
+  public function loadSystemEnd(){
+    $sql = "SELECT * FROM `system` WHERE `id` = ?";
+    $this->db->query($sql, [$this->get('id_system_end')]);
+    $res = $this->db->next()
+
+    $system_end = new System();
+    $system_end->update($res);
+
+    $this->setSystemEnd($system_end);
+  }
 }

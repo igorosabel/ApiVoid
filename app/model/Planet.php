@@ -96,4 +96,54 @@ class Planet extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  private $moons = null;
+
+  public function getMoons(){
+    if (is_null($this->moons)){
+      $this->loadMoons();
+    }
+    return $this->moons;
+  }
+
+  public function setMoons($moons){
+    $this->moons = $moons;
+  }
+
+  public function loadMoons(){
+    $sql = "SELECT * FROM `moon` WHERE `id_planet` = ?";
+    $this->db->query($sql, [$this->get('id')]);
+    $moons = [];
+    while($res = $this->db->next()){
+      $moon = new Moon();
+      $moon->update($res);
+      array_push($moons, $moon);
+    }
+    $this->setMoons($moons);
+  }
+
+  private $resources = null;
+
+  public function getResources(){
+    if (is_null($this->resources)){
+      $this->loadResources();
+    }
+    return $this->resources;
+  }
+
+  public function setResources($resources){
+    $this->resources = $resources;
+  }
+
+  public function loadResources(){
+    $sql = "SELECT * FROM `resource` WHERE `id_planet` = ?";
+    $this->db->query($sql, [$this->get('id')]);
+    $resources = [];
+    while($res = $this->db->next()){
+      $resource = new Resource();
+      $resource->update($res);
+      array_push($resources, $resource);
+    }
+    $this->setResources($resources);
+  }
 }

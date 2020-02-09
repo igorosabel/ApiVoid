@@ -67,4 +67,78 @@ class System extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  private $planets = null;
+
+  public function getPlanets(){
+    if (is_null($this->planets)){
+      $this->loadPlanets();
+    }
+    return $this->planets;
+  }
+
+  public function setPlanets($planets){
+    $this->planets = $planets;
+  }
+
+  public function loadPlanets(){
+    $sql = "SELECT * FROM `planet` WHERE `id_system` = ?";
+    $this->db->query($sql, [$this->get('id')]);
+    $planets = [];
+    while($res = $this->db->next()){
+      $planet = new Planet();
+      $planet->update($res);
+      array_push($planets, $planet);
+    }
+    $this->setPlanets($planets);
+  }
+
+  private $connections = null;
+
+  public function getConnections(){
+    if (is_null($this->connections)){
+      $this->loadConnections();
+    }
+    return $this->connections;
+  }
+
+  public function setConnections($connections){
+    $this->connections = $connections;
+  }
+
+  public function loadConnections(){
+    $sql = "SELECT * FROM `connection` WHERE `id_system_start` = ? ORDER BY `order`";
+    $this->db->query($sql, [$this->get('id')]);
+    $connections = [];
+    while($res = $this->db->next()){
+      $connection = new Connection();
+      $connection->update($res);
+      array_push($connections, $connection);
+    }
+    $this->setConnections($connections);
+  }
+
+  private $discoverer = null;
+
+  public function getDiscoverer(){
+    if (is_null($this->discoverer)){
+      $this->loadDiscoverer();
+    }
+    return $this->discoverer;
+  }
+
+  public function setDiscoverer($discoverer){
+    $this->discoverer = $discoverer;
+  }
+
+  public function loadDiscoverer(){
+    $sql = "SELECT * FROM `player` WHERE `id` = ?";
+    $this->db->query($sql, [$this->get('id_player')]);
+    $res = $this->db->next()
+
+    $discoverer = new Player();
+    $discoverer->update($res);
+
+    $this->setDiscoverer($discoverer);
+  }
 }
