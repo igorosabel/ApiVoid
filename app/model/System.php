@@ -134,7 +134,7 @@ class System extends OBase{
   public function loadDiscoverer(){
     $sql = "SELECT * FROM `player` WHERE `id` = ?";
     $this->db->query($sql, [$this->get('id_player')]);
-    $res = $this->db->next()
+    $res = $this->db->next();
 
     $discoverer = new Player();
     $discoverer->update($res);

@@ -64,7 +64,7 @@ class Connection extends OBase{
   public function loadSystemStart(){
     $sql = "SELECT * FROM `system` WHERE `id` = ?";
     $this->db->query($sql, [$this->get('id_system_start')]);
-    $res = $this->db->next()
+    $res = $this->db->next();
 
     $system_start = new System();
     $system_start->update($res);
@@ -88,7 +88,7 @@ class Connection extends OBase{
   public function loadSystemEnd(){
     $sql = "SELECT * FROM `system` WHERE `id` = ?";
     $this->db->query($sql, [$this->get('id_system_end')]);
-    $res = $this->db->next()
+    $res = $this->db->next();
 
     $system_end = new System();
     $system_end->update($res);
