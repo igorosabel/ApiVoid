@@ -146,4 +146,27 @@ class Planet extends OBase{
     }
     $this->setResources($resources);
   }
+
+  private $planet_type_name = null;
+
+  public function getTypeName(){
+    if (is_null($this->planet_type_name)){
+      $this->loadPlanetTypeName();
+    }
+    return $this->planet_type_name;
+  }
+
+  public function setTypeName($planet_type_name){
+    $this->planet_type_name = $planet_type_name;
+  }
+
+  public function loadPlanetTypeName(){
+    $planet_types = Base::getCache('planet');
+    $this->setTypeName($planet_types['planet_types']['type_'.$this->get('type')]['type']);
+  }
+
+  public function getPlanetInfoLink(){
+    $system = Base::getCache('planet');
+    return $system['info'];
+  }
 }

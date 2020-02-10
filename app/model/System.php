@@ -141,4 +141,31 @@ class System extends OBase{
 
     $this->setDiscoverer($discoverer);
   }
+
+  private $system_type_name = null;
+
+  public function getTypeName(){
+    if (is_null($this->system_type_name)){
+      $this->loadSystemTypeName();
+    }
+    return $this->system_type_name;
+  }
+
+  public function setTypeName($system_type_name){
+    $this->system_type_name = $system_type_name;
+  }
+
+  public function loadSystemTypeName(){
+    $type_data = explode('-', $this->get('type'));
+    $system = Base::getCache('system');
+
+    $key = array_search($type_data[0], array_column($system['mkk_types'], 'type'));
+    $stype = $system['mkk_types'][$key];
+    $this->setTypeName($stype['name']);
+  }
+
+  public function getSystemInfoLink(){
+    $system = Base::getCache('system');
+    return $system['info'];
+  }
 }

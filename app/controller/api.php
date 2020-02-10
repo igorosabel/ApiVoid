@@ -491,7 +491,7 @@ class api extends OController{
 	  }
 
 	  $this->getTemplate()->add('status', $status);
-	  $this->getTemplate()->addPartial('system',      'api/system',      ['system' => $system]);
-    $this->getTemplate()->addPartial('connections', 'api/connections', ['connections' => $connections]);
+	  $this->getTemplate()->addPartial('system',      'api/system',      ['system' => $system, 'extra'=>'nourlencode']);
+    $this->getTemplate()->addPartial('connections', 'api/connections', ['connections' => $connections, 'extra'=>'nourlencode']);
   }
 }
