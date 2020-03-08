@@ -8,17 +8,19 @@
 		"type": "<?php echo urlencode($s->get('type')) ?>",
 		"typeLink": "<?php echo urlencode($s->getSystemInfoLink()) ?>",
 		"typeDesc": "<?php echo urlencode($s->getTypeName()) ?>",
+		"typeColor": "<?php echo $s->getTypeColor() ?>",
 		"idDiscoverer": <?php echo $s->getDiscoverer()->get('id') ?>,
 		"discoverer": "<?php echo urlencode($s->getDiscoverer()->get('name')) ?>",
 		"radius": <?php echo $s->get('radius') ?>,
 		"numNPC": <?php echo $s->get('num_npc') ?>,
+		"fullyExplored": <?php echo $s->get('fully_explored') ? 'true' : 'false' ?>,
 		"planets": [
 <?php foreach ($s->getPlanets() as $i => $p): ?>
       {
         "id": <?php echo $p->get('id') ?>,
         "name": "<?php echo urlencode($p->get('name')) ?>",
         "type": "<?php echo urlencode($p->get('type')) ?>",
-        "typeLink": "<?php echo urlencode($p->getPlanetInfoLink()) ?>",
+        "typeLink": "<?php echo urlencode($p->getTypeURL()) ?>",
         "typeDesc": "<?php echo urlencode($p->getTypeName()) ?>",
         "distance": <?php echo $p->get('distance') ?>,
         "radius": <?php echo $p->get('radius') ?>,
@@ -39,6 +41,7 @@
           {
             "id": <?php echo $m->get('id') ?>,
             "name": "<?php echo urlencode($m->get('name')) ?>",
+            "type": <?php echo $m->get('type') ?>,
             "distance": <?php echo $m->get('distance') ?>,
             "radius": <?php echo $m->get('radius') ?>,
             "rotation": <?php echo $m->get('rotation') ?>,

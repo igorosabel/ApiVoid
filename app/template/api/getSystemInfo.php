@@ -1,5 +1,6 @@
 {
 	"status": "{{status}}",
+	"idPlayer": {{id_player}},
 	"system": {{system}},
 	"connections": [
 {{connections}}

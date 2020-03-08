@@ -87,6 +87,20 @@
             "action": "getSystemInfo",
             "filter": "loginFilter",
             "comment": "Función para obtener la información de un sistema"
+          },
+          {
+            "id": "editName",
+            "url": "/edit-name",
+            "action": "editName",
+            "filter": "loginFilter",
+            "comment": "Función para cambiar el nombre a un sistema, planeta o luna"
+          },
+          {
+            "id": "explore",
+            "url": "/explore",
+            "action": "explore",
+            "filter": "loginFilter",
+            "comment": "Función para explorar un planeta o una luna"
           }
         ]
       }

@@ -28,6 +28,12 @@ class Moon extends OBase{
         'size' => 50,
         'comment' => 'Nombre actual de la luna'
       ],
+      'type' => [
+        'type'    => Base::NUM,
+        'nullable' => false,
+        'default' => null,
+        'comment' => 'Tipo de luna'
+      ],
       'radius' => [
         'type'    => Base::NUM,
         'nullable' => false,

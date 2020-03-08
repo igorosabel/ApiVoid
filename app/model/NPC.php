@@ -32,6 +32,12 @@ class NPC extends OBase{
         'default' => 0,
         'comment' => 'Margen del NPC respecto a precios originales (-20/20 %)'
       ],
+      'found' => [
+        'type'    => Base::BOOL,
+        'nullable' => false,
+        'default' => false,
+        'comment' => 'Indica si el NPC ya ha sido encontrado 1 o no 0'
+      ],
       'last_reset' => [
         'type'    => Base::DATE,
         'nullable' => true,
