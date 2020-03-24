@@ -5,11 +5,11 @@ class shipService extends OService{
   }
 
   public function generateShip($player = null, $npc = null, $id_hull = null){
-    $common          = Base::getCache('common');
-    $hull_types      = Base::getCache('hull');
-    $shield_types    = Base::getCache('shield');
-    $engine_types    = Base::getCache('engine');
-    $generator_types = Base::getCache('generator');
+    $common          = OTools::getCache('common');
+    $hull_types      = OTools::getCache('hull');
+    $shield_types    = OTools::getCache('shield');
+    $engine_types    = OTools::getCache('engine');
+    $generator_types = OTools::getCache('generator');
 
     if (is_null($id_hull)){
 	    $id_hull = $common['default_ship_hull'];
@@ -29,7 +29,7 @@ class shipService extends OService{
 	    $ship->set('id_npc', $npc->get('id'));
     }
 
-    $ship_name = Base::getRandomCharacters(['num'=>$common['system_name_chars'],'upper'=>true]).'-'.Base::getRandomCharacters(['num'=>$common['system_name_nums'],'numbers'=>true]);
+    $ship_name = OTools::getRandomCharacters(['num'=>$common['system_name_chars'],'upper'=>true]).'-'.OTools::getRandomCharacters(['num'=>$common['system_name_nums'],'numbers'=>true]);
     $ship->set('original_name', $ship_name);
     $ship->set('name',          $ship_name);
     $ship->set('id_type',       $hull_type['id']);

@@ -1,44 +1,44 @@
 <?php
-class Connection extends OBase{
+class Connection extends OModel{
   function __construct(){
     $table_name  = 'connection';
     $model = [
       'id' => [
-        'type'    => Base::PK,
+        'type'    => OCore::PK,
         'comment' => 'Id única de cada conexión'
       ],
       'id_system_start' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'ref' => 'system.id',
         'comment' => 'Id del sistema del que se parte'
       ],
       'id_system_end' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => true,
         'default' => null,
         'ref' => 'system.id',
         'comment' => 'Id del sistema destino o null si todavía no se ha investigado'
       ],
       'order' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Orden de la conexión entre las que tiene un sistema'
       ],
       'navigate_time' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Tiempo que se tarda en navegar al sistema destino'
       ],
       'created_at' => [
-        'type'    => Base::CREATED,
+        'type'    => OCore::CREATED,
         'comment' => 'Fecha de creación del registro'
       ],
       'updated_at' => [
-        'type'    => Base::UPDATED,
+        'type'    => OCore::UPDATED,
         'nullable' => true,
         'default' => null,
         'comment' => 'Fecha de última modificación del registro'

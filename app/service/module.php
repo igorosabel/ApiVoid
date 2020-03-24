@@ -17,42 +17,42 @@ class moduleService extends OService{
 
 		switch ($module_type){
 			case Module::ENGINE : {
-				$engine_types = Base::getCache('engine');
+				$engine_types = OTools::getCache('engine');
 				$id_type      = (!is_null($id_type)) ? $id_type : rand(1, count($engine_types['engine_types']));
 				$type         = $engine_types['engine_types']['engine_'.$id_type];
 				$module->set('engine',  $type['multiplier']);
 			}
 			break;
 			case Module::SHIELD : {
-				$shield_types = Base::getCache('shield');
+				$shield_types = OTools::getCache('shield');
 				$id_type      = (!is_null($id_type)) ? $id_type : rand(1, count($shield_types['shield_types']));
 				$type         = $shield_types['shield_types']['shield_'.$id_type];
 				$module->set('shield',  $type['strength']);
 			}
 			break;
 			case Module::CARGO : {
-				$cargo_types = Base::getCache('cargo');
+				$cargo_types = OTools::getCache('cargo');
 				$id_type      = (!is_null($id_type)) ? $id_type : rand(1, count($cargo_types['cargo_types']));
 				$type         = $cargo_types['cargo_types']['cargo_'.$id_type];
 				$module->set('cargo',  $type['space']);
 			}
 			break;
 			case Module::GUN : {
-				$gun_types = Base::getCache('gun');
+				$gun_types = OTools::getCache('gun');
 				$id_type   = (!is_null($id_type)) ? $id_type : rand(1, count($gun_types['gun_types']));
 				$type      = $gun_types['gun_types']['gun_'.$id_type];
 				$module->set('damage',  $type['strength']);
 			}
 			break;
 			case Module::CABIN : {
-				$cabin_types = Base::getCache('cabin');
+				$cabin_types = OTools::getCache('cabin');
 				$id_type      = (!is_null($id_type)) ? $id_type : rand(1, count($cabin_types['cabin_types']));
 				$type         = $cabin_types['cabin_types']['cabin_'.$id_type];
 				$module->set('crew',  $type['space']);
 			}
 			break;
 			case Module::ENERGY : {
-				$generator_types = Base::getCache('generator');
+				$generator_types = OTools::getCache('generator');
 				$id_type      = (!is_null($id_type)) ? $id_type : rand(1, count($generator_types['generator_types']));
 				$type         = $generator_types['generator_types']['generator_'.$id_type];
 			}

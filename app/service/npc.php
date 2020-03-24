@@ -5,7 +5,7 @@ class npcService extends OService{
   }
 
   public function generateRace(){
-    $race_list = Base::getCache('race');
+    $race_list = OTools::getCache('race');
     $race_prob = [];
     foreach ($race_list['race_list'] as $race){
       for ($i=1;$i<=$race['proportion'];$i++){
@@ -19,12 +19,12 @@ class npcService extends OService{
   }
 
   public function generateNPC($system){
-    $c = $this->getController()->getConfig();
+    global $core;
 
-    $common         = Base::getCache('common');
-    $npc_list       = Base::getCache('npc');
-    $hull_types     = Base::getCache('hull');
-    $resource_types = Base::getCache('resource');
+    $common         = OTools::getCache('common');
+    $npc_list       = OTools::getCache('npc');
+    $hull_types     = OTools::getCache('hull');
+    $resource_types = OTools::getCache('resource');
 
     $npc = new NPC();
     $npc_name = $npc_list['character_list'][array_rand($npc_list['character_list'])];

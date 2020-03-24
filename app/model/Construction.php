@@ -1,37 +1,37 @@
 <?php
-class Construction extends OBase{
+class Construction extends OModel{
   function __construct(){
     $table_name  = 'construction';
     $model = [
       'id' => [
-        'type'    => Base::PK,
+        'type'    => OCore::PK,
         'comment' => 'Id único para cada construcción'
       ],
       'id_player' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'ref' => 'player.id',
         'comment' => 'Id del jugador que hace la construcción'
       ],
       'commerce' => [
-        'type'    => Base::BOOL,
+        'type'    => OCore::BOOL,
         'comment' => 'Indica si tiene puesto de comercio 1 o no 0'
       ],
       'repair' => [
-        'type'    => Base::BOOL,
+        'type'    => OCore::BOOL,
         'comment' => 'Indica si tiene taller de reparaciones 1 o no 0'
       ],
       'workshop' => [
-        'type'    => Base::BOOL,
+        'type'    => OCore::BOOL,
         'comment' => 'Indica si tiene taller de construcciones 1 o no 0'
       ],
       'created_at' => [
-        'type'    => Base::CREATED,
+        'type'    => OCore::CREATED,
         'comment' => 'Fecha de creación del registro'
       ],
       'updated_at' => [
-        'type'    => Base::UPDATED,
+        'type'    => OCore::UPDATED,
         'nullable' => true,
         'default' => null,
         'comment' => 'Fecha de última modificación del registro'

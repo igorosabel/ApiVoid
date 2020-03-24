@@ -1,66 +1,66 @@
 <?php
-class Player extends OBase{
+class Player extends OModel{
   function __construct(){
     $table_name  = 'player';
     $model = [
       'id' => [
-        'type'    => Base::PK,
+        'type'    => OCore::PK,
         'comment' => 'Id único del jugador'
       ],
       'name' => [
-        'type'    => Base::TEXT,
+        'type'    => OCore::TEXT,
         'nullable' => false,
         'default' => null,
         'size' => 50,
         'comment' => 'Nombre de usuario del jugador'
       ],
       'email' => [
-        'type'    => Base::TEXT,
+        'type'    => OCore::TEXT,
         'nullable' => false,
         'default' => null,
         'size' => 100,
         'comment' => 'Email del jugador'
       ],
       'pass' => [
-        'type'    => Base::TEXT,
+        'type'    => OCore::TEXT,
         'nullable' => false,
         'default' => null,
         'size' => 120,
         'comment' => 'Contraseña cifrada del jugador'
       ],
       'credits' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Cantidad de créditos que posee el jugador'
       ],
       'id_ship' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'ref' => 'ship.id',
         'comment' => 'Id de la nave que actualmente pilota el jugador'
       ],
       'id_system' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'ref' => 'system.id',
         'comment' => 'Id del sistema en el que se encuentra el jugador'
       ],
       'id_job' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => true,
         'default' => null,
         'ref' => 'job.id',
         'comment' => 'Id de la tarea que está desempeñando el jugador'
       ],
       'created_at' => [
-        'type'    => Base::CREATED,
+        'type'    => OCore::CREATED,
         'comment' => 'Fecha de creación del registro'
       ],
       'updated_at' => [
-        'type'    => Base::UPDATED,
+        'type'    => OCore::UPDATED,
         'nullable' => true,
         'default' => null,
         'comment' => 'Fecha de última modificación del registro'

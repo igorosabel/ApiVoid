@@ -1,87 +1,87 @@
 <?php
-class Moon extends OBase{
+class Moon extends OModel{
   function __construct(){
     $table_name  = 'moon';
     $model = [
       'id' => [
-        'type'    => Base::PK,
+        'type'    => OCore::PK,
         'comment' => 'Id único de cada luna'
       ],
       'id_planet' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'ref' => 'planet.id',
         'comment' => 'Id del planeta al que pertenece la luna'
       ],
       'original_name' => [
-        'type'    => Base::TEXT,
+        'type'    => OCore::TEXT,
         'nullable' => false,
         'default' => null,
         'size' => 50,
         'comment' => 'Nombre original de la luna'
       ],
       'name' => [
-        'type'    => Base::TEXT,
+        'type'    => OCore::TEXT,
         'nullable' => false,
         'default' => null,
         'size' => 50,
         'comment' => 'Nombre actual de la luna'
       ],
       'type' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Tipo de luna'
       ],
       'radius' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Radio de la luna'
       ],
       'rotation' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Velocidad de rotación de la luna alrededor del planeta'
       ],
       'distance' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Distancia de la luna a su planeta'
       ],
       'explored' => [
-        'type'    => Base::BOOL,
+        'type'    => OCore::BOOL,
         'comment' => 'Indica si la luna ha sido explorada 1 o no 0'
       ],
       'explore_time' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Tiempo necesario para explorar la luna'
       ],
       'id_npc' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => true,
         'default' => null,
         'ref' => 'npc.id',
         'comment' => 'Id del NPC que habita el planeta o null si no tiene'
       ],
       'id_construction' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => true,
         'default' => null,
         'ref' => 'construction.id',
         'comment' => 'Id de la construcción que hay en el planeta o null si no tiene'
       ],
       'created_at' => [
-        'type'    => Base::CREATED,
+        'type'    => OCore::CREATED,
         'comment' => 'Fecha de creación del registro'
       ],
       'updated_at' => [
-        'type'    => Base::UPDATED,
+        'type'    => OCore::UPDATED,
         'nullable' => true,
         'default' => null,
         'comment' => 'Fecha de última modificación del registro'

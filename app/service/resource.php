@@ -6,7 +6,7 @@ class resourceService extends OService{
 
   public function getSellResources($ship, $npc){
     $db = $this->getController()->getDb();
-    $resources = Base::getCache('resource');
+    $resources = OTools::getCache('resource');
     $sql = "SELECT * FROM `ship_resource` WHERE `id_ship` = ?";
     $db->query($sql, [$ship->get('id')]);
     $ret = [];

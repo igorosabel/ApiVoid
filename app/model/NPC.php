@@ -1,55 +1,55 @@
 <?php
-class NPC extends OBase{
+class NPC extends OModel{
   function __construct(){
     $table_name  = 'npc';
     $model = [
       'id' => [
-        'type'    => Base::PK,
+        'type'    => OCore::PK,
         'comment' => 'Id único de cada NPC'
       ],
       'name' => [
-        'type'    => Base::TEXT,
+        'type'    => OCore::TEXT,
         'nullable' => false,
         'default' => null,
         'size' => 50,
         'comment' => 'Nombre del NPC'
       ],
       'id_race' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Id de la raza del NPC'
       ],
       'id_system' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Id del sistema en el que está el NPC'
       ],
       'margin' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => 0,
         'comment' => 'Margen del NPC respecto a precios originales (-20/20 %)'
       ],
       'found' => [
-        'type'    => Base::BOOL,
+        'type'    => OCore::BOOL,
         'nullable' => false,
         'default' => false,
         'comment' => 'Indica si el NPC ya ha sido encontrado 1 o no 0'
       ],
       'last_reset' => [
-        'type'    => Base::DATE,
+        'type'    => OCore::DATE,
         'nullable' => true,
         'default' => null,
         'comment' => 'Fecha del último reseteo del NPC'
       ],
       'created_at' => [
-        'type'    => Base::CREATED,
+        'type'    => OCore::CREATED,
         'comment' => 'Fecha de creación del registro'
       ],
       'updated_at' => [
-        'type'    => Base::UPDATED,
+        'type'    => OCore::UPDATED,
         'nullable' => true,
         'default' => null,
         'comment' => 'Fecha de última modificación del registro'

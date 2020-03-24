@@ -1,49 +1,49 @@
 <?php
-class Job extends OBase{
+class Job extends OModel{
   function __construct(){
     $table_name  = 'job';
     $model = [
       'id' => [
-        'type'    => Base::PK,
+        'type'    => OCore::PK,
         'comment' => 'Id única para cada tarea'
       ],
       'id_player' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'ref' => 'player.id',
         'comment' => 'Id del jugador que hace la tarea'
       ],
       'type' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Tipo de tarea'
       ],
       'value' => [
-        'type'    => Base::LONGTEXT,
+        'type'    => OCore::LONGTEXT,
         'nullable' => true,
         'default' => null,
         'comment' => 'Información extra de la tarea'
       ],
       'start' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Timestamp de inicio de la tarea'
       ],
       'end' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Timestamp de fin de la tarea'
       ],
       'created_at' => [
-        'type'    => Base::CREATED,
+        'type'    => OCore::CREATED,
         'comment' => 'Fecha de creación del registro'
       ],
       'updated_at' => [
-        'type'    => Base::UPDATED,
+        'type'    => OCore::UPDATED,
         'nullable' => true,
         'default' => null,
         'comment' => 'Fecha de última modificación del registro'

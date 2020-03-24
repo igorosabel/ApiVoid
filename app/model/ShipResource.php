@@ -1,31 +1,31 @@
 <?php
-class ShipResource extends OBase{
+class ShipResource extends OModel{
   function __construct(){
     $table_name  = 'ship_resource';
     $model = [
       'id_ship' => [
-        'type'    => Base::PK,
+        'type'    => OCore::PK,
         'incr' => false,
         'ref' => 'ship.id',
         'comment' => 'Id de la nave que almacena los recursos'
       ],
       'type' => [
-        'type'    => Base::PK,
+        'type'    => OCore::PK,
         'incr' => false,
         'comment' => 'Tipo de recurso'
       ],
       'value' => [
-        'type'    => Base::NUM,
+        'type'    => OCore::NUM,
         'nullable' => false,
         'default' => null,
         'comment' => 'Cantidad del recurso almacenado'
       ],
       'created_at' => [
-        'type'    => Base::CREATED,
+        'type'    => OCore::CREATED,
         'comment' => 'Fecha de creación del registro'
       ],
       'updated_at' => [
-        'type'    => Base::UPDATED,
+        'type'    => OCore::UPDATED,
         'nullable' => true,
         'default' => null,
         'comment' => 'Fecha de última modificación del registro'

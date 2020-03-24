@@ -19,7 +19,7 @@ class npcResetTask{
       array_push($npc_list, $npc);
     }
 
-    $common = Base::getCache('common');
+    $common = OTools::getCache('common');
     echo "Tiempo de reset (días): ".$common['npc_reset']."\n";
 
     echo "Recorro lista de NPC: \n";

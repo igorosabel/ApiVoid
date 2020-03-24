@@ -23,9 +23,9 @@ class api extends OController{
 	 */
 	function register($req){
 		$status = 'ok';
-		$name   = Base::getParam('name',  $req['url_params'], false);
-		$email  = Base::getParam('email', $req['url_params'], false);
-		$pass   = Base::getParam('pass',  $req['url_params'], false);
+		$name   = OTools::getParam('name',  $req['params'], false);
+		$email  = OTools::getParam('email', $req['params'], false);
+		$pass   = OTools::getParam('pass',  $req['params'], false);
 
 		$id    = 'null';
 		$token = '';
@@ -43,7 +43,7 @@ class api extends OController{
 				$status = 'email';
 			}
 			else{
-				$common  = Base::getCache('common');
+				$common  = OTools::getCache('common');
 				$credits = $common['credits'];
 
 				$p->set('name',    $name);
@@ -81,8 +81,8 @@ class api extends OController{
 	 */
 	function login($req){
 		$status = 'ok';
-		$name   = Base::getParam('name', $req['url_params'], false);
-		$pass   = Base::getParam('pass', $req['url_params'], false);
+		$name   = OTools::getParam('name', $req['params'], false);
+		$pass   = OTools::getParam('pass', $req['params'], false);
 
 		$id    = 'null';
 		$token = '';
@@ -123,7 +123,7 @@ class api extends OController{
 	 */
 	function currentSystem($req){
 		$status = 'ok';
-		if ($req['filter']['status']!='ok'){
+		if ($req['loginFilter']['status']!='ok'){
 			$status = 'error';
 		}
 		$system       = '';
@@ -137,7 +137,7 @@ class api extends OController{
 
 		if ($status=='ok'){
 			$p = new Player();
-			$p->find(['id'=>$req['filter']['id']]);
+			$p->find(['id'=>$req['loginFilter']['id']]);
 			$s = new System();
 			if ($s->find(['id'=>$p->get('id_system')])){
 				$system      = $s->get('name');
@@ -174,10 +174,10 @@ class api extends OController{
 	 */
 	function NPCShop($req){
 		$status = 'ok';
-		$id     = Base::getParam('id', $req['url_params'], false);
+		$id     = OTools::getParam('id', $req['params'], false);
 		$npc    = null;
 
-		if ($id===false || $req['filter']['status']!='ok'){
+		if ($id===false || $req['loginFilter']['status']!='ok'){
 			$status = 'error';
 		}
 
@@ -197,20 +197,20 @@ class api extends OController{
 	 */
 	function buy($req){
 		$status = 'ok';
-		$id_npc = Base::getParam('idNPC', $req['url_params'], false);
-		$id     = Base::getParam('id',    $req['url_params'], false);
-		$type   = Base::getParam('type',  $req['url_params'], false);
-		$num    = Base::getParam('num',   $req['url_params'], false);
+		$id_npc = OTools::getParam('idNPC', $req['params'], false);
+		$id     = OTools::getParam('id',    $req['params'], false);
+		$type   = OTools::getParam('type',  $req['params'], false);
+		$num    = OTools::getParam('num',   $req['params'], false);
 		$info   = '';
 
-		if ($req['filter']['status']!='ok' || $id_npc===false || $id===false || $type===false || $num===false){
+		if ($req['loginFilter']['status']!='ok' || $id_npc===false || $id===false || $type===false || $num===false){
 			$status = 'error';
 		}
 
 		if ($status=='ok'){
 			$credits = 0;
 			$player = new Player();
-			$player->find(['id'=>$req['filter']['id']]);
+			$player->find(['id'=>$req['loginFilter']['id']]);
 			$npc = new NPC();
 			$npc->find(['id'=>$id_npc]);
 
@@ -294,7 +294,7 @@ class api extends OController{
 					$obj = new NPCResource();
 					$obj->find(['id_npc'=>$id_npc, 'type'=>$id]);
 
-					$resources = Base::getCache('resource');
+					$resources = OTools::getCache('resource');
 					$key = array_search($id, array_column($resources['resources'], 'id'));
 					$resource = $resources['resources'][$key];
 
@@ -349,12 +349,12 @@ class api extends OController{
 	 */
 	function getSellItems($req){
 		$status    = 'ok';
-		$id_npc    = Base::getParam('id', $req['url_params'], false);
+		$id_npc    = OTools::getParam('id', $req['params'], false);
 		$ships     = [];
 		$modules   = [];
 		$resources = [];
 
-		if ($id_npc===false || $req['filter']['status']!='ok'){
+		if ($id_npc===false || $req['loginFilter']['status']!='ok'){
 			$status = 'error';
 		}
 
@@ -362,7 +362,7 @@ class api extends OController{
 			$npc = new NPC();
 			$npc->find(['id'=>$id_npc]);
 			$player = new Player();
-			$player->find(['id'=>$req['filter']['id']]);
+			$player->find(['id'=>$req['loginFilter']['id']]);
 			$ship = new Ship();
 			$ship->find(['id'=>$player->get('id_ship')]);
 
@@ -382,19 +382,19 @@ class api extends OController{
 	 */
 	function sell($req){
 		$status = 'ok';
-		$id_npc = Base::getParam('idNPC', $req['url_params'], false);
-		$id     = Base::getParam('id',    $req['url_params'], false);
-		$type   = Base::getParam('type',  $req['url_params'], false);
-		$num    = Base::getParam('num',   $req['url_params'], false);
+		$id_npc = OTools::getParam('idNPC', $req['params'], false);
+		$id     = OTools::getParam('id',    $req['params'], false);
+		$type   = OTools::getParam('type',  $req['params'], false);
+		$num    = OTools::getParam('num',   $req['params'], false);
 
-		if ($req['filter']['status']!='ok' || $id_npc===false || $id===false || $type===false || $num===false){
+		if ($req['loginFilter']['status']!='ok' || $id_npc===false || $id===false || $type===false || $num===false){
 			$status = 'error';
 		}
 
 		if ($status=='ok'){
 			$credits = 0;
 			$player = new Player();
-			$player->find(['id'=>$req['filter']['id']]);
+			$player->find(['id'=>$req['loginFilter']['id']]);
 			$npc = new NPC();
 			$npc->find(['id'=>$id_npc]);
 
@@ -432,7 +432,7 @@ class api extends OController{
 				}
 				break;
 				case 3: {
-					$resources = Base::getCache('resource');
+					$resources = OTools::getCache('resource');
 					$key = array_search($id, array_column($resources['resources'], 'id'));
 					$resource = $resources['resources'][$key];
 
@@ -481,13 +481,13 @@ class api extends OController{
 	 	$connections = [];
 	 	$id_player = 'null';
 
-	 	if ($req['filter']['status']!='ok'){
+	 	if ($req['loginFilter']['status']!='ok'){
 	 		$status = 'error';
 		}
 
 		if ($status=='ok'){
 			$player = new Player();
-			$player->find(['id'=>$req['filter']['id']]);
+			$player->find(['id'=>$req['loginFilter']['id']]);
 			$id_player = $player->get('id');
 			$system = new System();
 			$system->find(['id'=>$player->get('id_system')]);
@@ -505,11 +505,11 @@ class api extends OController{
 	 */
 	function editName($req){
 		$status = 'ok';
-		$id     = Base::getParam('id', $req['url_params'], false);
-		$type   = Base::getParam('type', $req['url_params'], false);
-		$name   = Base::getParam('name', $req['url_params'], false);
+		$id     = OTools::getParam('id', $req['params'], false);
+		$type   = OTools::getParam('type', $req['params'], false);
+		$name   = OTools::getParam('name', $req['params'], false);
 
-		if ($req['filter']['status']!='ok' || $id===false || $type===false || $name===false){
+		if ($req['loginFilter']['status']!='ok' || $id===false || $type===false || $name===false){
 			$status = 'error';
 		}
 
@@ -541,16 +541,16 @@ class api extends OController{
 	 */
 	function explore($req){
 		$status = 'ok';
-		$id     = Base::getParam('id', $req['url_params'], false);
-		$type   = Base::getParam('type', $req['url_params'], false);
+		$id     = OTools::getParam('id', $req['params'], false);
+		$type   = OTools::getParam('type', $req['params'], false);
 		
-		if ($req['filter']['status']!='ok' || $id===false || $type===false){
+		if ($req['loginFilter']['status']!='ok' || $id===false || $type===false){
 			$status = 'error';
 		}
 		
 		if ($status=='ok'){
 			$player = new Player();
-			$player->find(['id'=>$req['filter']['id']]);
+			$player->find(['id'=>$req['loginFilter']['id']]);
 		}
 		
 		$this->getTemplate()->add('status',    $status);

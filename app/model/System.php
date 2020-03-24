@@ -1,70 +1,70 @@
 <?php
-class System extends OBase{
+class System extends OModel{
 	function __construct(){
 		$table_name  = 'system';
 		$model = [
 			'id' => [
-				'type'    => Base::PK,
+				'type'    => OCore::PK,
 				'comment' => 'Id único de cada sistema'
 			],
 			'id_player' => [
-				'type'    => Base::NUM,
+				'type'    => OCore::NUM,
 				'nullable' => false,
 				'default' => null,
 				'ref' => 'player.id',
 				'comment' => 'Id del jugador que descubre el sistema'
 			],
 			'original_name' => [
-				'type'    => Base::TEXT,
+				'type'    => OCore::TEXT,
 				'nullable' => false,
 				'default' => null,
 				'size' => 50,
 				'comment' => 'Nombre original del sistema'
 			],
 			'name' => [
-				'type'    => Base::TEXT,
+				'type'    => OCore::TEXT,
 				'nullable' => false,
 				'default' => null,
 				'size' => 50,
 				'comment' => 'Nombre actual del sistema'
 			],
 			'num_planets' => [
-				'type'    => Base::NUM,
+				'type'    => OCore::NUM,
 				'nullable' => false,
 				'default' => '0',
 				'comment' => 'Número de planetas que tiene el sistema'
 			],
 			'fully_explored' => [
-				'type'    => Base::BOOL,
+				'type'    => OCore::BOOL,
 				'nullable' => false,
 				'default' => false,
 				'comment' => 'Indica si el sistema ha sido completamente explorado 1 o no 0'
 			],
 			'num_npc' => [
-				'type'    => Base::NUM,
+				'type'    => OCore::NUM,
 				'nullable' => false,
 				'default' => '0',
 				'comment' => 'Número de NPCs que hay en el sistema'
 			],
 			'type' => [
-				'type'    => Base::TEXT,
+				'type'    => OCore::TEXT,
 				'nullable' => false,
 				'default' => null,
 				'size' => 5,
 				'comment' => 'Tipo de sol'
 			],
 			'radius' => [
-				'type'    => Base::NUM,
+				'type'    => OCore::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Radio del sol'
 			],
 			'created_at' => [
-				'type'    => Base::CREATED,
+				'type'    => OCore::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => Base::UPDATED,
+				'type'    => OCore::UPDATED,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha de última modificación del registro'
@@ -175,7 +175,7 @@ class System extends OBase{
 
 	public function loadSystemType(){
 		$type_data = explode('-', $this->get('type'));
-		$system = Base::getCache('system');
+		$system = OTools::getCache('system');
 
 		$key = array_search($type_data[0], array_column($system['mkk_types'], 'type'));
 		$stype = $system['mkk_types'][$key];
@@ -190,7 +190,7 @@ class System extends OBase{
 	}
 
 	public function getSystemInfoLink(){
-		$system = Base::getCache('system');
+		$system = OTools::getCache('system');
 		return $system['info'];
 	}
 }

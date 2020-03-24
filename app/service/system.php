@@ -5,17 +5,17 @@ class systemService extends OService{
 	}
 
 	public function generateSystem($player){
-		$c = $this->getController()->getConfig();
+		global $core;
 
-		$common            = Base::getCache('common');
-		$system_types      = Base::getCache('system');
-		$planet_types      = Base::getCache('planet');
-		$resource_types    = Base::getCache('resource');
+		$common            = OTools::getCache('common');
+		$system_types      = OTools::getCache('system');
+		$planet_types      = OTools::getCache('planet');
+		$resource_types    = OTools::getCache('resource');
 
 		$sun_type          = $system_types['mkk_types'][array_rand($system_types['mkk_types'])];
 		$sun_spectral_type = $sun_type['spectral_types'][array_rand($sun_type['spectral_types'])];
 		$sun_type_code     = $sun_type['type'].'-'.$system_types['spectral_types']['type_'.$sun_spectral_type]['type'];
-		$sun_name          = Base::getRandomCharacters(['num'=>$common['system_name_chars'],'upper'=>true]).'-'.Base::getRandomCharacters(['num'=>$common['system_name_nums'],'numbers'=>true]);
+		$sun_name          = OTools::getRandomCharacters(['num'=>$common['system_name_chars'],'upper'=>true]).'-'.OTools::getRandomCharacters(['num'=>$common['system_name_nums'],'numbers'=>true]);
 		$num_planets       = rand($sun_type['min_planets'], $sun_type['max_planets']);
 		$sun_radius        = rand($sun_type['min_radius'],  $sun_type['max_radius']);
 
@@ -171,7 +171,7 @@ class systemService extends OService{
 
 				$moon_has_npc = false;
 				if ($npcs<$common['max_npc']){
-					$npc_prob = rand(1,$c->getExtra('npc_prob'));
+					$npc_prob = rand(1,$core->config->getExtra('npc_prob'));
 					if ($npc_prob==1){
 						$npc = $this->getController()->npc_service->generateNPC($s);
 						$m->set('id_npc', $npc->get('id'));
@@ -183,7 +183,7 @@ class systemService extends OService{
 				$moon_resource_list  = [];
 				if (!$moon_has_npc){
 					// Resources
-					$resource_types = Base::getCache('resource');
+					$resource_types = OTools::getCache('resource');
 					$num_resources  = rand(0, $common['max_sell_resources']);
 					if ($num_resources>0) {
 						while (count($moon_resource_list) < $num_resources) {
