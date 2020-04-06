@@ -1,7 +1,10 @@
 <?php
 class systemService extends OService{
-	function __construct($controller=null){
-		$this->setController($controller);
+	private $npc_service;
+
+	function __construct(){
+		$this->loadService();
+		$this->npc_service = new npcService();
 	}
 
 	public function generateSystem($player){
@@ -97,7 +100,7 @@ class systemService extends OService{
 			if ($npcs<$common['max_npc']){
 				$npc_prob = rand(1, $common['npc_prob']);
 				if ($npc_prob==1){
-					$npc = $this->getController()->npc_service->generateNPC($s);
+					$npc = $this->npc_service->generateNPC($s);
 					$p->set('id_npc', $npc->get('id'));
 					$npcs++;
 					$planet_has_npc = true;
@@ -173,7 +176,7 @@ class systemService extends OService{
 				if ($npcs<$common['max_npc']){
 					$npc_prob = rand(1,$core->config->getExtra('npc_prob'));
 					if ($npc_prob==1){
-						$npc = $this->getController()->npc_service->generateNPC($s);
+						$npc = $this->npc_service->generateNPC($s);
 						$m->set('id_npc', $npc->get('id'));
 						$npcs++;
 						$moon_has_npc = true;
@@ -229,7 +232,7 @@ class systemService extends OService{
 
 	public function getCharactersInSystem($id_player, $id_system){
 		$characters = [];
-		$db = $this->getController()->getDB();
+		$db = new ODB();
 
 		// Jugadores
 		$sql = "SELECT * FROM `player` WHERE `id_system` = ? AND `id` != ?";

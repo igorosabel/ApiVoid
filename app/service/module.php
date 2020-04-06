@@ -1,7 +1,7 @@
 <?php
 class moduleService extends OService{
-	function __construct($controller=null){
-		$this->setController($controller);
+	function __construct(){
+		$this->loadService();
 	}
 
 	public function generateModule($player = null, $npc = null, $ship = null, $module_type = null, $id_type = null){
@@ -71,7 +71,7 @@ class moduleService extends OService{
 	}
 
 	public function getSellModules($player, $npc){
-		$db = $this->getController()->getDb();
+		$db = new ODB();
     $sql = "SELECT * FROM `module` WHERE `id_player` = ? AND `id_ship` IS NULL";
 	  $db->query($sql, [$player->get('id')]);
 	  $ret = [];

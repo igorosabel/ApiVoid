@@ -1,7 +1,10 @@
 <?php
 class shipService extends OService{
-  function __construct($controller=null){
-    $this->setController($controller);
+  private $module_service;
+
+  function __construct(){
+    $this->loadService();
+    $this->module_service = new moduleService();
   }
 
   public function generateShip($player = null, $npc = null, $id_hull = null){
@@ -52,15 +55,15 @@ class shipService extends OService{
 
     // Módulos de la nave
     if (!is_null($player)){
-	    $shield = $this->getController()->module_service->generateModule($player, null, $ship, Module::SHIELD, $hull_type['id_shield']);
-	    $gun    = $this->getController()->module_service->generateModule($player, null, $ship, Module::GUN,    $hull_type['id_gun']);
+	    $shield = $this->module_service->generateModule($player, null, $ship, Module::SHIELD, $hull_type['id_shield']);
+	    $gun    = $this->module_service->generateModule($player, null, $ship, Module::GUN,    $hull_type['id_gun']);
     }
 
     return $ship;
   }
 
   public function getSellShips($player, $ship, $npc){
-    $db = $this->getController()->getDb();
+    $db = new ODB();
     $sql = "SELECT * FROM `ship` WHERE `id_player` = ? AND `id` != ?";
 	  $db->query($sql, [$player->get('id'), $ship->get('id')]);
 	  $ret = [];

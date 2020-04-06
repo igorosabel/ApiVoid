@@ -1,11 +1,11 @@
 <?php
 class messageService extends OService{
-	function __construct($controller=null){
-		$this->setController($controller);
+	function __construct(){
+		$this->loadService();
 	}
 
   public function getUnreadMessages($id_player){
-    $db = $this->getController()->getDB();
+    $db = new ODB();
     $messages = [];
 
     $sql = "SELECT * FROM `message` WHERE `id_player_to` = ? AND `is_read` = 0 ORDER BY `updated_at` DESC";

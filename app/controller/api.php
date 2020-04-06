@@ -9,13 +9,13 @@ class api extends OController{
 	public $job_service      = null;
 
 	function __construct(){
-		$this->ship_service     = new shipService($this);
-		$this->system_service   = new systemService($this);
-		$this->module_service   = new moduleService($this);
-		$this->npc_service      = new npcService($this);
-		$this->message_service  = new messageService($this);
-		$this->resource_service = new resourceService($this);
-		$this->job_service      = new jobService($this);
+		$this->ship_service     = new shipService();
+		$this->system_service   = new systemService();
+		$this->module_service   = new moduleService();
+		$this->npc_service      = new npcService();
+		$this->message_service  = new messageService();
+		$this->resource_service = new resourceService();
+		$this->job_service      = new jobService();
 	}
 
 	/*

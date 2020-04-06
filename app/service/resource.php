@@ -1,11 +1,11 @@
 <?php
 class resourceService extends OService{
-  function __construct($controller=null){
-    $this->setController($controller);
+  function __construct(){
+    $this->loadService();
   }
 
   public function getSellResources($ship, $npc){
-    $db = $this->getController()->getDb();
+    $db = new ODB();
     $resources = OTools::getCache('resource');
     $sql = "SELECT * FROM `ship_resource` WHERE `id_ship` = ?";
     $db->query($sql, [$ship->get('id')]);

@@ -1,7 +1,12 @@
 <?php
 class npcService extends OService{
-  function __construct($controller=null){
-    $this->setController($controller);
+  public $ship_service     = null;
+  public $module_service   = null;
+
+  function __construct(){
+    $this->loadService();
+    $this->ship_service   = new shipService();
+    $this->module_service = new moduleService();
   }
 
   public function generateRace(){
@@ -45,7 +50,7 @@ class npcService extends OService{
 			$hull = $hull_types['hull_types'][array_rand($hull_types['hull_types'])];
 			if (!in_array($hull['id'], $hull_list)){
 				array_push($hull_list, $hull['id']);
-				$ship = $this->getController()->ship_service->generateShip(null, $npc, $hull['id']);
+				$ship = $this->ship_service->generateShip(null, $npc, $hull['id']);
 
 				$npc_ship = new NPCShip();
 				$npc_ship->set('id_npc', $npc->get('id'));
@@ -62,7 +67,7 @@ class npcService extends OService{
     $num_modules = rand(0, $common['max_sell_modules']);
     if ($num_modules>0){
 		for ($i=1; $i<=$num_modules; $i++){
-			$module = $this->getController()->module_service->generateModule(null, $npc);
+			$module = $this->module_service->generateModule(null, $npc);
 
 			$npc_module = new NPCModule();
 			$npc_module->set('id_npc', $npc->get('id'));
