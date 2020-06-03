@@ -1,10 +1,28 @@
-<?php
-class moduleService extends OService{
-	function __construct(){
+<?php declare(strict_types=1);
+class moduleService extends OService {
+	/**
+	 * Load service tools
+	 */
+	function __construct() {
 		$this->loadService();
 	}
 
-	public function generateModule($player = null, $npc = null, $ship = null, $module_type = null, $id_type = null){
+	/**
+	 * Crea un nuevo módulo y lo devuelve
+	 *
+	 * @param Player $player Jugador para el que crear el módulo, nulo si es para un NPC
+	 *
+	 * @param NPC $npc NPC para el que crear el módulo, nulo si es para un jugador
+	 *
+	 * @param Ship $ship Nava para la que crear el módulo, nulo si es para un NPC
+	 *
+	 * @param int $module_type Tipo de módulo a crear, nulo para crear uno aleatorio
+	 *
+	 * @param int $id_type Módelo de módulo a crear dentro de un tipo, nulo para crear uno aleatorio
+	 *
+	 * @return Module Nuevo módulo creado
+	 */
+	public function generateModule(Player $player = null, NPC $npc = null, Ship $ship = null, int $module_type = null, int $id_type = null): Module {
 		$id_player   = (!is_null($player)) ? $player->get('id') : null;
 		$id_npc      = (!is_null($npc)) ? $npc->get('id') : null;
 		$id_ship     = (!is_null($ship)) ? $ship->get('id') : null;
@@ -15,7 +33,7 @@ class moduleService extends OService{
 	    $module->set('id_npc',    $id_npc);
 	    $module->set('id_ship',   $id_ship);
 
-		switch ($module_type){
+		switch ($module_type) {
 			case Module::ENGINE : {
 				$engine_types = OTools::getCache('engine');
 				$id_type      = (!is_null($id_type)) ? $id_type : rand(1, count($engine_types['engine_types']));
@@ -70,22 +88,31 @@ class moduleService extends OService{
 	    return $module;
 	}
 
-	public function getSellModules($player, $npc){
+	/**
+	 * Obtiene la lista de módulos que un jugador puede vender
+	 *
+	 * @param Player $player Jugador del que obtener la lista
+	 *
+	 * @param NPC $npc NPC al que se quiere hacer la venta
+	 *
+	 * @return array Lista de módulos
+	 */
+	public function getSellModules(Player $player, NPC $npc): array {
 		$db = new ODB();
-    $sql = "SELECT * FROM `module` WHERE `id_player` = ? AND `id_ship` IS NULL";
-	  $db->query($sql, [$player->get('id')]);
-	  $ret = [];
+    	$sql = "SELECT * FROM `module` WHERE `id_player` = ? AND `id_ship` IS NULL";
+		$db->query($sql, [$player->get('id')]);
+		$ret = [];
 
-    while ($res = $db->next()){
-      $module = new Module();
-      $module->update($res);
+		while ($res = $db->next()) {
+			$module = new Module();
+			$module->update($res);
 
 			$credits = $module->get('credits') * (1 + ($npc->get('margin')/100));
-	    $module->set('credits', $credits);
+			$module->set('credits', $credits);
 
-      array_push($ret, $module);
-    }
+			array_push($ret, $module);
+		}
 
-	  return $ret;
+		return $ret;
 	}
 }

@@ -1,6 +1,9 @@
-<?php
-class System extends OModel{
-	function __construct(){
+<?php declare(strict_types=1);
+class System extends OModel {
+	/**
+	 * Configures current model object based on data-base table structure
+	 */
+	function __construct() {
 		$table_name  = 'system';
 		$model = [
 			'id' => [
@@ -74,24 +77,41 @@ class System extends OModel{
 		parent::load($table_name, $model);
 	}
 
-	private $planets = null;
+	private ?array $planets = null;
 
-	public function getPlanets(){
-		if (is_null($this->planets)){
+	/**
+	 * Obtiene la lista de planetas del sistema
+	 *
+	 * @return array Lista de planetas
+	 */
+	public function getPlanets(): array {
+		if (is_null($this->planets)) {
 			$this->loadPlanets();
 		}
 		return $this->planets;
 	}
 
-	public function setPlanets($planets){
+	/**
+	 * Guarda la lista de planetas del sistema
+	 *
+	 * @param array $planets Lista de planetas
+	 *
+	 * @return void
+	 */
+	public function setPlanets(array $planets): void {
 		$this->planets = $planets;
 	}
 
-	public function loadPlanets(){
+	/**
+	 * Carga la lista de planetas del sistema
+	 *
+	 * @return void
+	 */
+	public function loadPlanets(): void {
 		$sql = "SELECT * FROM `planet` WHERE `id_system` = ?";
 		$this->db->query($sql, [$this->get('id')]);
 		$planets = [];
-		while($res = $this->db->next()){
+		while ($res = $this->db->next()) {
 			$planet = new Planet();
 			$planet->update($res);
 			array_push($planets, $planet);
@@ -99,24 +119,41 @@ class System extends OModel{
 		$this->setPlanets($planets);
 	}
 
-	private $connections = null;
+	private ?array $connections = null;
 
-	public function getConnections(){
-		if (is_null($this->connections)){
+	/**
+	 * Obtiene la lista de conexiones del sistema
+	 *
+	 * @return array Lista de conexiones
+	 */
+	public function getConnections(): array {
+		if (is_null($this->connections)) {
 			$this->loadConnections();
 		}
 		return $this->connections;
 	}
 
-	public function setConnections($connections){
+	/**
+	 * Guarda la lista de conexiones del sistema
+	 *
+	 * @param array $connections Lista de conexiones
+	 *
+	 * @return void
+	 */
+	public function setConnections(array $connections): void {
 		$this->connections = $connections;
 	}
 
-	public function loadConnections(){
+	/**
+	 * Carga la lista de conexiones del sistema
+	 *
+	 * @return void
+	 */
+	public function loadConnections(): void {
 		$sql = "SELECT * FROM `connection` WHERE `id_system_start` = ? ORDER BY `order`";
 		$this->db->query($sql, [$this->get('id')]);
 		$connections = [];
-		while($res = $this->db->next()){
+		while ($res = $this->db->next()) {
 			$connection = new Connection();
 			$connection->update($res);
 			array_push($connections, $connection);
@@ -124,20 +161,37 @@ class System extends OModel{
 		$this->setConnections($connections);
 	}
 
-	private $discoverer = null;
+	private ?Player $discoverer = null;
 
-	public function getDiscoverer(){
-		if (is_null($this->discoverer)){
+	/**
+	 * Obtiene el jugador descubridor del sistema
+	 *
+	 * @return Player Jugador descubridor del sistema
+	 */
+	public function getDiscoverer(): Player {
+		if (is_null($this->discoverer)) {
 			$this->loadDiscoverer();
 		}
 		return $this->discoverer;
 	}
 
-	public function setDiscoverer($discoverer){
+	/**
+	 * Guarda el jugador descubridor del sistema
+	 *
+	 * @param Player Jugador descubridor del sistema
+	 *
+	 * @return void
+	 */
+	public function setDiscoverer(Player $discoverer): void {
 		$this->discoverer = $discoverer;
 	}
 
-	public function loadDiscoverer(){
+	/**
+	 * Carga el jugador descubridor del sistema
+	 *
+	 * @return void
+	 */
+	public function loadDiscoverer(): void {
 		$sql = "SELECT * FROM `player` WHERE `id` = ?";
 		$this->db->query($sql, [$this->get('id_player')]);
 		$res = $this->db->next();
@@ -148,32 +202,61 @@ class System extends OModel{
 		$this->setDiscoverer($discoverer);
 	}
 
-	private $system_type_name = null;
-	private $system_type_color = null;
+	private ?string $system_type_name = null;
+	private ?string $system_type_color = null;
 
-	public function getTypeName(){
-		if (is_null($this->system_type_name)){
+	/**
+	 * Obtiene el nombre del tipo de sistema
+	 *
+	 * @return string Nombre del tipo de sistema
+	 */
+	public function getTypeName(): string {
+		if (is_null($this->system_type_name)) {
 			$this->loadSystemType();
 		}
 		return $this->system_type_name;
 	}
 
-	public function setTypeName($system_type_name){
+	/**
+	 * Guarda el nombre del tipo de sistema
+	 *
+	 * @param string $system_type_name Nombre del tipo de sistema
+	 *
+	 * @return void
+	 */
+	public function setTypeName(string $system_type_name): void {
 		$this->system_type_name = $system_type_name;
 	}
 
-	public function getTypeColor(){
-		if (is_null($this->system_type_color)){
+	/**
+	 * Obtiene el color del tipo de sistema
+	 *
+	 * @return string Color del tipo de sistema
+	 */
+	public function getTypeColor(): string {
+		if (is_null($this->system_type_color)) {
 			$this->loadSystemType();
 		}
 		return $this->system_type_color;
 	}
 
-	public function setTypeColor($system_type_color){
+	/**
+	 * Guarda el color del tipo de sistema
+	 *
+	 * @param string $system_type_color Color del tipo de sistema
+	 *
+	 * @return void
+	 */
+	public function setTypeColor(string $system_type_color): void {
 		$this->system_type_color = $system_type_color;
 	}
 
-	public function loadSystemType(){
+	/**
+	 * Carga el nombre y color del tipo de sistema
+	 *
+	 * @return void
+	 */
+	public function loadSystemType(): void {
 		$type_data = explode('-', $this->get('type'));
 		$system = OTools::getCache('system');
 
@@ -181,7 +264,7 @@ class System extends OModel{
 		$stype = $system['mkk_types'][$key];
 		$this->setTypeName($stype['name']);
 
-		foreach ($system['spectral_types'] as $stype){
+		foreach ($system['spectral_types'] as $stype) {
 			if ($stype['type']==$type_data[1]){
 				$this->setTypeColor($stype['color']);
 				break;
@@ -189,7 +272,12 @@ class System extends OModel{
 		}
 	}
 
-	public function getSystemInfoLink(){
+	/**
+	 * Obtiene la URL de información del tipo de sistema
+	 *
+	 * @return string URL de información
+	 */
+	public function getSystemInfoLink(): string {
 		$system = OTools::getCache('system');
 		return $system['info'];
 	}

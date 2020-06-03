@@ -1,6 +1,9 @@
-<?php
-class Planet extends OModel{
-	function __construct(){
+<?php declare(strict_types=1);
+class Planet extends OModel {
+	/**
+	 * Configures current model object based on data-base table structure
+	 */
+	function __construct() {
 		$table_name  = 'planet';
 		$model = [
 			'id' => [
@@ -98,24 +101,41 @@ class Planet extends OModel{
 		parent::load($table_name, $model);
 	}
 
-	private $moons = null;
+	private ?array $moons = null;
 
-	public function getMoons(){
-		if (is_null($this->moons)){
+	/**
+	 * Obtiene la lista de lunas del planeta
+	 *
+	 * @return array Lista de lunas
+	 */
+	public function getMoons(): array {
+		if (is_null($this->moons)) {
 			$this->loadMoons();
 		}
 		return $this->moons;
 	}
 
-	public function setMoons($moons){
+	/**
+	 * Guarda la lista de lunas del planeta
+	 *
+	 * @param array $moons Lista de lunas
+	 *
+	 * @return void
+	 */
+	public function setMoons(array $moons): void {
 		$this->moons = $moons;
 	}
 
-	public function loadMoons(){
+	/**
+	 * Carga la lista de lunas del planeta
+	 *
+	 * @return void
+	 */
+	public function loadMoons(): void {
 		$sql = "SELECT * FROM `moon` WHERE `id_planet` = ?";
 		$this->db->query($sql, [$this->get('id')]);
 		$moons = [];
-		while($res = $this->db->next()){
+		while($res = $this->db->next()) {
 			$moon = new Moon();
 			$moon->update($res);
 			array_push($moons, $moon);
@@ -123,24 +143,41 @@ class Planet extends OModel{
 		$this->setMoons($moons);
 	}
 
-	private $resources = null;
+	private ?array $resources = null;
 
-	public function getResources(){
-		if (is_null($this->resources)){
+	/**
+	 * Obtiene la lista de recursos del planeta
+	 *
+	 * @return array Lista de recursos
+	 */
+	public function getResources(): array {
+		if (is_null($this->resources)) {
 			$this->loadResources();
 		}
 		return $this->resources;
 	}
 
-	public function setResources($resources){
+	/**
+	 * Guarda la lista de recursos del planeta
+	 *
+	 * @param array $resources Lista de recursos
+	 *
+	 * @return void
+	 */
+	public function setResources(array $resources): void {
 		$this->resources = $resources;
 	}
 
-	public function loadResources(){
+	/**
+	 * Carga la lista de recursos del planeta
+	 *
+	 * @return void
+	 */
+	public function loadResources(): void {
 		$sql = "SELECT * FROM `resource` WHERE `id_planet` = ?";
 		$this->db->query($sql, [$this->get('id')]);
 		$resources = [];
-		while($res = $this->db->next()){
+		while ($res = $this->db->next()) {
 			$resource = new Resource();
 			$resource->update($res);
 			array_push($resources, $resource);
@@ -148,51 +185,97 @@ class Planet extends OModel{
 		$this->setResources($resources);
 	}
 
-	private $planet_type_name = null;
-	private $planet_type_url  = null;
+	private ?string $planet_type_name = null;
+	private ?string $planet_type_url  = null;
 
-	public function getTypeName(){
-		if (is_null($this->planet_type_name)){
+	/**
+	 * Obtiene el nombre del tipo de planeta
+	 *
+	 * @return string Nombre del tipo de planeta
+	 */
+	public function getTypeName(): string {
+		if (is_null($this->planet_type_name)) {
 			$this->loadPlanetType();
 		}
 		return $this->planet_type_name;
 	}
 
-	public function setTypeName($planet_type_name){
+	/**
+	 * Guarda el nombre del tipo de planeta
+	 *
+	 * @param string $planet_type_name Nombre del tipo de planeta
+	 *
+	 * @return void
+	 */
+	public function setTypeName(string $planet_type_name): void {
 		$this->planet_type_name = $planet_type_name;
 	}
 
-	public function getTypeURL(){
-		if (is_null($this->planet_type_url)){
+	/**
+	 * Obtiene la URL del tipo de planeta
+	 *
+	 * @return string URL del tipo de planeta
+	 */
+	public function getTypeURL(): string {
+		if (is_null($this->planet_type_url)) {
 			$this->loadPlanetType();
 		}
 		return $this->planet_type_url;
 	}
 
-	public function setTypeURL($planet_type_url){
+	/**
+	 * Guarda la URL del tipo de planeta
+	 *
+	 * @param string $planet_type_url URL del tipo de planeta
+	 *
+	 * @return void
+	 */
+	public function setTypeURL(string $planet_type_url): void {
 		$this->planet_type_url = $planet_type_url;
 	}
 
-	public function loadPlanetType(){
+	/**
+	 * Carga el nombre y la URL del tipo de planeta
+	 *
+	 * @return void
+	 */
+	public function loadPlanetType(): void {
 		$planet_types = OTools::getCache('planet');
 		$this->setTypeName($planet_types['planet_types']['type_'.$this->get('type')]['type']);
 		$this->setTypeURL($planet_types['planet_types']['type_'.$this->get('type')]['url']);
 	}
 
-	private $npc = null;
+	private ?NPC $npc = null;
 
-	public function getNPC(){
-		if (is_null($this->npc)){
+	/**
+	 * Obtiene el NPC del planeta
+	 *
+	 * @return NPC NPC del planeta
+	 */
+	public function getNPC(): NPC {
+		if (is_null($this->npc)) {
 			$this->loadNPC();
 		}
 		return $this->npc;
 	}
-	
-	public function setNPC($npc){
+
+	/**
+	 * Guarda el NPC del planeta
+	 *
+	 * @param NPC $npc NPC del planeta
+	 *
+	 * @return void
+	 */
+	public function setNPC(NPC $npc): void {
 		$this->npc = $npc;
 	}
-	
-	public function loadNPC(){
-		
+
+	/**
+	 * Carga el NPC del planeta
+	 *
+	 * @return void
+	 */
+	public function loadNPC(): void {
+
 	}
 }

@@ -1,13 +1,23 @@
-<?php
-class systemService extends OService{
-	private $npc_service;
+<?php declare(strict_types=1);
+class systemService extends OService {
+	private ?npcService $npc_service = null;
 
-	function __construct(){
+	/**
+	 * Load service tools
+	 */
+	function __construct() {
 		$this->loadService();
 		$this->npc_service = new npcService();
 	}
 
-	public function generateSystem($player){
+	/**
+	 * Crea un nuevo sistema para el jugador indicado
+	 *
+	 * @param Player $player Jugador para el que crear el sistema
+	 *
+	 * @return System Nuevo sistema creado
+	 */
+	public function generateSystem(Player $player): System {
 		global $core;
 
 		$common            = OTools::getCache('common');
@@ -51,7 +61,7 @@ class systemService extends OService{
 		//echo "-------------------------------------------------------------------------------------\n\n";
 
 		// Creo los planetas del sistema
-		for ($i=1; $i<=$num_planets; $i++){
+		for ($i=1; $i<=$num_planets; $i++) {
 			$p = new Planet();
 
 			$planet_name = $sun_name.'-'.$i;
@@ -86,7 +96,7 @@ class systemService extends OService{
 			$p->set('explore_time', $planet_explore_time);
 
 			$planet_distance = rand($planet_type['min_distance'], $planet_type['max_distance']);
-			while (in_array($planet_distance, $planet_distances)){
+			while (in_array($planet_distance, $planet_distances)) {
 				$planet_distance = rand($planet_type['min_distance'], $planet_type['max_distance']);
 			}
 			array_push($planet_distances, $planet_distance);
@@ -97,9 +107,9 @@ class systemService extends OService{
 
 			// NPC
 			$planet_has_npc = false;
-			if ($npcs<$common['max_npc']){
+			if ($npcs<$common['max_npc']) {
 				$npc_prob = rand(1, $common['npc_prob']);
-				if ($npc_prob==1){
+				if ($npc_prob==1) {
 					$npc = $this->npc_service->generateNPC($s);
 					$p->set('id_npc', $npc->get('id'));
 					$npcs++;
@@ -108,13 +118,13 @@ class systemService extends OService{
 			}
 
 			$planet_resource_list  = [];
-			if (!$planet_has_npc){
+			if (!$planet_has_npc) {
 				// Resources
 				$num_resources  = rand(0, $common['max_sell_resources']);
 				if ($num_resources>0) {
 					while (count($planet_resource_list) < $num_resources) {
 						$resource = $resource_types['resources'][array_rand($resource_types['resources'])];
-						if (!array_key_exists($resource['id'], $planet_resource_list)){
+						if (!array_key_exists($resource['id'], $planet_resource_list)) {
 							$planet_resource_list[$resource['id']] = rand($resource['min'], $resource['max']);
 						}
 					}
@@ -123,8 +133,8 @@ class systemService extends OService{
 
 			$p->save();
 
-			if (count($planet_resource_list)>0){
-				foreach ($planet_resource_list as $resource_id=>$value){
+			if (count($planet_resource_list)>0) {
+				foreach ($planet_resource_list as $resource_id=>$value) {
 					$planet_resource = new Resource();
 					$planet_resource->set('id_planet', $p->get('id'));
 					$planet_resource->set('id_moon',   null);
@@ -138,7 +148,7 @@ class systemService extends OService{
 			$moon_distances = [];
 
 			// Creo las lunas del planeta
-			for ($j=1; $j<=$num_moons; $j++){
+			for ($j=1; $j<=$num_moons; $j++) {
 				$m = new Moon();
 
 				$moon_name = $planet_name.'-L'.$j;
@@ -161,7 +171,7 @@ class systemService extends OService{
 				//echo "    RADIUS: ".$moon_radius."\n";
 
 				$moon_distance = rand(1, $num_moons);
-				while (in_array($moon_distance, $moon_distances)){
+				while (in_array($moon_distance, $moon_distances)) {
 					$moon_distance = rand(1, $num_moons);
 				}
 				array_push($moon_distances, $moon_distance);
@@ -173,9 +183,9 @@ class systemService extends OService{
 				$m->set('explore_time', $moon_explore_time);
 
 				$moon_has_npc = false;
-				if ($npcs<$common['max_npc']){
+				if ($npcs<$common['max_npc']) {
 					$npc_prob = rand(1,$core->config->getExtra('npc_prob'));
-					if ($npc_prob==1){
+					if ($npc_prob==1) {
 						$npc = $this->npc_service->generateNPC($s);
 						$m->set('id_npc', $npc->get('id'));
 						$npcs++;
@@ -184,14 +194,14 @@ class systemService extends OService{
 				}
 
 				$moon_resource_list  = [];
-				if (!$moon_has_npc){
+				if (!$moon_has_npc) {
 					// Resources
 					$resource_types = OTools::getCache('resource');
 					$num_resources  = rand(0, $common['max_sell_resources']);
 					if ($num_resources>0) {
 						while (count($moon_resource_list) < $num_resources) {
 							$resource = $resource_types['resources'][array_rand($resource_types['resources'])];
-							if (!array_key_exists($resource['id'], $moon_resource_list)){
+							if (!array_key_exists($resource['id'], $moon_resource_list)) {
 								$moon_resource_list[$resource['id']] = rand($resource['min'], $resource['max']);
 							}
 						}
@@ -202,8 +212,8 @@ class systemService extends OService{
 
 				$m->save();
 
-				if (count($moon_resource_list)>0){
-					foreach ($moon_resource_list as $resource_id=>$value){
+				if (count($moon_resource_list)>0) {
+					foreach ($moon_resource_list as $resource_id=>$value) {
 						$planet_resource = new Resource();
 						$planet_resource->set('id_planet', null);
 						$planet_resource->set('id_moon',   $m->get('id'));
@@ -218,7 +228,7 @@ class systemService extends OService{
 
 		// Conexiones
 		$num_connections = rand(1, $common['system_max_connections']);
-		for ($i=1; $i<=$num_connections; $i++){
+		for ($i=1; $i<=$num_connections; $i++) {
 			$conn = new Connection();
 			$conn->set('id_system_start', $s->get('id'));
 			$conn->set('id_system_end', null);
@@ -230,14 +240,23 @@ class systemService extends OService{
 		return $s;
 	}
 
-	public function getCharactersInSystem($id_player, $id_system){
+	/**
+	 * Obtiene la lista de jugadores y NPC de un sistema
+	 *
+	 * @param int $id_player Id del jugador para descartarlo del resto
+	 *
+	 * @param int $id_system Id del sistema
+	 *
+	 * @return array Lista de otros jugadores y NPCs del sistema indicado
+	 */
+	public function getCharactersInSystem(int $id_player, int $id_system): array {
 		$characters = [];
 		$db = new ODB();
 
 		// Jugadores
 		$sql = "SELECT * FROM `player` WHERE `id_system` = ? AND `id` != ?";
 		$db->query($sql, [$id_system, $id_player]);
-		while ($res = $db->next()){
+		while ($res = $db->next()) {
 			$player = new Player();
 			$player->update($res);
 			$char = [
@@ -251,7 +270,7 @@ class systemService extends OService{
 		// NPC
 		$sql = "SELECT * FROM `npc` WHERE `id_system` = ? AND `found` = 1";
 		$db->query($sql, [$id_system]);
-		while ($res = $db->next()){
+		while ($res = $db->next()) {
 			$npc = new NPC();
 			$npc->update($res);
 			$char = [

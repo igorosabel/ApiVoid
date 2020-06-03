@@ -1,70 +1,90 @@
-<?php
-class NPCShip extends OModel{
-  function __construct(){
-    $table_name  = 'npc_ship';
-    $model = [
-      'id_npc' => [
-        'type'    => OCore::PK,
-        'incr' => false,
-        'ref' => 'npc.id',
-        'comment' => 'Id del NPC que hace la venta'
-      ],
-      'id_ship' => [
-        'type'    => OCore::PK,
-        'incr' => false,
-        'ref' => 'ship.id',
-        'comment' => 'Id de la nave que vende'
-      ],
-      'start_value' => [
-        'type'    => OCore::NUM,
-        'nullable' => false,
-        'default' => null,
-        'comment' => 'Cantidad inicial de naves que vende'
-      ],
-      'value' => [
-        'type'    => OCore::NUM,
-        'nullable' => false,
-        'default' => null,
-        'comment' => 'Cantidad de naves que le quedan disponibles'
-      ],
-      'created_at' => [
-        'type'    => OCore::CREATED,
-        'comment' => 'Fecha de creación del registro'
-      ],
-      'updated_at' => [
-        'type'    => OCore::UPDATED,
-        'nullable' => true,
-        'default' => null,
-        'comment' => 'Fecha de última modificación del registro'
-      ]
-    ];
+<?php declare(strict_types=1);
+class NPCShip extends OModel {
+	/**
+	 * Configures current model object based on data-base table structure
+	 */
+	function __construct() {
+		$table_name  = 'npc_ship';
+		$model = [
+			'id_npc' => [
+				'type'    => OCore::PK,
+				'incr' => false,
+				'ref' => 'npc.id',
+				'comment' => 'Id del NPC que hace la venta'
+			],
+			'id_ship' => [
+				'type'    => OCore::PK,
+				'incr' => false,
+				'ref' => 'ship.id',
+				'comment' => 'Id de la nave que vende'
+			],
+			'start_value' => [
+				'type'    => OCore::NUM,
+				'nullable' => false,
+				'default' => null,
+				'comment' => 'Cantidad inicial de naves que vende'
+			],
+			'value' => [
+				'type'    => OCore::NUM,
+				'nullable' => false,
+				'default' => null,
+				'comment' => 'Cantidad de naves que le quedan disponibles'
+			],
+			'created_at' => [
+				'type'    => OCore::CREATED,
+				'comment' => 'Fecha de creación del registro'
+			],
+			'updated_at' => [
+				'type'    => OCore::UPDATED,
+				'nullable' => true,
+				'default' => null,
+				'comment' => 'Fecha de última modificación del registro'
+			]
+		];
 
-    parent::load($table_name, $model);
-  }
+		parent::load($table_name, $model);
+	}
 
-  private $ship = null;
+	private ?Ship $ship = null;
 
-  public function getShip(){
-    if (is_null($this->ship)){
-      $this->loadShip();
-    }
-    return $this->ship;
-  }
+	/**
+	 * Obtiene la nave del NPC
+	 *
+	 * @return Ship Nave del NPC
+	 */
+	public function getShip(): Ship {
+		if (is_null($this->ship)) {
+			$this->loadShip();
+		}
+		return $this->ship;
+	}
 
-  public function setShip($ship){
-    $this->ship = $ship;
-  }
+	/**
+	 * Guarda la nave del NPC
+	 *
+	 * @param Ship $ship Nave del NPC
+	 *
+	 * @return void
+	 */
+	public function setShip(Ship $ship): void {
+		$this->ship = $ship;
+	}
 
-  public function loadShip(){
-    $sql = "SELECT * FROM `ship` WHERE `id` = ?";
-    $this->db->query($sql, [$this->get('id_ship')]);
-    $res = $this->db->next();
+	/**
+	 * Carga la nave del NPC
+	 *
+	 * @return void
+	 */
+	public function loadShip(): void {
+		$sql = "SELECT * FROM `ship` WHERE `id` = ?";
+		$this->db->query($sql, [$this->get('id_ship')]);
+		$res = $this->db->next();
 
-    $ship = new Ship();
-    $ship->update($res);
-    $credits = $ship->get('credits') * (1 + ($margin/100));
-    $ship->set('credits', $credits);
+		$ship = new Ship();
+		$ship->update($res);
+		$credits = $ship->get('credits') * (1 + ($margin/100));
+		$ship->set('credits', $credits);
 
-    $this->setShip($ship);
-  }
+		$this->setShip($ship);
+	}
 }

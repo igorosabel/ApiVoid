@@ -1,12 +1,12 @@
 {
-  "status": "{{status}}",
-  "ships": [
+	"status": "{{status}}",
+	"ships": [
 {{ships}}
-  ],
-  "modules": [
+	],
+	"modules": [
 {{modules}}
-  ],
-  "resources": [
+	],
+	"resources": [
 {{resources}}
-  ]
+	]
 }

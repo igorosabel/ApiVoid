@@ -1,14 +1,14 @@
-<?php
-class api extends OController{
-	public $ship_service     = null;
-	public $system_service   = null;
-	public $module_service   = null;
-	public $npc_service      = null;
-	public $message_service  = null;
-	public $resource_service = null;
-	public $job_service      = null;
+<?php declare(strict_types=1);
+class api extends OController {
+	public ?shipService     $ship_service     = null;
+	public ?systemService   $system_service   = null;
+	public ?moduleService   $module_service   = null;
+	public ?npcService      $npc_service      = null;
+	public ?messageService  $message_service  = null;
+	public ?resourceService $resource_service = null;
+	public ?jobService      $job_service      = null;
 
-	function __construct(){
+	function __construct() {
 		$this->ship_service     = new shipService();
 		$this->system_service   = new systemService();
 		$this->module_service   = new moduleService();
@@ -18,31 +18,35 @@ class api extends OController{
 		$this->job_service      = new jobService();
 	}
 
-	/*
+	/**
 	 * Función para registrar un nuevo jugador
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
 	 */
-	function register($req){
+	function register(ORequest $req): void {
 		$status = 'ok';
-		$name   = OTools::getParam('name',  $req['params'], false);
-		$email  = OTools::getParam('email', $req['params'], false);
-		$pass   = OTools::getParam('pass',  $req['params'], false);
+		$name   = $req->getParamString('name');
+		$email  = $req->getParamString('email');
+		$pass   = $req->getParamString('pass');
 
 		$id    = 'null';
 		$token = '';
 
-		if ($name===false || $email===false || $pass===false){
+		if (is_null($name) || is_null($email) || is_null($pass)) {
 			$status = 'error';
 		}
 
-		if ($status=='ok'){
+		if ($status=='ok') {
 			$p = new Player();
-			if ($p->find(['name'=>$name])){
+			if ($p->find(['name'=>$name])) {
 				$status = 'name';
 			}
-			else if ($p->find(['email'=>$email])){
+			else if ($p->find(['email'=>$email])) {
 				$status = 'email';
 			}
-			else{
+			else {
 				$common  = OTools::getCache('common');
 				$credits = $common['credits'];
 
@@ -76,25 +80,29 @@ class api extends OController{
 		$this->getTemplate()->add('token',  $token);
 	}
 
-	/*
+	/**
 	 * Función para iniciar sesión
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
 	 */
-	function login($req){
+	function login(ORequest $req): void {
 		$status = 'ok';
-		$name   = OTools::getParam('name', $req['params'], false);
-		$pass   = OTools::getParam('pass', $req['params'], false);
+		$name   = $req->getParamString('name');
+		$pass   = $req->getParamString('pass');
 
 		$id    = 'null';
 		$token = '';
 
-		if ($name===false || $pass===false){
+		if (is_null($name) || is_null($pass)) {
 			$status = 'error';
 		}
 
-		if ($status=='ok'){
+		if ($status=='ok') {
 			$p = new Player();
-			if ($p->find(['name'=>$name])){
-				if (password_verify($pass, $p->get('pass'))){
+			if ($p->find(['name'=>$name])) {
+				if (password_verify($pass, $p->get('pass'))) {
 					$id = $p->get('id');
 
 					$tk = new OToken($this->getConfig()->getExtra('secret'));
@@ -103,11 +111,11 @@ class api extends OController{
 					$tk->addParam('exp', mktime() + (24 * 60 * 60));
 					$token = $tk->getToken();
 				}
-				else{
+				else {
 					$status = 'error';
 				}
 			}
-			else{
+			else {
 				$status = 'error';
 			}
 		}
@@ -118,12 +126,17 @@ class api extends OController{
 		$this->getTemplate()->add('token',  $token);
 	}
 
-	/*
+	/**
 	 * Función para obtener los datos del sistema actual
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
 	 */
-	function currentSystem($req){
+	function currentSystem(ORequest $req): void {
 		$status = 'ok';
-		if ($req['loginFilter']['status']!='ok'){
+		$filter = $req->getFilter('loginFilter');
+		if (is_null($filter) || $filter['status']!='ok') {
 			$status = 'error';
 		}
 		$system       = '';
@@ -135,11 +148,11 @@ class api extends OController{
 		$messages     = [];
 		$characters   = [];
 
-		if ($status=='ok'){
+		if ($status=='ok') {
 			$p = new Player();
-			$p->find(['id'=>$req['loginFilter']['id']]);
+			$p->find(['id'=>$filter['id']]);
 			$s = new System();
-			if ($s->find(['id'=>$p->get('id_system')])){
+			if ($s->find(['id'=>$p->get('id_system')])) {
 				$system      = $s->get('name');
 				$star        = $s->get('type');
 				$num_planets = $s->get('num_planets');
@@ -153,7 +166,7 @@ class api extends OController{
 				$messages   = $this->message_service->getUnreadMessages($p->get('id'));
 				$characters = $this->system_service->getCharactersInSystem($p->get('id'), $s->get('id'));
 			}
-			else{
+			else {
 				$status = 'navigate';
 			}
 		}
@@ -169,21 +182,26 @@ class api extends OController{
 		$this->getTemplate()->addPartial('characters', 'api/characters',     ['characters' => $characters, 'extra'=>'nourlencode']);
 	}
 
-	/*
+	/**
 	 * Función para obtener los datos de la tienda de un NPC
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
 	 */
-	function NPCShop($req){
+	function NPCShop(ORequest $req): void {
 		$status = 'ok';
-		$id     = OTools::getParam('id', $req['params'], false);
+		$id     = $req->getParamInt('id');
+		$filter = $req->getFilter('loginFilter');
 		$npc    = null;
 
-		if ($id===false || $req['loginFilter']['status']!='ok'){
+		if (is_null($id) || is_null($filter) || $filter['status']!='ok') {
 			$status = 'error';
 		}
 
-		if ($status=='ok'){
+		if ($status=='ok') {
 			$npc = new NPC();
-			if (!$npc->find(['id'=>$id])){
+			if (!$npc->find(['id'=>$id])) {
 				$status = 'error';
 			}
 		}
@@ -192,29 +210,34 @@ class api extends OController{
 		$this->getTemplate()->addPartial('npc', 'api/npc', ['npc' => $npc, 'extra'=>'nourlencode']);
 	}
 
-	/*
+	/**
 	 * Función para comprar un item de la tienda de un NPC
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
 	 */
-	function buy($req){
+	function buy(ORequest $req): void {
 		$status = 'ok';
-		$id_npc = OTools::getParam('idNPC', $req['params'], false);
-		$id     = OTools::getParam('id',    $req['params'], false);
-		$type   = OTools::getParam('type',  $req['params'], false);
-		$num    = OTools::getParam('num',   $req['params'], false);
+		$id_npc = $req->getParamInt('idNPC');
+		$id     = $req->getParamInt('id');
+		$type   = $req->getParamInt('type');
+		$num    = $req->getParamInt('num');
+		$filter = $req->getFilter('loginFilter');
 		$info   = '';
 
-		if ($req['loginFilter']['status']!='ok' || $id_npc===false || $id===false || $type===false || $num===false){
+		if (is_null($filter) || $filter['status']!='ok' || is_null($id_npc) || is_null($id) || is_null($type) || is_null($num)) {
 			$status = 'error';
 		}
 
-		if ($status=='ok'){
+		if ($status=='ok') {
 			$credits = 0;
 			$player = new Player();
-			$player->find(['id'=>$req['loginFilter']['id']]);
+			$player->find(['id'=>$filter['id']]);
 			$npc = new NPC();
 			$npc->find(['id'=>$id_npc]);
 
-			switch ($type){
+			switch ($type) {
 				case 1: {
 					$obj = new NPCShip();
 					$obj->find(['id_npc'=>$id_npc, 'id_ship'=>$id]);
@@ -227,7 +250,7 @@ class api extends OController{
 					$ship_credits = $ship->get('credits') * (1 + ($npc->get('margin')/100));
 
 					// Creo una copia para el jugador (por número de unidades que ha comprado)
-					for ($i=1; $i<=$num; $i++){
+					for ($i=1; $i<=$num; $i++) {
 						$new_ship = new Ship();
 						$new_ship->set('id_player',     $player->get('id'));
 						$new_ship->set('id_npc',        null);
@@ -268,7 +291,7 @@ class api extends OController{
 					$module_credits = $module->get('credits') * (1 + ($npc->get('margin')/100));
 
 					// Creo una copia para el jugador (por número de unidades que ha comprado)
-					for ($i=1; $i<=$num; $i++){
+					for ($i=1; $i<=$num; $i++) {
 						$new_module = new Module();
 						$new_module->set('id_player', $player->get('id'));
 						$new_module->set('id_npc',    null);
@@ -300,23 +323,25 @@ class api extends OController{
 
 					$ship = new Ship();
 					$ship->find(['id'=>$player->get('id_ship')]);
+
 					// Compruebo si tiene espacio para almacenar el recurso en la nave
-					if ($ship->get('cargo')<$num){
+					if ($ship->get('cargo')<$num) {
 						$status = 'no-room';
 						$info = $ship->get('cargo');
 					}
-					else{
+					else {
 						// Actualizo espacio restante en la nave
 						$ship->set('cargo', $ship->get('cargo') -$num);
 						$ship->save();
 
 						$ship_resource = new ShipResource();
+
 						// Compruebo si ya tiene ese recurso en la nave
-						if ($ship_resource->find(['id_ship'=>$ship->get('id'), 'type'=>$resource['id']])){
+						if ($ship_resource->find(['id_ship'=>$ship->get('id'), 'type'=>$resource['id']])) {
 							// Actualizo la cantidad del recurso que ya tiene en la nave
 							$ship_resource->set('value', $ship_resource->get('value') +$num);
 						}
-						else{
+						else {
 							// Creo un nuevo recurso en la nave
 							$ship_resource->set('id_ship', $ship->get('id'));
 							$ship_resource->set('type', $resource['id']);
@@ -331,7 +356,7 @@ class api extends OController{
 				break;
 			}
 
-			if ($status=='ok'){
+			if ($status=='ok') {
 				$obj->set('value', $obj->get('value') -$num);
 				$obj->save();
 
@@ -344,25 +369,30 @@ class api extends OController{
 		$this->getTemplate()->add('info',   $info);
 	}
 
-	/*
+	/**
 	 * Función para obtener los objetos que un jugador puede vender
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
 	 */
-	function getSellItems($req){
+	function getSellItems(ORequest $req): void {
 		$status    = 'ok';
-		$id_npc    = OTools::getParam('id', $req['params'], false);
+		$id_npc    = $req->getParamInt('id');
+		$filter    = $req->getFilter('loginFilter');
 		$ships     = [];
 		$modules   = [];
 		$resources = [];
 
-		if ($id_npc===false || $req['loginFilter']['status']!='ok'){
+		if (is_null($id_npc) || is_null($filter) || $filter['status']!='ok') {
 			$status = 'error';
 		}
 
-		if ($status=='ok'){
+		if ($status=='ok') {
 			$npc = new NPC();
 			$npc->find(['id'=>$id_npc]);
 			$player = new Player();
-			$player->find(['id'=>$req['loginFilter']['id']]);
+			$player->find(['id'=>$filter['id']]);
 			$ship = new Ship();
 			$ship->find(['id'=>$player->get('id_ship')]);
 
@@ -377,28 +407,33 @@ class api extends OController{
 		$this->getTemplate()->addPartial('resources', 'api/resources', ['resources'=>$resources, 'extra'=>'nourlencode']);
 	}
 
-	/*
+	/**
 	 * Función para vender un item del jugador a un NPC
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
 	 */
-	function sell($req){
+	function sell(ORequest $req): void {
 		$status = 'ok';
-		$id_npc = OTools::getParam('idNPC', $req['params'], false);
-		$id     = OTools::getParam('id',    $req['params'], false);
-		$type   = OTools::getParam('type',  $req['params'], false);
-		$num    = OTools::getParam('num',   $req['params'], false);
+		$filter = $req->getFilter('loginFilter');
+		$id_npc = $req->getParamInt('idNPC');
+		$id     = $req->getParamInt('id');
+		$type   = $req->getParamInt('type');
+		$num    = $req->getParamInt('num');
 
-		if ($req['loginFilter']['status']!='ok' || $id_npc===false || $id===false || $type===false || $num===false){
+		if (is_null($filter) || $filter['status']!='ok' || is_null($id_npc) || is_null($id) || is_null($type) || is_null($num)) {
 			$status = 'error';
 		}
 
-		if ($status=='ok'){
+		if ($status=='ok') {
 			$credits = 0;
 			$player = new Player();
-			$player->find(['id'=>$req['loginFilter']['id']]);
+			$player->find(['id'=>$filter['id']]);
 			$npc = new NPC();
 			$npc->find(['id'=>$id_npc]);
 
-			switch ($type){
+			switch ($type) {
 				case 1: {
 					// Cojo la nave del jugador
 					$ship = new Ship();
@@ -458,10 +493,10 @@ class api extends OController{
 					$ship_resource->set('value', $ship_resource->get('value') - $num);
 
 					// Si la cantidad final es 0, borro el recurso de la nave
-					if ($ship_resource->get('value')==0){
+					if ($ship_resource->get('value')==0) {
 						$ship_resource->delete();
 					}
-					else{
+					else {
 						$ship_resource->save();
 					}
 				}
@@ -472,22 +507,27 @@ class api extends OController{
 		$this->getTemplate()->add('status', $status);
 	}
 
-	/*
+	/**
 	 * Función para obtener la información de un sistema
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
 	 */
-	 function getSystemInfo($req){
+	 function getSystemInfo(ORequest $req): void {
 	 	$status = 'ok';
+		$filter = $req->getFilter('loginFilter');
 	 	$system = null;
 	 	$connections = [];
 	 	$id_player = 'null';
 
-	 	if ($req['loginFilter']['status']!='ok'){
+	 	if (is_null($filter) || $filter['status']!='ok') {
 	 		$status = 'error';
 		}
 
-		if ($status=='ok'){
+		if ($status=='ok') {
 			$player = new Player();
-			$player->find(['id'=>$req['loginFilter']['id']]);
+			$player->find(['id'=>$filter['id']]);
 			$id_player = $player->get('id');
 			$system = new System();
 			$system->find(['id'=>$player->get('id_system')]);
@@ -499,21 +539,26 @@ class api extends OController{
 		$this->getTemplate()->addPartial('system',      'api/system',      ['system' => $system, 'extra'=>'nourlencode']);
 		$this->getTemplate()->addPartial('connections', 'api/connections', ['connections' => $connections, 'extra'=>'nourlencode']);
 	}
- 
-	/*
-	 * Función para cambiar el nombre a un sistema, planeta o luna
-	 */
-	function editName($req){
-		$status = 'ok';
-		$id     = OTools::getParam('id', $req['params'], false);
-		$type   = OTools::getParam('type', $req['params'], false);
-		$name   = OTools::getParam('name', $req['params'], false);
 
-		if ($req['loginFilter']['status']!='ok' || $id===false || $type===false || $name===false){
+	/**
+	 * Función para cambiar el nombre a un sistema, planeta o luna
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
+	 */
+	function editName(ORequest $req): void {
+		$status = 'ok';
+		$filter = $req->getFilter('loginFilter');
+		$id     = $req->getParamInt('id');
+		$type   = $req->getParamInt('type');
+		$name   = $req->getParamInt('name');
+
+		if (is_null($filter) || $filter['status']!='ok' || is_null($id) || is_null($type) || is_null($name)) {
 			$status = 'error';
 		}
 
-		if ($status=='ok'){
+		if ($status=='ok') {
 			switch ($type){
 				case 'system': {
 					$obj = new System();
@@ -533,26 +578,31 @@ class api extends OController{
 			$obj->save();
 		}
 
-		$this->getTemplate()->add('status',    $status);
+		$this->getTemplate()->add('status', $status);
 	}
 
-	/*
+	/**
 	 * Función para explorar un planeta o una luna
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
 	 */
-	function explore($req){
+	function explore(ORequest $req): void {
 		$status = 'ok';
-		$id     = OTools::getParam('id', $req['params'], false);
-		$type   = OTools::getParam('type', $req['params'], false);
-		
-		if ($req['loginFilter']['status']!='ok' || $id===false || $type===false){
+		$filter = $req->getFilter('loginFilter');
+		$id     = $req->getParamInt('id');
+		$type   = $req->getParamInt('type');
+
+		if (is_null($filter) || $filter['status']!='ok' || is_null($id) || is_null($type)) {
 			$status = 'error';
 		}
-		
-		if ($status=='ok'){
+
+		if ($status=='ok') {
 			$player = new Player();
-			$player->find(['id'=>$req['loginFilter']['id']]);
+			$player->find(['id'=>$filter['id']]);
 		}
-		
-		$this->getTemplate()->add('status',    $status);
+
+		$this->getTemplate()->add('status', $status);
 	}
 }

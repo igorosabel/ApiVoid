@@ -1,4 +1,4 @@
 {
-  "status": "{{status}}",
-  "npc": {{npc}}
+	"status": "{{status}}",
+	"npc": {{npc}}
 }
