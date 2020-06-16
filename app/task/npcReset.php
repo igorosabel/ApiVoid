@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-class npcResetTask {
+class npcResetTask extends OTask {
 	/**
 	 * Nombre de la tarea
 	 */
