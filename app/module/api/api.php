@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-class api extends OController {
+class api extends OModule {
 	public ?shipService     $ship_service     = null;
 	public ?systemService   $system_service   = null;
 	public ?moduleService   $module_service   = null;
