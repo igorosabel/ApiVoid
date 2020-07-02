@@ -7,7 +7,7 @@ class home extends OModule {
 	 *
 	 * @return void
 	 */
-	function closed(ORequest $req): void {}
+	public function closed(ORequest $req): void {}
 
 	/**
 	 * Home pública
@@ -16,7 +16,7 @@ class home extends OModule {
 	 *
 	 * @return void
 	 */
-	function index(ORequest $req): void {}
+	public function index(ORequest $req): void {}
 
 	/**
 	 * Página de error 404
@@ -25,5 +25,5 @@ class home extends OModule {
 	 *
 	 * @return void
 	 */
-	function notFound(ORequest $req): void {}
+	public function notFound(ORequest $req): void {}
 }

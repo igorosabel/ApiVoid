@@ -25,7 +25,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function register(ORequest $req): void {
+	public function register(ORequest $req): void {
 		$status = 'ok';
 		$name   = $req->getParamString('name');
 		$email  = $req->getParamString('email');
@@ -87,7 +87,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function login(ORequest $req): void {
+	public function login(ORequest $req): void {
 		$status = 'ok';
 		$name   = $req->getParamString('name');
 		$pass   = $req->getParamString('pass');
@@ -133,7 +133,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function currentSystem(ORequest $req): void {
+	public function currentSystem(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
 		if (is_null($filter) || $filter['status']!='ok') {
@@ -189,7 +189,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function NPCShop(ORequest $req): void {
+	public function NPCShop(ORequest $req): void {
 		$status = 'ok';
 		$id     = $req->getParamInt('id');
 		$filter = $req->getFilter('loginFilter');
@@ -217,7 +217,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function buy(ORequest $req): void {
+	public function buy(ORequest $req): void {
 		$status = 'ok';
 		$id_npc = $req->getParamInt('idNPC');
 		$id     = $req->getParamInt('id');
@@ -376,7 +376,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function getSellItems(ORequest $req): void {
+	public function getSellItems(ORequest $req): void {
 		$status    = 'ok';
 		$id_npc    = $req->getParamInt('id');
 		$filter    = $req->getFilter('loginFilter');
@@ -414,7 +414,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function sell(ORequest $req): void {
+	public function sell(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
 		$id_npc = $req->getParamInt('idNPC');
@@ -514,15 +514,15 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	 function getSystemInfo(ORequest $req): void {
-	 	$status = 'ok';
+	public function getSystemInfo(ORequest $req): void {
+		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
-	 	$system = null;
-	 	$connections = [];
-	 	$id_player = 'null';
+		$system = null;
+		$connections = [];
+		$id_player = 'null';
 
-	 	if (is_null($filter) || $filter['status']!='ok') {
-	 		$status = 'error';
+		if (is_null($filter) || $filter['status']!='ok') {
+			$status = 'error';
 		}
 
 		if ($status=='ok') {
@@ -547,7 +547,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function editName(ORequest $req): void {
+	public function editName(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
 		$id     = $req->getParamInt('id');
@@ -588,7 +588,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function explore(ORequest $req): void {
+	public function explore(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
 		$id     = $req->getParamInt('id');
