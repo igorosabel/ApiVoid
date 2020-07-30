@@ -183,8 +183,8 @@ class api extends OModule {
 		$this->getTemplate()->add('credits',      $credits);
 		$this->getTemplate()->add('max_strength', $max_strength);
 		$this->getTemplate()->add('strength',     $strength);
-		$this->getTemplate()->addPartial('messages',   'api/short_messages', ['messages'   => $messages,   'extra'=>'nourlencode']);
-		$this->getTemplate()->addPartial('characters', 'api/characters',     ['characters' => $characters, 'extra'=>'nourlencode']);
+		$this->getTemplate()->addComponent('messages',   'api/short_messages', ['messages'   => $messages,   'extra'=>'nourlencode']);
+		$this->getTemplate()->addComponent('characters', 'api/characters',     ['characters' => $characters, 'extra'=>'nourlencode']);
 	}
 
 	/**
@@ -213,7 +213,7 @@ class api extends OModule {
 		}
 
 		$this->getTemplate()->add('status', $status);
-		$this->getTemplate()->addPartial('npc', 'api/npc', ['npc' => $npc, 'extra'=>'nourlencode']);
+		$this->getTemplate()->addComponent('npc', 'api/npc', ['npc' => $npc, 'extra'=>'nourlencode']);
 	}
 
 	/**
@@ -410,9 +410,9 @@ class api extends OModule {
 		}
 
 		$this->getTemplate()->add('status', $status);
-		$this->getTemplate()->addPartial('ships',     'api/ships',     ['ships'=>$ships,         'extra'=>'nourlencode']);
-		$this->getTemplate()->addPartial('modules',   'api/modules',   ['modules'=>$modules,     'extra'=>'nourlencode']);
-		$this->getTemplate()->addPartial('resources', 'api/resources', ['resources'=>$resources, 'extra'=>'nourlencode']);
+		$this->getTemplate()->addComponent('ships',     'api/ships',     ['ships'=>$ships,         'extra'=>'nourlencode']);
+		$this->getTemplate()->addComponent('modules',   'api/modules',   ['modules'=>$modules,     'extra'=>'nourlencode']);
+		$this->getTemplate()->addComponent('resources', 'api/resources', ['resources'=>$resources, 'extra'=>'nourlencode']);
 	}
 
 	/**
@@ -546,8 +546,8 @@ class api extends OModule {
 
 		$this->getTemplate()->add('status',    $status);
 		$this->getTemplate()->add('id_player', $id_player);
-		$this->getTemplate()->addPartial('system',      'api/system',      ['system' => $system, 'extra'=>'nourlencode']);
-		$this->getTemplate()->addPartial('connections', 'api/connections', ['connections' => $connections, 'extra'=>'nourlencode']);
+		$this->getTemplate()->addComponent('system',      'api/system',      ['system' => $system, 'extra'=>'nourlencode']);
+		$this->getTemplate()->addComponent('connections', 'api/connections', ['connections' => $connections, 'extra'=>'nourlencode']);
 	}
 
 	/**
