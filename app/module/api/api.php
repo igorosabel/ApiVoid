@@ -1,4 +1,8 @@
 <?php declare(strict_types=1);
+/**
+ * @type json
+ * @prefix /api
+*/
 class api extends OModule {
 	public ?shipService     $ship_service     = null;
 	public ?systemService   $system_service   = null;
@@ -21,8 +25,8 @@ class api extends OModule {
 	/**
 	 * Función para registrar un nuevo jugador
 	 *
+	 * @url /register
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function register(ORequest $req): void {
@@ -83,8 +87,8 @@ class api extends OModule {
 	/**
 	 * Función para iniciar sesión
 	 *
+	 * @url /login
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function login(ORequest $req): void {
@@ -129,8 +133,9 @@ class api extends OModule {
 	/**
 	 * Función para obtener los datos del sistema actual
 	 *
+	 * @url /current-system
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function currentSystem(ORequest $req): void {
@@ -185,8 +190,9 @@ class api extends OModule {
 	/**
 	 * Función para obtener los datos de la tienda de un NPC
 	 *
+	 * @url /npc-shop
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function NPCShop(ORequest $req): void {
@@ -213,8 +219,9 @@ class api extends OModule {
 	/**
 	 * Función para comprar un item de la tienda de un NPC
 	 *
+	 * @url /buy
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function buy(ORequest $req): void {
@@ -372,8 +379,9 @@ class api extends OModule {
 	/**
 	 * Función para obtener los objetos que un jugador puede vender
 	 *
+	 * @url /get-sell-items
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function getSellItems(ORequest $req): void {
@@ -410,8 +418,9 @@ class api extends OModule {
 	/**
 	 * Función para vender un item del jugador a un NPC
 	 *
+	 * @url /sell
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function sell(ORequest $req): void {
@@ -510,8 +519,9 @@ class api extends OModule {
 	/**
 	 * Función para obtener la información de un sistema
 	 *
+	 * @url /get-system-info
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function getSystemInfo(ORequest $req): void {
@@ -543,8 +553,9 @@ class api extends OModule {
 	/**
 	 * Función para cambiar el nombre a un sistema, planeta o luna
 	 *
+	 * @url /edit-name
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function editName(ORequest $req): void {
@@ -584,8 +595,9 @@ class api extends OModule {
 	/**
 	 * Función para explorar un planeta o una luna
 	 *
+	 * @url /explore
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function explore(ORequest $req): void {

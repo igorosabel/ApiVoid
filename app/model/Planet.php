@@ -240,9 +240,11 @@ class Planet extends OModel {
 	 * @return void
 	 */
 	public function loadPlanetType(): void {
-		$planet_types = OTools::getCache('planet');
-		$this->setTypeName($planet_types['planet_types']['type_'.$this->get('type')]['type']);
-		$this->setTypeURL($planet_types['planet_types']['type_'.$this->get('type')]['url']);
+		$planet_types = OTools::getCache('planet', true);
+		$type_list = $planet_types->get('planet_types');
+
+		$this->setTypeName($type_list['type_'.$this->get('type')]['type']);
+		$this->setTypeURL($type_list['type_'.$this->get('type')]['url']);
 	}
 
 	private ?NPC $npc = null;

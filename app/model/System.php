@@ -259,12 +259,14 @@ class System extends OModel {
 	public function loadSystemType(): void {
 		$type_data = explode('-', $this->get('type'));
 		$system = OTools::getCache('system');
+		$mkk_types = $system->get('mkk_types');
+		$spectral_types = $system->get('spectral_types');
 
-		$key = array_search($type_data[0], array_column($system['mkk_types'], 'type'));
-		$stype = $system['mkk_types'][$key];
+		$key = array_search($type_data[0], array_column($mkk_types, 'type'));
+		$stype = $mkk_types[$key];
 		$this->setTypeName($stype['name']);
 
-		foreach ($system['spectral_types'] as $stype) {
+		foreach ($spectral_types as $stype) {
 			if ($stype['type']==$type_data[1]){
 				$this->setTypeColor($stype['color']);
 				break;
@@ -278,7 +280,7 @@ class System extends OModel {
 	 * @return string URL de información
 	 */
 	public function getSystemInfoLink(): string {
-		$system = OTools::getCache('system');
-		return $system['info'];
+		$system = OTools::getCache('system', true);
+		return $system->get('info');
 	}
 }
