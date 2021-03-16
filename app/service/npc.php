@@ -1,4 +1,18 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Service;
+
+use OsumiFramework\OFW\Core\OService;
+use OsumiFramework\OFW\Tools\OTools;
+use OsumiFramework\App\Model\NPCResource;
+use OsumiFramework\App\Model\NPC;
+use OsumiFramework\App\Model\NPCModule;
+use OsumiFramework\App\Model\Module;
+use OsumiFramework\App\Model\NPCShip;
+use OsumiFramework\App\Model\Ship;
+use OsumiFramework\App\Service\shipService;
+use OsumiFramework\App\Service\moduleService;
+
 class npcService extends OService {
 	public ?shipService   $ship_service   = null;
 	public ?moduleService $module_service = null;

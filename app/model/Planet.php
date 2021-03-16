@@ -1,4 +1,11 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\Tools\OTools;
+use OsumiFramework\App\Model\Moon;
+
 class Planet extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,91 +14,91 @@ class Planet extends OModel {
 		$table_name  = 'planet';
 		$model = [
 			'id' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'comment' => 'Id único del planeta'
 			],
 			'id_system' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'ref' => 'system.id',
 				'comment' => 'Id del sistema al que pertenece el planeta'
 			],
 			'original_name' => [
-				'type'    => OCore::TEXT,
+				'type'    => OModel::TEXT,
 				'nullable' => false,
 				'default' => null,
 				'size' => 50,
 				'comment' => 'Nombre original del planeta'
 			],
 			'name' => [
-				'type'    => OCore::TEXT,
+				'type'    => OModel::TEXT,
 				'nullable' => false,
 				'default' => null,
 				'size' => 50,
 				'comment' => 'Nombre actual del planeta'
 			],
 			'type' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Tipo de planeta'
 			],
 			'radius' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Radio del planeta'
 			],
 			'rotation' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Velocidad de rotación del planeta alrededor del sol'
 			],
 			'distance' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Distancia del planeta a su sol'
 			],
 			'num_moons' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => '0',
 				'comment' => 'Número de lunas que tiene el planeta'
 			],
 			'explored' => [
-				'type'    => OCore::BOOL,
+				'type'    => OModel::BOOL,
 				'default' => false,
 				'comment' => 'Indica si el planeta ha sido explorado 1 o no 0'
 			],
 			'explore_time' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Tiempo necesario para explorar el planeta'
 			],
 			'id_npc' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => true,
 				'default' => null,
 				'ref' => 'npc.id',
 				'comment' => 'Id del NPC que habita el planeta o null si no tiene'
 			],
 			'id_construction' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => true,
 				'default' => null,
 				'ref' => 'construction.id',
 				'comment' => 'Id de la construcción que hay en el planeta o null si no tiene'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha de última modificación del registro'

@@ -1,4 +1,18 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Service;
+
+use OsumiFramework\OFW\Core\OService;
+use OsumiFramework\OFW\DB\ODB;
+use OsumiFramework\OFW\Tools\OTools;
+use OsumiFramework\App\Model\Moon;
+use OsumiFramework\App\Model\NPC;
+use OsumiFramework\App\Model\Player;
+use OsumiFramework\App\Model\Planet;
+use OsumiFramework\App\Model\System;
+use OsumiFramework\App\Model\Connection;
+use OsumiFramework\App\Model\Resource;
+
 class systemService extends OService {
 	private ?npcService $npc_service = null;
 

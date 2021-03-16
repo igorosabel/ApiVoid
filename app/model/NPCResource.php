@@ -1,4 +1,10 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\Tools\OTools;
+
 class NPCResource extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,34 +13,34 @@ class NPCResource extends OModel {
 		$table_name  = 'npc_resource';
 		$model = [
 			'id_npc' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'incr' => false,
 				'ref' => 'npc.id',
 				'comment' => 'Id del NPC que tiene un recurso a la venta'
 			],
 			'type' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'incr' => false,
 				'comment' => 'Tipo de recurso'
 			],
 			'start_value' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Cantidad inicial del recurso que vende'
 			],
 			'value' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Cantidad del recurso que le queda disponible'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha de última modificación del registro'

@@ -1,4 +1,10 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\App\Model\NPCResource;
+
 class NPC extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,52 +13,52 @@ class NPC extends OModel {
 		$table_name  = 'npc';
 		$model = [
 			'id' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'comment' => 'Id único de cada NPC'
 			],
 			'name' => [
-				'type'    => OCore::TEXT,
+				'type'    => OModel::TEXT,
 				'nullable' => false,
 				'default' => null,
 				'size' => 50,
 				'comment' => 'Nombre del NPC'
 			],
 			'id_race' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Id de la raza del NPC'
 			],
 			'id_system' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Id del sistema en el que está el NPC'
 			],
 			'margin' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => 0,
 				'comment' => 'Margen del NPC respecto a precios originales (-20/20 %)'
 			],
 			'found' => [
-				'type'    => OCore::BOOL,
+				'type'    => OModel::BOOL,
 				'nullable' => false,
 				'default' => false,
 				'comment' => 'Indica si el NPC ya ha sido encontrado 1 o no 0'
 			],
 			'last_reset' => [
-				'type'    => OCore::DATE,
+				'type'    => OModel::DATE,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha del último reseteo del NPC'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha de última modificación del registro'

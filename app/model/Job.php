@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+
 class Job extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,46 +12,46 @@ class Job extends OModel {
 		$table_name  = 'job';
 		$model = [
 			'id' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'comment' => 'Id única para cada tarea'
 			],
 			'id_player' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'ref' => 'player.id',
 				'comment' => 'Id del jugador que hace la tarea'
 			],
 			'type' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Tipo de tarea'
 			],
 			'value' => [
-				'type'    => OCore::LONGTEXT,
+				'type'    => OModel::LONGTEXT,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Información extra de la tarea'
 			],
 			'start' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Timestamp de inicio de la tarea'
 			],
 			'end' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Timestamp de fin de la tarea'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha de última modificación del registro'

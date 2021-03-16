@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+
 class NPCModule extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,35 +12,35 @@ class NPCModule extends OModel {
 		$table_name  = 'npc_module';
 		$model = [
 			'id_npc' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'incr' => false,
 				'ref' => 'npc.id',
 				'comment' => 'Id del NPC que hace la venta'
 			],
 			'id_module' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'incr' => false,
 				'ref' => 'module.id',
 				'comment' => 'Id del módulo que vende'
 			],
 			'start_value' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Cantidad inicial de módulos que vende'
 			],
 			'value' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Cantidad de módulos que le quedan disponibles'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha de última modificación del registro'

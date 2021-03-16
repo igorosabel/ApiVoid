@@ -1,8 +1,38 @@
 <?php declare(strict_types=1);
-/**
- * @type json
- * @prefix /api
-*/
+
+namespace OsumiFramework\App\Module;
+
+use OsumiFramework\OFW\Core\OModule;
+use OsumiFramework\OFW\Web\ORequest;
+use OsumiFramework\OFW\Routing\ORoute;
+use OsumiFramework\OFW\Tools\OTools;
+use OsumiFramework\App\Model\NPCResource;
+use OsumiFramework\App\Model\Moon;
+use OsumiFramework\App\Model\Job;
+use OsumiFramework\App\Model\NPC;
+use OsumiFramework\App\Model\Player;
+use OsumiFramework\App\Model\NPCModule;
+use OsumiFramework\App\Model\Module;
+use OsumiFramework\App\Model\Message;
+use OsumiFramework\App\Model\Planet;
+use OsumiFramework\App\Model\NPCShip;
+use OsumiFramework\App\Model\System;
+use OsumiFramework\App\Model\ShipResource;
+use OsumiFramework\App\Model\Ship;
+use OsumiFramework\App\Model\Resource;
+use OsumiFramework\App\Service\shipService;
+use OsumiFramework\App\Service\moduleService;
+use OsumiFramework\App\Service\messageService;
+use OsumiFramework\App\Service\resourceService;
+use OsumiFramework\App\Service\systemService;
+use OsumiFramework\App\Service\jobService;
+use OsumiFramework\App\Service\npcService;
+use OsumiFramework\OFW\Plugins\OToken;
+
+#[ORoute(
+	type: 'json',
+	prefix: '/api'
+)]
 class api extends OModule {
 	public ?shipService     $ship_service     = null;
 	public ?systemService   $system_service   = null;
@@ -25,10 +55,10 @@ class api extends OModule {
 	/**
 	 * Función para registrar un nuevo jugador
 	 *
-	 * @url /register
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute('/register')]
 	public function register(ORequest $req): void {
 		$status = 'ok';
 		$name   = $req->getParamString('name');
@@ -74,7 +104,7 @@ class api extends OModule {
 				$tk = new OToken($this->getConfig()->getExtra('secret'));
 				$tk->addParam('id',   $id);
 				$tk->addParam('name', $name);
-				$tk->addParam('exp', mktime() + (24 * 60 * 60));
+				$tk->addParam('exp', time() + (24 * 60 * 60));
 				$token = $tk->getToken();
 			}
 		}
@@ -87,10 +117,10 @@ class api extends OModule {
 	/**
 	 * Función para iniciar sesión
 	 *
-	 * @url /login
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute('/login')]
 	public function login(ORequest $req): void {
 		$status = 'ok';
 		$name   = $req->getParamString('name');
@@ -112,7 +142,7 @@ class api extends OModule {
 					$tk = new OToken($this->getConfig()->getExtra('secret'));
 					$tk->addParam('id',   $id);
 					$tk->addParam('name', $name);
-					$tk->addParam('exp', mktime() + (24 * 60 * 60));
+					$tk->addParam('exp', time() + (24 * 60 * 60));
 					$token = $tk->getToken();
 				}
 				else {
@@ -133,11 +163,13 @@ class api extends OModule {
 	/**
 	 * Función para obtener los datos del sistema actual
 	 *
-	 * @url /current-system
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/current-system',
+		filter: 'loginFilter'
+	)]
 	public function currentSystem(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
@@ -190,11 +222,13 @@ class api extends OModule {
 	/**
 	 * Función para obtener los datos de la tienda de un NPC
 	 *
-	 * @url /npc-shop
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/npc-shop',
+		filter: 'loginFilter'
+	)]
 	public function NPCShop(ORequest $req): void {
 		$status = 'ok';
 		$id     = $req->getParamInt('id');
@@ -219,11 +253,13 @@ class api extends OModule {
 	/**
 	 * Función para comprar un item de la tienda de un NPC
 	 *
-	 * @url /buy
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/buy',
+		filter: 'loginFilter'
+	)]
 	public function buy(ORequest $req): void {
 		$status = 'ok';
 		$id_npc = $req->getParamInt('idNPC');
@@ -379,11 +415,13 @@ class api extends OModule {
 	/**
 	 * Función para obtener los objetos que un jugador puede vender
 	 *
-	 * @url /get-sell-items
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/get-sell-items',
+		filter: 'loginFilter'
+	)]
 	public function getSellItems(ORequest $req): void {
 		$status    = 'ok';
 		$id_npc    = $req->getParamInt('id');
@@ -418,11 +456,13 @@ class api extends OModule {
 	/**
 	 * Función para vender un item del jugador a un NPC
 	 *
-	 * @url /sell
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/sell',
+		filter: 'loginFilter'
+	)]
 	public function sell(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
@@ -519,11 +559,13 @@ class api extends OModule {
 	/**
 	 * Función para obtener la información de un sistema
 	 *
-	 * @url /get-system-info
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/get-system-info',
+		filter: 'loginFilter'
+	)]
 	public function getSystemInfo(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
@@ -553,11 +595,13 @@ class api extends OModule {
 	/**
 	 * Función para cambiar el nombre a un sistema, planeta o luna
 	 *
-	 * @url /edit-name
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/edit-name',
+		filter: 'loginFilter'
+	)]
 	public function editName(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
@@ -595,11 +639,13 @@ class api extends OModule {
 	/**
 	 * Función para explorar un planeta o una luna
 	 *
-	 * @url /explore
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/explore',
+		filter: 'loginFilter'
+	)]
 	public function explore(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');

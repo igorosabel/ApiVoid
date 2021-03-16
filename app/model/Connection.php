@@ -1,4 +1,10 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\App\Model\System;
+
 class Connection extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,41 +13,41 @@ class Connection extends OModel {
 		$table_name  = 'connection';
 		$model = [
 			'id' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'comment' => 'Id única de cada conexión'
 			],
 			'id_system_start' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'ref' => 'system.id',
 				'comment' => 'Id del sistema del que se parte'
 			],
 			'id_system_end' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => true,
 				'default' => null,
 				'ref' => 'system.id',
 				'comment' => 'Id del sistema destino o null si todavía no se ha investigado'
 			],
 			'order' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Orden de la conexión entre las que tiene un sistema'
 			],
 			'navigate_time' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Tiempo que se tarda en navegar al sistema destino'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha de última modificación del registro'

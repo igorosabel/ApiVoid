@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+
 class NPCShip extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,35 +12,35 @@ class NPCShip extends OModel {
 		$table_name  = 'npc_ship';
 		$model = [
 			'id_npc' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'incr' => false,
 				'ref' => 'npc.id',
 				'comment' => 'Id del NPC que hace la venta'
 			],
 			'id_ship' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'incr' => false,
 				'ref' => 'ship.id',
 				'comment' => 'Id de la nave que vende'
 			],
 			'start_value' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Cantidad inicial de naves que vende'
 			],
 			'value' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Cantidad de naves que le quedan disponibles'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha de última modificación del registro'

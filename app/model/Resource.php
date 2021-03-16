@@ -1,4 +1,10 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\Tools\OTools;
+
 class Resource extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,34 +13,34 @@ class Resource extends OModel {
 		$table_name  = 'resource';
 		$model = [
 			'id_planet' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'incr' => false,
 				'ref' => 'planet.id',
 				'comment' => 'Id del planeta que contiene el recurso'
 			],
 			'id_moon' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'incr' => false,
 				'ref' => 'moon.id',
 				'comment' => 'Id de la luna que contiene el recurso'
 			],
 			'type' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'incr' => false,
 				'comment' => 'Tipo de recurso'
 			],
 			'value' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Cantidad del recurso'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha de última modificación del registro'

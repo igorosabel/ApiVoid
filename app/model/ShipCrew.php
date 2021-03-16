@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+
 class ShipCrew extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,23 +12,23 @@ class ShipCrew extends OModel {
 		$table_name  = 'ship_crew';
 		$model = [
 			'id_ship' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'incr' => false,
 				'ref' => 'ship.id',
 				'comment' => 'Id de la nave'
 			],
 			'id_crew' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'incr' => false,
 				'ref' => 'crew.id',
 				'comment' => 'Id del tripulante'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha de última modificación del registro'

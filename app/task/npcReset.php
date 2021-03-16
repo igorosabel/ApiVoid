@@ -1,4 +1,15 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Task;
+
+use OsumiFramework\OFW\Core\OTask;
+use OsumiFramework\OFW\DB\ODB;
+use OsumiFramework\OFW\Tools\OTools;
+use OsumiFramework\App\Model\NPCResource;
+use OsumiFramework\App\Model\NPC;
+use OsumiFramework\App\Model\NPCModule;
+use OsumiFramework\App\Model\NPCShip;
+
 class npcResetTask extends OTask {
 	/**
 	 * Nombre de la tarea

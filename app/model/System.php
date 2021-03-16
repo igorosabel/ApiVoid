@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\Tools\OTools;
+use OsumiFramework\App\Model\Player;
+use OsumiFramework\App\Model\Planet;
+
 class System extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,67 +15,67 @@ class System extends OModel {
 		$table_name  = 'system';
 		$model = [
 			'id' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'comment' => 'Id único de cada sistema'
 			],
 			'id_player' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'ref' => 'player.id',
 				'comment' => 'Id del jugador que descubre el sistema'
 			],
 			'original_name' => [
-				'type'    => OCore::TEXT,
+				'type'    => OModel::TEXT,
 				'nullable' => false,
 				'default' => null,
 				'size' => 50,
 				'comment' => 'Nombre original del sistema'
 			],
 			'name' => [
-				'type'    => OCore::TEXT,
+				'type'    => OModel::TEXT,
 				'nullable' => false,
 				'default' => null,
 				'size' => 50,
 				'comment' => 'Nombre actual del sistema'
 			],
 			'num_planets' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => '0',
 				'comment' => 'Número de planetas que tiene el sistema'
 			],
 			'fully_explored' => [
-				'type'    => OCore::BOOL,
+				'type'    => OModel::BOOL,
 				'nullable' => false,
 				'default' => false,
 				'comment' => 'Indica si el sistema ha sido completamente explorado 1 o no 0'
 			],
 			'num_npc' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => '0',
 				'comment' => 'Número de NPCs que hay en el sistema'
 			],
 			'type' => [
-				'type'    => OCore::TEXT,
+				'type'    => OModel::TEXT,
 				'nullable' => false,
 				'default' => null,
 				'size' => 5,
 				'comment' => 'Tipo de sol'
 			],
 			'radius' => [
-				'type'    => OCore::NUM,
+				'type'    => OModel::NUM,
 				'nullable' => false,
 				'default' => null,
 				'comment' => 'Radio del sol'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'nullable' => true,
 				'default' => null,
 				'comment' => 'Fecha de última modificación del registro'
@@ -257,8 +265,9 @@ class System extends OModel {
 	 * @return void
 	 */
 	public function loadSystemType(): void {
+		global $core;
 		$type_data = explode('-', $this->get('type'));
-		$system = OTools::getCache('system');
+		$system = $core->cacheContainer->getItem('system');
 		$mkk_types = $system->get('mkk_types');
 		$spectral_types = $system->get('spectral_types');
 
@@ -280,7 +289,8 @@ class System extends OModel {
 	 * @return string URL de información
 	 */
 	public function getSystemInfoLink(): string {
-		$system = OTools::getCache('system', true);
+		global $core;
+		$system = $core->cacheContainer->getItem('system', true);
 		return $system->get('info');
 	}
 }

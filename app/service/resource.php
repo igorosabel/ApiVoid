@@ -1,4 +1,13 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Service;
+
+use OsumiFramework\OFW\Core\OService;
+use OsumiFramework\OFW\DB\ODB;
+use OsumiFramework\OFW\Tools\OTools;
+use OsumiFramework\App\Model\ShipResource;
+use OsumiFramework\App\Model\Ship;
+
 class resourceService extends OService {
 	/**
 	 * Load service tools
