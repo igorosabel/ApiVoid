@@ -1,4 +1,5 @@
 {
+	"name": "Void",
 	"db": {
 		"host": "localhost",
 		"user": "voiduniverse",
