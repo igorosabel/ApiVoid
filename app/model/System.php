@@ -267,9 +267,9 @@ class System extends OModel {
 	public function loadSystemType(): void {
 		global $core;
 		$type_data = explode('-', $this->get('type'));
-		$system = $core->cacheContainer->getItem('system');
-		$mkk_types = $system->get('mkk_types');
-		$spectral_types = $system->get('spectral_types');
+		$system = json_decode(file_get_contents($core->config->getDir('ofw_cache').'system.json'), true);
+		$mkk_types = $system['mkk_types'];
+		$spectral_types = $system['spectral_types'];
 
 		$key = array_search($type_data[0], array_column($mkk_types, 'type'));
 		$stype = $mkk_types[$key];
@@ -290,7 +290,7 @@ class System extends OModel {
 	 */
 	public function getSystemInfoLink(): string {
 		global $core;
-		$system = $core->cacheContainer->getItem('system', true);
-		return $system->get('info');
+		$system = json_decode(file_get_contents($core->config->getDir('ofw_cache').'system.json'), true);
+		return $system['info'];
 	}
 }

@@ -247,8 +247,9 @@ class Planet extends OModel {
 	 * @return void
 	 */
 	public function loadPlanetType(): void {
-		$planet_types = OTools::getCache('planet', true);
-		$type_list = $planet_types->get('planet_types');
+		global $core;
+		$planet_types = json_decode(file_get_contents($core->config->getDir('ofw_cache').'planet.json'), true);
+		$type_list = $planet_types['planet_types'];
 
 		$this->setTypeName($type_list['type_'.$this->get('type')]['type']);
 		$this->setTypeURL($type_list['type_'.$this->get('type')]['url']);

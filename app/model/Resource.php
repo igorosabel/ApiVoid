@@ -81,8 +81,9 @@ class Resource extends OModel {
 	 * @return void
 	 */
 	public function loadResource(): void {
-		$resources = OTools::getCache('resource', true);
-		$list = $resources->get('resources');
+		global $core;
+		$resources = json_decode(file_get_contents($core->config->getDir('ofw_cache').'resource.json'), true);
+		$list = $resources['resources'];
 		$key = array_search($this->get('type'), array_column($list, 'id'));
 		$resource = $list[$key];
 		$resource['value'] = $this->get('value');
