@@ -12,7 +12,7 @@ use OsumiFramework\App\Component\ConnectionsComponent;
 
 #[OModuleAction(
 	url: '/get-system-info',
-	filter: 'login',
+	filters: ['login'],
 	components: ['api/system', 'api/connections']
 )]
 class getSystemInfoAction extends OAction {

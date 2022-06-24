@@ -10,7 +10,7 @@ use OsumiFramework\App\Component\NpcComponent;
 
 #[OModuleAction(
 	url: '/npc-shop',
-	filter: 'login',
+	filters: ['login'],
 	components: ['api/npc']
 )]
 class NPCShopAction extends OAction {

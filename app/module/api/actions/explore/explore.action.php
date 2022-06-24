@@ -9,7 +9,7 @@ use OsumiFramework\App\Model\Player;
 
 #[OModuleAction(
 	url: '/explore',
-	filter: 'login'
+	filters: ['login']
 )]
 class exploreAction extends OAction {
 	/**

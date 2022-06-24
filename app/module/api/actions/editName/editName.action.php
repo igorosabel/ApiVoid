@@ -11,7 +11,7 @@ use OsumiFramework\App\Model\Moon;
 
 #[OModuleAction(
 	url: '/edit-name',
-	filter: 'login'
+	filters: ['login']
 )]
 class editNameAction extends OAction {
 	/**

@@ -17,7 +17,7 @@ use OsumiFramework\App\Model\ShipResource;
 
 #[OModuleAction(
 	url: '/buy',
-	filter: 'login'
+	filters: ['login']
 )]
 class buyAction extends OAction {
 	/**

@@ -14,7 +14,7 @@ use OsumiFramework\App\Component\ResourcesComponent;
 
 #[OModuleAction(
 	url: '/get-sell-items',
-	filter: 'login',
+	filters: ['login'],
 	services: ['ship', 'module', 'resource'],
 	components: ['api/ships', 'api/modules', 'api/resources']
 )]

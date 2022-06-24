@@ -13,7 +13,7 @@ use OsumiFramework\App\Component\CharactersComponent;
 
 #[OModuleAction(
 	url: '/current-system',
-	filter: 'login',
+	filters: ['login'],
 	services: ['message', 'system'],
 	components: ['api/short_messages', 'api/characters']
 )]
