@@ -8,15 +8,14 @@ use OsumiFramework\OFW\Web\ORequest;
 use OsumiFramework\App\Model\NPC;
 use OsumiFramework\App\Model\Player;
 use OsumiFramework\App\Model\Ship;
-use OsumiFramework\App\Component\ShipsComponent;
-use OsumiFramework\App\Component\ModulesComponent;
-use OsumiFramework\App\Component\ResourcesComponent;
+use OsumiFramework\App\Component\Api\ShipsComponent;
+use OsumiFramework\App\Component\Api\ModulesComponent;
+use OsumiFramework\App\Component\Api\ResourcesComponent;
 
 #[OModuleAction(
 	url: '/get-sell-items',
 	filters: ['login'],
-	services: ['ship', 'module', 'resource'],
-	components: ['api/ships', 'api/modules', 'api/resources']
+	services: ['ship', 'module', 'resource']
 )]
 class getSellItemsAction extends OAction {
 	/**

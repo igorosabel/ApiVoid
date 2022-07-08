@@ -8,14 +8,13 @@ use OsumiFramework\OFW\Web\ORequest;
 use OsumiFramework\App\Model\Player;
 use OsumiFramework\App\Model\System;
 use OsumiFramework\App\Model\Ship;
-use OsumiFramework\App\Component\ShortMessagesComponent;
-use OsumiFramework\App\Component\CharactersComponent;
+use OsumiFramework\App\Component\Api\ShortMessagesComponent;
+use OsumiFramework\App\Component\Api\CharactersComponent;
 
 #[OModuleAction(
 	url: '/current-system',
 	filters: ['login'],
-	services: ['message', 'system'],
-	components: ['api/short_messages', 'api/characters']
+	services: ['message', 'system']
 )]
 class currentSystemAction extends OAction {
 	/**

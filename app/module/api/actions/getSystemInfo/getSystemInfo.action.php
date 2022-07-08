@@ -7,13 +7,12 @@ use OsumiFramework\OFW\Routing\OAction;
 use OsumiFramework\OFW\Web\ORequest;
 use OsumiFramework\App\Model\Player;
 use OsumiFramework\App\Model\System;
-use OsumiFramework\App\Component\SystemComponent;
-use OsumiFramework\App\Component\ConnectionsComponent;
+use OsumiFramework\App\Component\Api\SystemComponent;
+use OsumiFramework\App\Component\Api\ConnectionsComponent;
 
 #[OModuleAction(
 	url: '/get-system-info',
-	filters: ['login'],
-	components: ['api/system', 'api/connections']
+	filters: ['login']
 )]
 class getSystemInfoAction extends OAction {
 	/**

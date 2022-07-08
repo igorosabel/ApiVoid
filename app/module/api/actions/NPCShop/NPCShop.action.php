@@ -6,12 +6,11 @@ use OsumiFramework\OFW\Routing\OModuleAction;
 use OsumiFramework\OFW\Routing\OAction;
 use OsumiFramework\OFW\Web\ORequest;
 use OsumiFramework\App\Model\NPC;
-use OsumiFramework\App\Component\NpcComponent;
+use OsumiFramework\App\Component\Api\NpcComponent;
 
 #[OModuleAction(
 	url: '/npc-shop',
-	filters: ['login'],
-	components: ['api/npc']
+	filters: ['login']
 )]
 class NPCShopAction extends OAction {
 	/**
