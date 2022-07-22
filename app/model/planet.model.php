@@ -3,7 +3,6 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
-use OsumiFramework\OFW\Tools\OTools;
 use OsumiFramework\App\Model\Moon;
 
 class Planet extends OModel {

@@ -16,7 +16,6 @@ class shipService extends OService {
 	 */
 	function __construct() {
 		$this->loadService();
-		OTools::loadService('module');
 		$this->module_service = new moduleService();
 	}
 

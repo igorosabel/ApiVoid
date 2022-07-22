@@ -3,7 +3,6 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
-use OsumiFramework\OFW\Tools\OTools;
 
 class Resource extends OModel {
 	function __construct() {

@@ -22,8 +22,6 @@ class npcService extends OService {
 	 */
 	function __construct() {
 		$this->loadService();
-		OTools::loadService('ship');
-		OTools::loadService('module');
 		$this->ship_service   = new shipService();
 		$this->module_service = new moduleService();
 	}

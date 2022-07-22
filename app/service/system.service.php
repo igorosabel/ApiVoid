@@ -12,6 +12,7 @@ use OsumiFramework\App\Model\Planet;
 use OsumiFramework\App\Model\System;
 use OsumiFramework\App\Model\Connection;
 use OsumiFramework\App\Model\Resource;
+use OsumiFramework\App\Service\npcService;
 
 class systemService extends OService {
 	private ?npcService $npc_service = null;
@@ -21,7 +22,6 @@ class systemService extends OService {
 	 */
 	function __construct() {
 		$this->loadService();
-		OTools::loadService('npc');
 		$this->npc_service = new npcService();
 	}
 
