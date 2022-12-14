@@ -3,79 +3,92 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\DB\OModelGroup;
+use OsumiFramework\OFW\DB\OModelField;
 use OsumiFramework\App\Model\Player;
 use OsumiFramework\App\Model\Planet;
 
 class System extends OModel {
 	function __construct() {
-		$model = [
-			'id' => [
-				'type'    => OModel::PK,
-				'comment' => 'Id único de cada sistema'
-			],
-			'id_player' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'ref' => 'player.id',
-				'comment' => 'Id del jugador que descubre el sistema'
-			],
-			'original_name' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 50,
-				'comment' => 'Nombre original del sistema'
-			],
-			'name' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 50,
-				'comment' => 'Nombre actual del sistema'
-			],
-			'num_planets' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => '0',
-				'comment' => 'Número de planetas que tiene el sistema'
-			],
-			'fully_explored' => [
-				'type'    => OModel::BOOL,
-				'nullable' => false,
-				'default' => false,
-				'comment' => 'Indica si el sistema ha sido completamente explorado 1 o no 0'
-			],
-			'num_npc' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => '0',
-				'comment' => 'Número de NPCs que hay en el sistema'
-			],
-			'type' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 5,
-				'comment' => 'Tipo de sol'
-			],
-			'radius' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Radio del sol'
-			],
-			'created_at' => [
-				'type'    => OModel::CREATED,
-				'comment' => 'Fecha de creación del registro'
-			],
-			'updated_at' => [
-				'type'    => OModel::UPDATED,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Fecha de última modificación del registro'
-			]
-		];
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Id único de cada sistema'
+			),
+			new OModelField(
+				name: 'id_player',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				ref: 'player.id',
+				comment: 'Id del jugador que descubre el sistema'
+			),
+			new OModelField(
+				name: 'original_name',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 50,
+				comment: 'Nombre original del sistema'
+			),
+			new OModelField(
+				name: 'name',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 50,
+				comment: 'Nombre actual del sistema'
+			),
+			new OModelField(
+				name: 'num_planets',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: 0,
+				comment: 'Número de planetas que tiene el sistema'
+			),
+			new OModelField(
+				name: 'fully_explored',
+				type: OMODEL_BOOL,
+				nullable: false,
+				default: false,
+				comment: 'Indica si el sistema ha sido completamente explorado 1 o no 0'
+			),
+			new OModelField(
+				name: 'num_npc',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: 0,
+				comment: 'Número de NPCs que hay en el sistema'
+			),
+			new OModelField(
+				name: 'type',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 5,
+				comment: 'Tipo de sol'
+			),
+			new OModelField(
+				name: 'radius',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Radio del sol'
+			),
+			new OModelField(
+				name: 'created_at',
+				type: OMODEL_CREATED,
+				comment: 'Fecha de creación del registro'
+			),
+			new OModelField(
+				name: 'updated_at',
+				type: OMODEL_UPDATED,
+				nullable: true,
+				default: null,
+				comment: 'Fecha de última modificación del registro'
+			)
+		);
 
 		parent::load($model);
 	}

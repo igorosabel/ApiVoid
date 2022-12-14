@@ -3,94 +3,110 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\DB\OModelGroup;
+use OsumiFramework\OFW\DB\OModelField;
 
 class Moon extends OModel {
 	function __construct() {
-		$model = [
-			'id' => [
-				'type'    => OModel::PK,
-				'comment' => 'Id único de cada luna'
-			],
-			'id_planet' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'ref' => 'planet.id',
-				'comment' => 'Id del planeta al que pertenece la luna'
-			],
-			'original_name' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 50,
-				'comment' => 'Nombre original de la luna'
-			],
-			'name' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 50,
-				'comment' => 'Nombre actual de la luna'
-			],
-			'type' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Tipo de luna'
-			],
-			'radius' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Radio de la luna'
-			],
-			'rotation' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Velocidad de rotación de la luna alrededor del planeta'
-			],
-			'distance' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Distancia de la luna a su planeta'
-			],
-			'explored' => [
-				'type'    => OModel::BOOL,
-				'comment' => 'Indica si la luna ha sido explorada 1 o no 0'
-			],
-			'explore_time' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Tiempo necesario para explorar la luna'
-			],
-			'id_npc' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'ref' => 'npc.id',
-				'comment' => 'Id del NPC que habita el planeta o null si no tiene'
-			],
-			'id_construction' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'ref' => 'construction.id',
-				'comment' => 'Id de la construcción que hay en el planeta o null si no tiene'
-			],
-			'created_at' => [
-				'type'    => OModel::CREATED,
-				'comment' => 'Fecha de creación del registro'
-			],
-			'updated_at' => [
-				'type'    => OModel::UPDATED,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Fecha de última modificación del registro'
-			]
-		];
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Id único de cada luna'
+			),
+			new OModelField(
+				name: 'id_planet',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				ref: 'planet.id',
+				comment: 'Id del planeta al que pertenece la luna'
+			),
+			new OModelField(
+				name: 'original_name',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 50,
+				comment: 'Nombre original de la luna'
+			),
+			new OModelField(
+				name: 'name',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 50,
+				comment: 'Nombre actual de la luna'
+			),
+			new OModelField(
+				name: 'type',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Tipo de luna'
+			),
+			new OModelField(
+				name: 'radius',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Radio de la luna'
+			),
+			new OModelField(
+				name: 'rotation',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Velocidad de rotación de la luna alrededor del planeta'
+			),
+			new OModelField(
+				name: 'distance',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Distancia de la luna a su planeta'
+			),
+			new OModelField(
+				name: 'explored',
+				type: OMODEL_BOOL,
+				comment: 'Indica si la luna ha sido explorada 1 o no 0'
+			),
+			new OModelField(
+				name: 'explore_time',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Tiempo necesario para explorar la luna'
+			),
+			new OModelField(
+				name: 'id_npc',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				ref: 'npc.id',
+				comment: 'Id del NPC que habita el planeta o null si no tiene'
+			),
+			new OModelField(
+				name: 'id_construction',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				ref: 'construction.id',
+				comment: 'Id de la construcción que hay en el planeta o null si no tiene'
+			),
+			new OModelField(
+				name: 'created_at',
+				type: OMODEL_CREATED,
+				comment: 'Fecha de creación del registro'
+			),
+			new OModelField(
+				name: 'updated_at',
+				type: OMODEL_UPDATED,
+				nullable: true,
+				default: null,
+				comment: 'Fecha de última modificación del registro'
+			)
+		);
 
 		parent::load($model);
 	}

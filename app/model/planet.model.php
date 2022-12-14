@@ -3,102 +3,119 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\DB\OModelGroup;
+use OsumiFramework\OFW\DB\OModelField;
 use OsumiFramework\App\Model\Moon;
 
 class Planet extends OModel {
 	function __construct() {
-		$model = [
-			'id' => [
-				'type'    => OModel::PK,
-				'comment' => 'Id único del planeta'
-			],
-			'id_system' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'ref' => 'system.id',
-				'comment' => 'Id del sistema al que pertenece el planeta'
-			],
-			'original_name' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 50,
-				'comment' => 'Nombre original del planeta'
-			],
-			'name' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 50,
-				'comment' => 'Nombre actual del planeta'
-			],
-			'type' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Tipo de planeta'
-			],
-			'radius' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Radio del planeta'
-			],
-			'rotation' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Velocidad de rotación del planeta alrededor del sol'
-			],
-			'distance' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Distancia del planeta a su sol'
-			],
-			'num_moons' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => '0',
-				'comment' => 'Número de lunas que tiene el planeta'
-			],
-			'explored' => [
-				'type'    => OModel::BOOL,
-				'default' => false,
-				'comment' => 'Indica si el planeta ha sido explorado 1 o no 0'
-			],
-			'explore_time' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Tiempo necesario para explorar el planeta'
-			],
-			'id_npc' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'ref' => 'npc.id',
-				'comment' => 'Id del NPC que habita el planeta o null si no tiene'
-			],
-			'id_construction' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'ref' => 'construction.id',
-				'comment' => 'Id de la construcción que hay en el planeta o null si no tiene'
-			],
-			'created_at' => [
-				'type'    => OModel::CREATED,
-				'comment' => 'Fecha de creación del registro'
-			],
-			'updated_at' => [
-				'type'    => OModel::UPDATED,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Fecha de última modificación del registro'
-			]
-		];
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Id único del planeta'
+			),
+			new OModelField(
+				name: 'id_system',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				ref: 'system.id',
+				comment: 'Id del sistema al que pertenece el planeta'
+			),
+			new OModelField(
+				name: 'original_name',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 50,
+				comment: 'Nombre original del planeta'
+			),
+			new OModelField(
+				name: 'name',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 50,
+				comment: 'Nombre actual del planeta'
+			),
+			new OModelField(
+				name: 'type',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Tipo de planeta'
+			),
+			new OModelField(
+				name: 'radius',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Radio del planeta'
+			),
+			new OModelField(
+				name: 'rotation',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Velocidad de rotación del planeta alrededor del sol'
+			),
+			new OModelField(
+				name: 'distance',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Distancia del planeta a su sol'
+			),
+			new OModelField(
+				name: 'num_moons',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: 0,
+				comment: 'Número de lunas que tiene el planeta'
+			),
+			new OModelField(
+				name: 'explored',
+				type: OMODEL_BOOL,
+				default: false,
+				comment: 'Indica si el planeta ha sido explorado 1 o no 0'
+			),
+			new OModelField(
+				name: 'explore_time',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Tiempo necesario para explorar el planeta'
+			),
+			new OModelField(
+				name: 'id_npc',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				ref: 'npc.id',
+				comment: 'Id del NPC que habita el planeta o null si no tiene'
+			),
+			new OModelField(
+				name: 'id_construction',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				ref: 'construction.id',
+				comment: 'Id de la construcción que hay en el planeta o null si no tiene'
+			),
+			new OModelField(
+				name: 'created_at',
+				type: OMODEL_CREATED,
+				comment: 'Fecha de creación del registro'
+			),
+			new OModelField(
+				name: 'updated_at',
+				type: OMODEL_UPDATED,
+				nullable: true,
+				default: null,
+				comment: 'Fecha de última modificación del registro'
+			)
+		);
 
 		parent::load($model);
 	}

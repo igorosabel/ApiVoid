@@ -3,101 +3,118 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\DB\OModelGroup;
+use OsumiFramework\OFW\DB\OModelField;
 use OsumiFramework\App\Model\Player;
 
 class Message extends OModel {
 	function __construct() {
-		$model = [
-			'id' => [
-				'type'    => OModel::PK,
-				'comment' => 'Id único de cada mensaje'
-			],
-			'id_player_from' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'ref' => 'player.id',
-				'comment' => 'Id del jugador que envía un mensaje'
-			],
-			'id_player_to' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'ref' => 'player.id',
-				'comment' => 'Id del jugador al que se le envía un mensaje'
-			],
-			'message' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 250,
-				'comment' => 'Contenido del mensaje'
-			],
-			'type' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => 0,
-				'comment' => 'Tipo de mensaje: normal 0 solicitud 1'
-			],
-			'req_id_resource' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Tipo de recurso que se solicita'
-			],
-			'req_value' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Cantidad del recurso que se solicita'
-			],
-			'req_credits' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Cantidad de créditos que se solicitan'
-			],
-			'offer_id_resource' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Tipo de recurso que se ofrece'
-			],
-			'offer_value' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Cantidad del recurso que se ofrece'
-			],
-			'offer_credits' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Cantidad de créditos que se ofrecen'
-			],
-			'req_status' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Estado de la solicitud 0 sin aceptar, 1 aceptada, null no hay solicitud'
-			],
-			'is_read' => [
-				'type'    => OModel::BOOL,
-				'nullable' => false,
-				'default' => false,
-				'comment' => 'Mensaje no leído 0 o leído 1'
-			],
-			'created_at' => [
-				'type'    => OModel::CREATED,
-				'comment' => 'Fecha de creación del registro'
-			],
-			'updated_at' => [
-				'type'    => OModel::UPDATED,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Fecha de última modificación del registro'
-			]
-		];
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Id único de cada mensaje'
+			),
+			new OModelField(
+				name: 'id_player_from',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				ref: 'player.id',
+				comment: 'Id del jugador que envía un mensaje'
+			),
+			new OModelField(
+				name: 'id_player_to',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				ref: 'player.id',
+				comment: 'Id del jugador al que se le envía un mensaje'
+			),
+			new OModelField(
+				name: 'message',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 250,
+				comment: 'Contenido del mensaje'
+			),
+			new OModelField(
+				name: 'type',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: 0,
+				comment: 'Tipo de mensaje: normal 0 solicitud 1'
+			),
+			new OModelField(
+				name: 'req_id_resource',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				comment: 'Tipo de recurso que se solicita'
+			),
+			new OModelField(
+				name: 'req_value',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				comment: 'Cantidad del recurso que se solicita'
+			),
+			new OModelField(
+				name: 'req_credits',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				comment: 'Cantidad de créditos que se solicitan'
+			),
+			new OModelField(
+				name: 'offer_id_resource',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				comment: 'Tipo de recurso que se ofrece'
+			),
+			new OModelField(
+				name: 'offer_value',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				comment: 'Cantidad del recurso que se ofrece'
+			),
+			new OModelField(
+				name: 'offer_credits',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				comment: 'Cantidad de créditos que se ofrecen'
+			),
+			new OModelField(
+				name: 'req_status',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				comment: 'Estado de la solicitud 0 sin aceptar, 1 aceptada, null no hay solicitud'
+			),
+			new OModelField(
+				name: 'is_read',
+				type: OMODEL_BOOL,
+				nullable: false,
+				default: false,
+				comment: 'Mensaje no leído 0 o leído 1'
+			),
+			new OModelField(
+				name: 'created_at',
+				type: OMODEL_CREATED,
+				comment: 'Fecha de creación del registro'
+			),
+			new OModelField(
+				name: 'updated_at',
+				type: OMODEL_UPDATED,
+				nullable: true,
+				default: null,
+				comment: 'Fecha de última modificación del registro'
+			)
+		);
 
 		parent::load($model);
 	}

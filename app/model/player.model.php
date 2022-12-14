@@ -3,73 +3,85 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\DB\OModelGroup;
+use OsumiFramework\OFW\DB\OModelField;
 
 class Player extends OModel {
 	function __construct() {
-		$model = [
-			'id' => [
-				'type'    => OModel::PK,
-				'comment' => 'Id único del jugador'
-			],
-			'name' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 50,
-				'comment' => 'Nombre de usuario del jugador'
-			],
-			'email' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 100,
-				'comment' => 'Email del jugador'
-			],
-			'pass' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 120,
-				'comment' => 'Contraseña cifrada del jugador'
-			],
-			'credits' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Cantidad de créditos que posee el jugador'
-			],
-			'id_ship' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'ref' => 'ship.id',
-				'comment' => 'Id de la nave que actualmente pilota el jugador'
-			],
-			'id_system' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'ref' => 'system.id',
-				'comment' => 'Id del sistema en el que se encuentra el jugador'
-			],
-			'id_job' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'ref' => 'job.id',
-				'comment' => 'Id de la tarea que está desempeñando el jugador'
-			],
-			'created_at' => [
-				'type'    => OModel::CREATED,
-				'comment' => 'Fecha de creación del registro'
-			],
-			'updated_at' => [
-				'type'    => OModel::UPDATED,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Fecha de última modificación del registro'
-			]
-		];
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Id único del jugador'
+			),
+			new OModelField(
+				name: 'name',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 50,
+				comment: 'Nombre de usuario del jugador'
+			),
+			new OModelField(
+				name: 'email',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 100,
+				comment: 'Email del jugador'
+			),
+			new OModelField(
+				name: 'pass',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 120,
+				comment: 'Contraseña cifrada del jugador'
+			),
+			new OModelField(
+				name: 'credits',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Cantidad de créditos que posee el jugador'
+			),
+			new OModelField(
+				name: 'id_ship',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				ref: 'ship.id',
+				comment: 'Id de la nave que actualmente pilota el jugador'
+			),
+			new OModelField(
+				name: 'id_system',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				ref: 'system.id',
+				comment: 'Id del sistema en el que se encuentra el jugador'
+			),
+			new OModelField(
+				name: 'id_job',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				ref: 'job.id',
+				comment: 'Id de la tarea que está desempeñando el jugador'
+			),
+			new OModelField(
+				name: 'created_at',
+				type: OMODEL_CREATED,
+				comment: 'Fecha de creación del registro'
+			),
+			new OModelField(
+				name: 'updated_at',
+				type: OMODEL_UPDATED,
+				nullable: true,
+				default: null,
+				comment: 'Fecha de última modificación del registro'
+			)
+		);
 
 		parent::load($model);
 	}

@@ -3,63 +3,74 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\DB\OModelGroup;
+use OsumiFramework\OFW\DB\OModelField;
 use OsumiFramework\App\Model\NPCResource;
 
 class NPC extends OModel {
 	function __construct() {
-		$model = [
-			'id' => [
-				'type'    => OModel::PK,
-				'comment' => 'Id único de cada NPC'
-			],
-			'name' => [
-				'type'    => OModel::TEXT,
-				'nullable' => false,
-				'default' => null,
-				'size' => 50,
-				'comment' => 'Nombre del NPC'
-			],
-			'id_race' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Id de la raza del NPC'
-			],
-			'id_system' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Id del sistema en el que está el NPC'
-			],
-			'margin' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => 0,
-				'comment' => 'Margen del NPC respecto a precios originales (-20/20 %)'
-			],
-			'found' => [
-				'type'    => OModel::BOOL,
-				'nullable' => false,
-				'default' => false,
-				'comment' => 'Indica si el NPC ya ha sido encontrado 1 o no 0'
-			],
-			'last_reset' => [
-				'type'    => OModel::DATE,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Fecha del último reseteo del NPC'
-			],
-			'created_at' => [
-				'type'    => OModel::CREATED,
-				'comment' => 'Fecha de creación del registro'
-			],
-			'updated_at' => [
-				'type'    => OModel::UPDATED,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Fecha de última modificación del registro'
-			]
-		];
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Id único de cada NPC'
+			),
+			new OModelField(
+				name: 'name',
+				type: OMODEL_TEXT,
+				nullable: false,
+				default: 'null',
+				size: 50,
+				comment: 'Nombre del NPC'
+			),
+			new OModelField(
+				name: 'id_race',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Id de la raza del NPC'
+			),
+			new OModelField(
+				name: 'id_system',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Id del sistema en el que está el NPC'
+			),
+			new OModelField(
+				name: 'margin',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: 0,
+				comment: 'Margen del NPC respecto a precios originales (-20/20 %)'
+			),
+			new OModelField(
+				name: 'found',
+				type: OMODEL_BOOL,
+				nullable: false,
+				default: false,
+				comment: 'Indica si el NPC ya ha sido encontrado 1 o no 0'
+			),
+			new OModelField(
+				name: 'last_reset',
+				type: OMODEL_DATE,
+				nullable: true,
+				default: 'null',
+				comment: 'Fecha del último reseteo del NPC'
+			),
+			new OModelField(
+				name: 'created_at',
+				type: OMODEL_CREATED,
+				comment: 'Fecha de creación del registro'
+			),
+			new OModelField(
+				name: 'updated_at',
+				type: OMODEL_UPDATED,
+				nullable: true,
+				default: null,
+				comment: 'Fecha de última modificación del registro'
+			)
+		);
 
 		parent::load($model);
 	}

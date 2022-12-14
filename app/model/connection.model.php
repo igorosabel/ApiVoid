@@ -3,52 +3,61 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\DB\OModelGroup;
+use OsumiFramework\OFW\DB\OModelField;
 use OsumiFramework\App\Model\System;
 
 class Connection extends OModel {
 	function __construct() {
-		$model = [
-			'id' => [
-				'type'    => OModel::PK,
-				'comment' => 'Id única de cada conexión'
-			],
-			'id_system_start' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'ref' => 'system.id',
-				'comment' => 'Id del sistema del que se parte'
-			],
-			'id_system_end' => [
-				'type'    => OModel::NUM,
-				'nullable' => true,
-				'default' => null,
-				'ref' => 'system.id',
-				'comment' => 'Id del sistema destino o null si todavía no se ha investigado'
-			],
-			'order' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Orden de la conexión entre las que tiene un sistema'
-			],
-			'navigate_time' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Tiempo que se tarda en navegar al sistema destino'
-			],
-			'created_at' => [
-				'type'    => OModel::CREATED,
-				'comment' => 'Fecha de creación del registro'
-			],
-			'updated_at' => [
-				'type'    => OModel::UPDATED,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Fecha de última modificación del registro'
-			]
-		];
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Id única de cada conexión'
+			),
+			new OModelField(
+				name: 'id_system_start',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				ref: 'system.id',
+				comment: 'Id del sistema del que se parte'
+			),
+			new OModelField(
+				name: 'id_system_end',
+				type: OMODEL_NUM,
+				nullable: true,
+				default: null,
+				ref: 'system.id',
+				comment: 'Id del sistema destino o null si todavía no se ha investigado'
+			),
+			new OModelField(
+				name: 'order',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Orden de la conexión entre las que tiene un sistema'
+			),
+			new OModelField(
+				name: 'navigate_time',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Tiempo que se tarda en navegar al sistema destino'
+			),
+			new OModelField(
+				name: 'created_at',
+				type: OMODEL_CREATED,
+				comment: 'Fecha de creación del registro'
+			),
+			new OModelField(
+				name: 'updated_at',
+				type: OMODEL_UPDATED,
+				nullable: true,
+				default: null,
+				comment: 'Fecha de última modificación del registro'
+			)
+		);
 
 		parent::load($model);
 	}

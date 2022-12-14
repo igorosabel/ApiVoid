@@ -3,45 +3,53 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\DB\OModelGroup;
+use OsumiFramework\OFW\DB\OModelField;
 use OsumiFramework\OFW\Tools\OTools;
 
 class NPCResource extends OModel {
 	function __construct() {
-		$model = [
-			'id_npc' => [
-				'type'    => OModel::PK,
-				'incr' => false,
-				'ref' => 'npc.id',
-				'comment' => 'Id del NPC que tiene un recurso a la venta'
-			],
-			'type' => [
-				'type'    => OModel::PK,
-				'incr' => false,
-				'comment' => 'Tipo de recurso'
-			],
-			'start_value' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Cantidad inicial del recurso que vende'
-			],
-			'value' => [
-				'type'    => OModel::NUM,
-				'nullable' => false,
-				'default' => null,
-				'comment' => 'Cantidad del recurso que le queda disponible'
-			],
-			'created_at' => [
-				'type'    => OModel::CREATED,
-				'comment' => 'Fecha de creación del registro'
-			],
-			'updated_at' => [
-				'type'    => OModel::UPDATED,
-				'nullable' => true,
-				'default' => null,
-				'comment' => 'Fecha de última modificación del registro'
-			]
-		];
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id_npc',
+				type: OMODEL_PK,
+				incr: false,
+				ref: 'npc.id',
+				comment: 'Id del NPC que tiene un recurso a la venta'
+			),
+			new OModelField(
+				name: 'type',
+				type: OMODEL_PK,
+				incr: false,
+				comment: 'Tipo de recurso'
+			),
+			new OModelField(
+				name: 'start_value',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Cantidad inicial del recurso que vende'
+			),
+			new OModelField(
+				name: 'value',
+				type: OMODEL_NUM,
+				nullable: false,
+				default: null,
+				comment: 'Cantidad del recurso que le queda disponible'
+			),
+			new OModelField(
+				name: 'created_at',
+				type: OMODEL_CREATED,
+				comment: 'Fecha de creación del registro'
+			),
+			new OModelField(
+				name: 'updated_at',
+				type: OMODEL_UPDATED,
+				nullable: true,
+				default: null,
+				comment: 'Fecha de última modificación del registro'
+			)
+		);
 
 		parent::load($model);
 	}
