@@ -23,11 +23,11 @@ class EditNameAction extends OAction {
 		$type   = $req->getParamInt('type');
 		$name   = $req->getParamInt('name');
 
-		if (is_null($filter) || $filter['status'] != 'ok' || is_null($id) || is_null($type) || is_null($name)) {
+		if (is_null($filter) || $filter['status'] !== 'ok' || is_null($id) || is_null($type) || is_null($name)) {
 			$this->status = 'error';
 		}
 
-		if ($this->status=='ok') {
+		if ($this->status === 'ok') {
 			switch ($type){
 				case 'system': {
 					$obj = new System();

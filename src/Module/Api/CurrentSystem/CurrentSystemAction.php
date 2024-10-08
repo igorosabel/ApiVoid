@@ -4,6 +4,8 @@ namespace Osumi\OsumiFramework\App\Module\Api\CurrentSystem;
 
 use Osumi\OsumiFramework\Routing\OAction;
 use Osumi\OsumiFramework\Web\ORequest;
+use Osumi\OsumiFramework\App\Service\MessageService;
+use Osumi\OsumiFramework\App\Service\SystemService;
 use Osumi\OsumiFramework\App\Model\Player;
 use Osumi\OsumiFramework\App\Model\System;
 use Osumi\OsumiFramework\App\Model\Ship;
@@ -11,6 +13,9 @@ use Osumi\OsumiFramework\App\Component\Api\ShortMessages\ShortMessagesComponent;
 use Osumi\OsumiFramework\App\Component\Api\Characters\CharactersComponent;
 
 class CurrentSystemAction extends OAction {
+  private ?MessageService $ms = null;
+  private ?SystemService $ss = null;
+
   public string $status       = 'ok';
   public string $system       = '';
   public string $star         = '';
@@ -21,6 +26,13 @@ class CurrentSystemAction extends OAction {
   public ?ShortMessagesComponent $messages = null;
   public ?CharactersComponent $characters = null;
 
+  public function __construct() {
+    $this->ms = inject(MessageService::class);
+    $this->ss = inject(SystemService::class);
+    $this->messages   = new ShortMessagesComponent(['messages' => []]);
+		$this->characters = new CharactersComponent(['characters' => []]);
+  }
+
 	/**
 	 * Función para obtener los datos del sistema actual
 	 *
@@ -29,14 +41,11 @@ class CurrentSystemAction extends OAction {
 	 */
 	public function run(ORequest $req):void {
 		$filter = $req->getFilter('Login');
-		if (is_null($filter) || $filter['status'] != 'ok') {
+		if (is_null($filter) || $filter['status'] !== 'ok') {
 			$this->status = 'error';
 		}
 
-		$this->messages   = new ShortMessagesComponent(['messages' => []]);
-		$this->characters = new CharactersComponent(['characters' => []]);
-
-		if ($this->status == 'ok') {
+		if ($this->status === 'ok') {
 			$p = new Player();
 			$p->find(['id' => $filter['id']]);
 			$s = new System();
@@ -51,8 +60,8 @@ class CurrentSystemAction extends OAction {
 				$this->max_strength = $ship->get('max_strength');
 				$this->strength     = $ship->get('strength');
 
-				$this->messages->setValue('messages', $this->service['Message']->getUnreadMessages($p->get('id')));
-				$this->characters->setValue('characters', $this->service['System']->getCharactersInSystem($p->get('id'), $s->get('id')));
+				$this->messages->setValue('messages', $this->ms->getUnreadMessages($p->get('id')));
+				$this->characters->setValue('characters', $this->ss->getCharactersInSystem($p->get('id'), $s->get('id')));
 			}
 			else {
 				$this->status = 'navigate';

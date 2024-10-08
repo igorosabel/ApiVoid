@@ -15,6 +15,11 @@ class GetSystemInfoAction extends OAction {
   public ?SystemComponent      $system      = null;
   public ?ConnectionsComponent $connections = null;
 
+  public function __construct() {
+    $this->system = new SystemComponent(['system' => null]);
+		$this->connections = new ConnectionsComponent(['connections' => []]);
+  }
+
 	/**
 	 * Función para obtener la información de un sistema
 	 *
@@ -23,14 +28,12 @@ class GetSystemInfoAction extends OAction {
 	 */
 	public function run(ORequest $req):void {
 		$filter = $req->getFilter('Login');
-		$this->system = new SystemComponent(['system' => null]);
-		$this->connections = new ConnectionsComponent(['connections' => []]);
 
-		if (is_null($filter) || $filter['status'] != 'ok') {
+		if (is_null($filter) || $filter['status'] !== 'ok') {
 			$this->status = 'error';
 		}
 
-		if ($this->status == 'ok') {
+		if ($this->status === 'ok') {
 			$player = new Player();
 			$player->find(['id' => $filter['id']]);
 			$this->id_player = $player->get('id');

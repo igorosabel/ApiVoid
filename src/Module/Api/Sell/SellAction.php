@@ -27,11 +27,11 @@ class SellAction extends OAction {
 		$type   = $req->getParamInt('type');
 		$num    = $req->getParamInt('num');
 
-		if (is_null($filter) || $filter['status'] != 'ok' || is_null($id_npc) || is_null($id) || is_null($type) || is_null($num)) {
+		if (is_null($filter) || $filter['status'] !== 'ok' || is_null($id_npc) || is_null($id) || is_null($type) || is_null($num)) {
 			$this->status = 'error';
 		}
 
-		if ($this->status == 'ok') {
+		if ($this->status === 'ok') {
 			$credits = 0;
 			$player = new Player();
 			$player->find(['id' => $filter['id']]);
@@ -98,7 +98,7 @@ class SellAction extends OAction {
 					$ship_resource->set('value', $ship_resource->get('value') - $num);
 
 					// Si la cantidad final es 0, borro el recurso de la nave
-					if ($ship_resource->get('value')==0) {
+					if ($ship_resource->get('value') === 0) {
 						$ship_resource->delete();
 					}
 					else {

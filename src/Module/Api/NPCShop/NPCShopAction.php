@@ -11,6 +11,10 @@ class NPCShopAction extends OAction {
   public string $status = 'ok';
   public ?NpcComponent $npc = null;
 
+  public function __construct() {
+    $this->npc = new NpcComponent(['npc' => null]);
+  }
+
 	/**
 	 * Función para obtener los datos de la tienda de un NPC
 	 *
@@ -20,13 +24,12 @@ class NPCShopAction extends OAction {
 	public function run(ORequest $req):void {
 		$id     = $req->getParamInt('id');
 		$filter = $req->getFilter('Login');
-		$this->npc = new NpcComponent(['npc' => null]);
 
-		if (is_null($id) || is_null($filter) || $filter['status']!='ok') {
+		if (is_null($id) || is_null($filter) || $filter['status'] !== 'ok') {
 			$this->status = 'error';
 		}
 
-		if ($this->status == 'ok') {
+		if ($this->status === 'ok') {
 			$n = new NPC();
 			if ($n->find(['id' => $id])) {
 				$this->npc->setValue('npc', $n);
@@ -35,6 +38,5 @@ class NPCShopAction extends OAction {
 				$this->status = 'error';
 			}
 		}
-
 	}
 }

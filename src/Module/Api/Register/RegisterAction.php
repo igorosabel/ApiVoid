@@ -6,13 +6,23 @@ use Osumi\OsumiFramework\Routing\OAction;
 use Osumi\OsumiFramework\Web\ORequest;
 use Osumi\OsumiFramework\Tools\OTools;
 use Osumi\OsumiFramework\Plugins\OToken;
+use Osumi\OsumiFramework\App\Service\ShipService;
+use Osumi\OsumiFramework\App\Service\SystemService;
 use Osumi\OsumiFramework\App\Model\Player;
 
 class RegisterAction extends OAction {
+  private ?ShipService $shs = null;
+  private ?SystemService $ss = null;
+
   public string       $status = 'ok';
   public string | int $id     = 'null';
   public string       $name   = 'null';
   public string       $token  = 'null';
+
+  public function __construct() {
+    $this->shs = inject(ShipService::class);
+    $this->ss = inject(SystemService::class);
+  }
 
 	/**
 	 * Función para registrar un nuevo jugador
@@ -29,7 +39,7 @@ class RegisterAction extends OAction {
 			$this->status = 'error';
 		}
 
-		if ($this->status=='ok') {
+		if ($this->status === 'ok') {
 			$p = new Player();
 			if ($p->find(['name' => $this->name])) {
 				$this->status = 'name';
@@ -48,11 +58,11 @@ class RegisterAction extends OAction {
 				$p->save();
 
 				// Creo una nueva nave Scout
-				$ship = $this->service['Ship']->generateShip($p);
+				$ship = $this->shs->generateShip($p);
 				$p->set('id_ship', $ship->get('id'));
 
 				// Genero un sistema nuevo para él
-				$system = $this->service['System']->generateSystem($p);
+				$system = $this->ss->generateSystem($p);
 				$p->set('id_system', $system->get('id'));
 				$p->save();
 

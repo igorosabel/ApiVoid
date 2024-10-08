@@ -31,11 +31,11 @@ class BuyAction extends OAction {
 		$num    = $req->getParamInt('num');
 		$filter = $req->getFilter('Login');
 
-		if (is_null($filter) || $filter['status'] != 'ok' || is_null($id_npc) || is_null($id) || is_null($type) || is_null($num)) {
+		if (is_null($filter) || $filter['status'] !== 'ok' || is_null($id_npc) || is_null($id) || is_null($type) || is_null($num)) {
 			$this->status = 'error';
 		}
 
-		if ($this->status=='ok') {
+		if ($this->status === 'ok') {
 			$credits = 0;
 			$player = new Player();
 			$player->find(['id' => $filter['id']]);
@@ -161,7 +161,7 @@ class BuyAction extends OAction {
 				break;
 			}
 
-			if ($this->status=='ok') {
+			if ($this->status === 'ok') {
 				$obj->set('value', $obj->get('value') -$num);
 				$obj->save();
 

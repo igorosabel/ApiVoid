@@ -20,11 +20,11 @@ class ExploreAction extends OAction {
 		$id     = $req->getParamInt('id');
 		$type   = $req->getParamInt('type');
 
-		if (is_null($filter) || $filter['status'] != 'ok' || is_null($id) || is_null($type)) {
+		if (is_null($filter) || $filter['status'] !== 'ok' || is_null($id) || is_null($type)) {
 			$this->status = 'error';
 		}
 
-		if ($this->status=='ok') {
+		if ($this->status === 'ok') {
 			$player = new Player();
 			$player->find(['id' => $filter['id']]);
 		}

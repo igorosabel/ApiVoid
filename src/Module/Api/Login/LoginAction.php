@@ -27,7 +27,7 @@ class LoginAction extends OAction {
 			$this->status = 'error';
 		}
 
-		if ($this->status=='ok') {
+		if ($this->status === 'ok') {
 			$p = new Player();
 			if ($p->find(['name' => $this->name])) {
 				if (password_verify($pass, $p->get('pass'))) {
