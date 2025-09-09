@@ -170,6 +170,7 @@ class System extends OModel {
 	private function loadPlayerSystemHomes(): void {
 		$this->player_system_homes = PlayerSystemHome::where(['id_system' => $this->id]);
 	}
+
 	private ?array $system_links = null;
 
 	/**
@@ -203,38 +204,4 @@ class System extends OModel {
 	private function loadSystemLinks(): void {
 		$this->system_links = SystemLink::where(['id_system_a' => $this->id]);
 	}
-	private ?array $system_links = null;
-
-	/**
-	 * Save SystemLink list
-	 *
-	 * @param array $system_links SystemLink list
-	 *
-	 * @return void
-	 */
-	public function setSystemLinks(array $system_links): void {
-		$this->system_links = $system_links;
-	}
-
-	/**
-	 * Get SystemLink list
-	 *
-	 * @return array system_link list
-	 */
-	public function getSystemLinks(): array {
-		if (is_null($this->system_links)) {
-			$this->loadSystemLinks();
-		}
-		return $this->system_links;
-	}
-
-	/**
-	 * Load SystemLink list
-	 *
-	 * @return void
-	 */
-	private function loadSystemLinks(): void {
-		$this->system_links = SystemLink::where(['id_system_b' => $this->id]);
-	}
-
 }

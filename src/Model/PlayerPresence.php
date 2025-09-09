@@ -11,7 +11,8 @@ use Osumi\OsumiFramework\ORM\OUpdatedAt;
 class PlayerPresence extends OModel {
 	#[OPK(
 		comment: 'PK jugador',
-		ref: 'player.id'
+		ref: 'player.id',
+		incr: false
 	)]
 	public ?int $id_player;
 

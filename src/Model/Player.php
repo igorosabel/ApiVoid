@@ -220,6 +220,7 @@ class Player extends OModel {
 	private function loadMessages(): void {
 		$this->messages = Message::where(['id_sender' => $this->id]);
 	}
+
 	private ?array $moons = null;
 
 	/**
@@ -253,39 +254,7 @@ class Player extends OModel {
 	private function loadMoons(): void {
 		$this->moons = Moon::where(['id_player_renamed_by' => $this->id]);
 	}
-	private ?array $moons = null;
 
-	/**
-	 * Save Moon list
-	 *
-	 * @param array $moons Moon list
-	 *
-	 * @return void
-	 */
-	public function setMoons(array $moons): void {
-		$this->moons = $moons;
-	}
-
-	/**
-	 * Get Moon list
-	 *
-	 * @return array moon list
-	 */
-	public function getMoons(): array {
-		if (is_null($this->moons)) {
-			$this->loadMoons();
-		}
-		return $this->moons;
-	}
-
-	/**
-	 * Load Moon list
-	 *
-	 * @return void
-	 */
-	private function loadMoons(): void {
-		$this->moons = Moon::where(['id_player_first_discoverer' => $this->id]);
-	}
 	private ?array $planets = null;
 
 	/**
@@ -319,39 +288,7 @@ class Player extends OModel {
 	private function loadPlanets(): void {
 		$this->planets = Planet::where(['id_player_renamed_by' => $this->id]);
 	}
-	private ?array $planets = null;
 
-	/**
-	 * Save Planet list
-	 *
-	 * @param array $planets Planet list
-	 *
-	 * @return void
-	 */
-	public function setPlanets(array $planets): void {
-		$this->planets = $planets;
-	}
-
-	/**
-	 * Get Planet list
-	 *
-	 * @return array planet list
-	 */
-	public function getPlanets(): array {
-		if (is_null($this->planets)) {
-			$this->loadPlanets();
-		}
-		return $this->planets;
-	}
-
-	/**
-	 * Load Planet list
-	 *
-	 * @return void
-	 */
-	private function loadPlanets(): void {
-		$this->planets = Planet::where(['id_player_first_discoverer' => $this->id]);
-	}
 	private ?array $player_modules = null;
 
 	/**

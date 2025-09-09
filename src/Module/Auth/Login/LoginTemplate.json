@@ -1,0 +1,20 @@
+{
+  "status": "{{status}}",
+  "player": {
+    "id": {{player_id}},
+    "nickname": {{player_nickname}}
+  },
+  "system": {
+    "id": {{system_id}},
+    "original_name": {{system_original_name}}
+  },
+  "ship": {
+    "id": {{ship_id}},
+    "id_ship_type": {{ship_id_ship_type}}
+  },
+  "tokens": {
+    "access_token": {{token_access_token}},
+    "expires_in": {{token_expires_in}},
+    "refresh_token": {{token_refresh_token}}
+  }
+}

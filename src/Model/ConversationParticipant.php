@@ -11,13 +11,15 @@ use Osumi\OsumiFramework\ORM\OUpdatedAt;
 class ConversationParticipant extends OModel {
 	#[OPK(
 		comment: 'FK conversación',
-		ref: 'conversation.id'
+		ref: 'conversation.id',
+		incr: false
 	)]
 	public ?int $id_conversation;
 
 	#[OPK(
 		comment: 'FK jugador',
-		ref: 'player.id'
+		ref: 'player.id',
+		incr: false
 	)]
 	public ?int $id_player;
 
