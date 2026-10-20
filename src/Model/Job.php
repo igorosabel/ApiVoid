@@ -49,7 +49,7 @@ class Job extends OModel {
 	#[OField(
 		comment: 'Inicio',
 		nullable: false,
-		type: OField::DATE,
+		type: OField::DATETIME,
 		default: null
 	)]
 	public ?string $started_at;
@@ -57,7 +57,7 @@ class Job extends OModel {
 	#[OField(
 		comment: 'Fin previsto',
 		nullable: false,
-		type: OField::DATE,
+		type: OField::DATETIME,
 		default: null
 	)]
 	public ?string $ends_at;

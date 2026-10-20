@@ -52,7 +52,7 @@ class HomeComponent extends OComponent {
    */
   public function run(ORequest $req): void {
     global $core;
-    $filter = $req->getFilter('Login');
+    $filter = $req->getMiddleware('Login');
 
     try {
       if (is_null($filter) || !array_key_exists('sub', $filter)) {

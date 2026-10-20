@@ -33,7 +33,7 @@ class AuthRefreshToken extends OModel {
 	#[OField(
 		comment: 'Expiración',
 		nullable: false,
-		type: OField::DATE,
+		type: OField::DATETIME,
 		default: null
 	)]
 	public ?string $expires_at;

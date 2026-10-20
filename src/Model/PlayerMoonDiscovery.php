@@ -31,7 +31,7 @@ class PlayerMoonDiscovery extends OModel {
   #[OField(
 		comment: 'Fecha/hora del descubrimiento',
 		nullable: false,
-		type: OField::DATE,
+		type: OField::DATETIME,
 	)]
 	public ?string $discovered_at;
 

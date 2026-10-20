@@ -27,7 +27,7 @@ class PlayerPresence extends OModel {
 	#[OField(
 		comment: 'Último visto',
 		nullable: false,
-		type: OField::DATE,
+		type: OField::DATETIME,
 		default: null
 	)]
 	public ?string $last_seen_at;

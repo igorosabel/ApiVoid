@@ -54,7 +54,7 @@ class LocationResource extends OModel {
 	#[OField(
 		comment: 'Último agotado',
 		nullable: true,
-		type: OField::DATE,
+		type: OField::DATETIME,
 		default: null
 	)]
 	public ?string $last_depleted_at;

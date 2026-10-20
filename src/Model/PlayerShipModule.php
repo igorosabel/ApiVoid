@@ -33,7 +33,7 @@ class PlayerShipModule extends OModel {
 	#[OField(
 		comment: 'Instalado en',
 		nullable: false,
-		type: OField::DATE,
+		type: OField::DATETIME,
 		default: null
 	)]
 	public ?string $installed_at;
