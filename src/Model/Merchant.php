@@ -15,6 +15,20 @@ class Merchant extends OModel {
 	public ?int $id;
 
 	#[OField(
+		comment: 'Nombre visible del comerciante',
+		nullable: false,
+		max: 100
+	)]
+	public ?string $name;
+
+	#[OField(
+		comment: 'Semilla procedural',
+		nullable: false,
+		default: 0
+	)]
+	public ?int $seed;
+
+	#[OField(
 		comment: 'FK race',
 		nullable: false,
 		default: 0,
@@ -23,26 +37,27 @@ class Merchant extends OModel {
 	public ?int $id_race;
 
 	#[OField(
-		comment: 'FK location_type',
+		comment: 'FK a system.id (Sistema donde reside el NPC)',
 		nullable: false,
-		default: 0,
-		ref: 'location_type.id'
+		ref: 'system.id'
 	)]
-	public ?int $id_location_type;
+	public ?int $id_system;
 
 	#[OField(
-		comment: 'ID localización',
-		nullable: false,
-		default: 0
+		comment: 'FK a planet.id (si está en un planeta concreto)',
+		nullable: true,
+		default: null,
+		ref: 'planet.id'
 	)]
-	public ?int $id_location;
+	public ?int $id_planet;
 
 	#[OField(
-		comment: 'Semilla procedural',
-		nullable: false,
-		default: 0
+		comment: 'FK a moon.id (si está en una luna concreta)',
+		nullable: true,
+		default: null,
+		ref: 'moon.id'
 	)]
-	public ?int $seed;
+	public ?int $id_moon;
 
 	#[OCreatedAt(
 		comment: 'Creación'

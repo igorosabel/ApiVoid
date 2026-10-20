@@ -11,18 +11,17 @@ class RegisterComponent extends OComponent {
 
 	public string       $status               = 'error';
 	public string | int $player_id            = 'null';
-	public string       $player_nickname      = 'null';
+	public ?string      $player_nickname      = null;
 	public string | int $system_id            = 'null';
-	public string       $system_original_name = 'null';
+	public ?string      $system_original_name = null;
 	public string | int $ship_id              = 'null';
 	public string | int $ship_id_ship_type    = 'null';
-	public string       $token_access_token   = 'null';
+	public ?string      $token_access_token   = null;
 	public string | int $token_expires_in     = 'null';
-	public string       $token_refresh_token  = 'null';
+	public ?string      $token_refresh_token  = null;
 
 	public function __construct() {
 		parent::__construct();
-
 		$this->player_service = inject(PlayerService::class);
 	}
 
@@ -56,29 +55,30 @@ class RegisterComponent extends OComponent {
 			$core->setHttpStatus(201);
 			$this->status               = 'ok';
 			$this->player_id            = $result['player']->id;
-			$this->player_nickname      = '"'.$result['player']->nickname.'"';
+			$this->player_nickname      = $result['player']->nickname;
 			$this->system_id            = $result['system']->id;
-			$this->system_original_name = '"'.$result['system']->original_name.'"';
+			$this->system_original_name = $result['system']->original_name;
 			$this->ship_id              = $result['ship']->id;
 			$this->ship_id_ship_type    = $result['ship']->id_ship_type;
-			$this->token_access_token   = '"'.$result['tokens']['access_token'].'"';
+			$this->token_access_token   = $result['tokens']['access_token'];
 			$this->token_expires_in     = $result['tokens']['expires_in'];
-			$this->token_refresh_token  = '"'.$result['tokens']['refresh_token'].'"';
+			$this->token_refresh_token  = $result['tokens']['refresh_token'];
 		}
 		catch (\Throwable $e) {
+			var_dump($e);
 			$code = $e->getMessage();
 			$http = ($code === 'EMAIL_TAKEN' || $code === 'NICKNAME_TAKEN') ? 409 : 500;
 			$core->setHttpStatus($http);
 			$this->status               = 'error';
 			$this->player_id            = 'null';
-			$this->player_nickname      = 'null';
+			$this->player_nickname      = null;
 			$this->system_id            = 'null';
-			$this->system_original_name = 'null';
+			$this->system_original_name = null;
 			$this->ship_id              = 'null';
 			$this->ship_id_ship_type    = 'null';
-			$this->token_access_token   = 'null';
+			$this->token_access_token   = null;
 			$this->token_expires_in     = 'null';
-			$this->token_refresh_token  = 'null';
+			$this->token_refresh_token  = null;
 		}
 	}
 }

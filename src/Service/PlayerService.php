@@ -4,6 +4,7 @@ namespace Osumi\OsumiFramework\App\Service;
 
 use Osumi\OsumiFramework\Core\OService;
 use Osumi\OsumiFramework\ORM\ODB;
+use Osumi\OsumiFramework\App\Service\MerchantService;
 use Osumi\OsumiFramework\App\Service\TokenService;
 use Osumi\OsumiFramework\App\Model\Player;
 use Osumi\OsumiFramework\App\Model\PlayerSystemHome;
@@ -19,9 +20,11 @@ use Osumi\OsumiFramework\App\Model\MerchantStockModule;
 use Osumi\OsumiFramework\App\Model\AuthRefreshToken;
 
 class PlayerService extends OService {
-	private ?TokenService $token_service = null;
+	private ?MerchantService $merchant_service = null;
+	private ?TokenService    $token_service = null;
 
 	function __construct() {
+		$this->merchant_service = inject(MerchantService::class);
 		$this->token_service = inject(TokenService::class);
 	}
 
@@ -120,6 +123,7 @@ class PlayerService extends OService {
 			];
 		}
 		catch (\Throwable $e) {
+			var_dump($e);
 			if (in_array($e->getMessage(), ['EMAIL_TAKEN', 'NICKNAME_TAKEN'], true)) {
 				throw $e;
 			}
@@ -230,12 +234,12 @@ class PlayerService extends OService {
 			$planet_ids[] = $p->id;
 
 			// Recursos del planeta
-			$res_sample = $this->sampleAssoc(id_resources, mt_rand(1, 3));
+			$res_sample = $this->sampleAssoc($id_resources, mt_rand(1, 3));
 			foreach ($res_sample as $code => $id_res) {
 				$lr = LocationResource::create();
 				$lr->id_location_type = $id_lt_planet;
 				$lr->id_location      = $p->id;
-				$lr->id_resouce       = $id_res;
+				$lr->id_resource       = $id_res;
 				$lr->max_capacity     = mt_rand(8000, 40000);
 				$lr->current_capacity = $lr->max_capacity;
 				$lr->last_depleted_at = null;
@@ -254,7 +258,7 @@ class PlayerService extends OService {
         $moon->radius_km            = mt_rand(200, 3500);
         $moon->distance_km          = mt_rand(50_000, 600_000);
         $moon->seed                 = random_int(1, PHP_INT_MAX);
-        $moon->is_discovered        = 0;
+        $moon->is_discovered        = false;
         $moon->id_player_first_discoverer = null;
         $moon->save();
 
@@ -285,12 +289,16 @@ class PlayerService extends OService {
 
     for ($k = 0; $k < $merchants_count; $k++) {
       $planet_id = $planet_ids[array_rand($planet_ids)];
+			$merchant_seed = random_int(1, PHP_INT_MAX);
+			$merchant_name = $this->merchant_service->generateMerchantName('HUMAN', $merchant_seed);
 
       $m = Merchant::create();
-      $m->id_race          = $id_race_human; // puedes aleatorizar la raza si quieres
-      $m->id_location_type = $id_lt_planet;
-      $m->id_location      = $planet_id;
-      $m->seed             = random_int(1, PHP_INT_MAX);
+			$m->name      = $merchant_name;
+      $m->id_race   = $id_race_human; // puedes aleatorizar la raza si quieres
+      $m->id_system = $id_system;
+      $m->id_planet = $planet_id;
+			$m->id_moon   = null;
+      $m->seed      = $merchant_seed;
       $m->save();
 
       // Stock de recursos: 2 entradas BUY + 2 SELL
@@ -537,7 +545,7 @@ class PlayerService extends OService {
     $art->id_player  = $id_player;
     $art->token      = $refresh;
     $art->expires_at = date('Y-m-d H:i:s', time() + (60*60*24*30)); // 30 días
-    $art->revoked    = 0;
+    $art->revoked    = false;
     $art->save();
 
     return [

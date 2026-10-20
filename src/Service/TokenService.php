@@ -3,53 +3,83 @@
 namespace Osumi\OsumiFramework\App\Service;
 
 use Osumi\OsumiFramework\Core\OService;
+use Osumi\OsumiFramework\Plugins\OToken;
 
+/**
+ * Servicio para crear y (opcionalmente) verificar access tokens JWT usando OToken.
+ */
 class TokenService extends OService {
+  private string $secret;
+  private int $access_ttl;
+
   /**
-   * Devuelve el TTL del access token en segundos.
+   * Carga configuración desde config extra.
+   */
+  public function __construct() {
+    $this->secret = $this->getConfig()->getExtra('secret');
+    $this->access_ttl = $this->getConfig()->getExtra('access_ttl');
+  }
+
+  /**
+   * Devuelve el TTL (segundos) del access token.
    *
-   * @return int Segundos de vida del access token
+   * @return int Segundos de validez del access token
    */
   public function getAccessTokenTtl(): int {
-    return $this->getConfig()->getExtra('access_ttl');
+    return $this->access_ttl;
   }
 
   /**
-   * Crea un access token (JWT HS256) para un jugador.
+   * Crea un access token para un jugador usando OToken.
+   * Añade 'sub' (id del jugador) y 'scope'='player'.
+   * Establece 'exp' = now + TTL e 'iat' automáticamente (OToken lo fija si seteas EXP).
    *
    * @param int $id_player Id del jugador
-   * @return string Token JWT
+   * @param array<string,int|string|float|bool> $extra_claims (opcional) claims adicionales
+   *
+   * @return string JWT generado
    */
-  public function createAccessToken(int $id_player): string {
-    $header  = $this->b64(json_encode(['alg'=>'HS256','typ'=>'JWT']));
-    $now     = time();
-    $payload = $this->b64(json_encode([
-      'sub' => $id_player,
-      'iat' => $now,
-      'exp' => $now + $this->getAccessTokenTtl(),
-      'scope' => 'player'
-    ]));
-    $sig = $this->sign("{$header}.{$payload}");
-    return "{$header}.{$payload}.{$sig}";
+  public function createAccessToken(int $id_player, array $extra_claims = []): string {
+    $tk = new OToken($this->secret);
+    // Claims mínimos
+    $tk->addParam('sub', $id_player);
+    $tk->addParam('scope', 'player');
+
+    // Claims extra si los pasas
+    foreach ($extra_claims as $k => $v) {
+      $tk->addParam($k, $v);
+    }
+
+    // TTL / exp + iat
+    $tk->setEXP(time() + $this->access_ttl);
+
+    return $tk->getToken();
   }
 
   /**
-   * Firma HS256 base64url.
+   * Verifica un JWT (string) y devuelve sus claims + iat/exp.
+   * Útil si quieres validar dentro de servicios/endpoints (tu LoginFilter ya valida).
    *
-   * @param string $data Datos a firmar
-   * @return string Firma base64url
+   * @param string $jwt Token JWT (sin 'Bearer ')
+   * @return array{
+   *   valid: bool,
+   *   claims?: array<string, mixed>,
+   *   iat?: int|null,
+   *   exp?: int|null
+   * }
    */
-  private function sign(string $data): string {
-    return $this->b64(hash_hmac('sha256', $data, $this->getConfig()->getExtra('secret'), true));
-  }
-
-  /**
-   * Base64 url-safe sin padding.
-   *
-   * @param string $raw Cadena a codificar
-   * @return string Cadena codificada
-   */
-  private function b64(string $raw): string {
-    return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+  public function verifyAccessToken(string $jwt): array {
+    $tk = new OToken($this->secret);
+    $ok = $tk->checkToken($jwt);
+    if (!$ok) {
+      return ['valid' => false];
+    }
+    $claims = $tk->getParams();
+    return [
+      'valid'  => true,
+      'claims' => $claims,
+      'iat'    => $tk->getIAT(),
+      'exp'    => $tk->getEXP()
+    ];
   }
 }

@@ -1,0 +1,13 @@
+{
+  "system": {
+    "id": {{system_id}},
+    "custom_name": {{system_custom_name}},
+    "original_name": "{{system_original_name}}",
+    "star_class_code": "{{system_star_class_code}}",
+    "planets_count": {{system_planets_count}},
+    "moons_total": {{system_moons_total}}
+  },
+  "players": {{players}},
+  "planets": {{planets}},
+  "npcs": {{npcs}}
+}

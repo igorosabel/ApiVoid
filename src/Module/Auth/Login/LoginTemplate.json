@@ -2,19 +2,19 @@
   "status": "{{status}}",
   "player": {
     "id": {{player_id}},
-    "nickname": {{player_nickname}}
+    "nickname": {{player_nickname|string}}
   },
   "system": {
     "id": {{system_id}},
-    "original_name": {{system_original_name}}
+    "original_name": {{system_original_name|string}}
   },
   "ship": {
     "id": {{ship_id}},
     "id_ship_type": {{ship_id_ship_type}}
   },
   "tokens": {
-    "access_token": {{token_access_token}},
+    "access_token": {{token_access_token|string}},
     "expires_in": {{token_expires_in}},
-    "refresh_token": {{token_refresh_token}}
+    "refresh_token": {{token_refresh_token|string}}
   }
 }
